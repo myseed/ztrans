@@ -48,6 +48,7 @@ service.interceptors.request.use(
         config.headers['X-Token'] = token
       }
     }
+    
     return config
   },
   error => {

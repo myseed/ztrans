@@ -68,7 +68,7 @@ export default {
     betterScroll: {
       type: Boolean,
       required: false,
-      default: true
+      default: false
     }
   }
 }
