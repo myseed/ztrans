@@ -1,12 +1,11 @@
 /**
  * 员工接口
  */
-import axios from 'axios'
+import {httpGet} from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
-import { CONFIG } from './config'
 
 export function getAllEmployee (params) {
-  const url = `${CONFIG.HOST}/getAllEmployee`
+  const url = `/getAllEmployee`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -15,5 +14,5 @@ export function getAllEmployee (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }

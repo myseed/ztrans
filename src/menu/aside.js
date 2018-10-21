@@ -14,8 +14,7 @@ export default [
     icon: 'file-text',
     children: [
       { path: '/vehicle-assign', title: '指派车辆', icon: 'truck' },
-      { path: '/order-management', title: '订单', icon: 'file-text' },
-      { path: '/order-detail', title: '订单详情', icon: 'file-text' }
+      { path: '/order-management', title: '订单', icon: 'file-text' }
     ]
   },
   {

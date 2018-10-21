@@ -1,5 +1,5 @@
 import util from '@/libs/util.js'
-import { AccountLogin } from '@/api/sys/login'
+import { AccountLogin, AccountLogout } from '@/api/sys/login'
 
 export default {
   namespaced: true,
@@ -31,11 +31,17 @@ export default {
           // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
           // token 代表用户当前登录状态 建议在网络请求中携带 token
           // 如有必要 token 需要定时更新，默认保存一天
-          util.cookies.set('uuid', res.uuid)
-          util.cookies.set('token', res.token)
+          // alert(JSON.stringify(res))
+          // util.cookies.set('uuid', res.uuid)
+          // util.cookies.set('token', res.token)
+          util.cookies.set('token', res.sid)
+          util.cookies.set('uuid', res.customerNumId)
+          util.cookies.set('__user__customernumid', res.customerNumId)
+          util.cookies.set('__user__sid', res.sid)
+          util.cookies.set('__user__name', res.customerNumId)
           // 设置 vuex 用户信息
           await dispatch('d2admin/user/set', {
-            name: res.name
+            name: res.customerNumId
           }, { root: true })
           // 用户登录后从持久化数据加载一系列的设置
           await dispatch('load')
@@ -61,12 +67,18 @@ export default {
        * @description 注销
        */
       function logout () {
-        // 删除cookie
-        util.cookies.remove('token')
-        util.cookies.remove('uuid')
-        // 跳转路由
-        vm.$router.push({
-          name: 'login'
+        AccountLogout({
+          sid: this.sid
+        }).then(res => {
+          // 删除cookie
+          util.cookies.remove('token')
+          util.cookies.remove('uuid')
+          util.cookies.remove('__user__sid')
+          util.cookies.remove('__user__customernumid')
+          // 跳转路由
+          vm.$router.push({
+            name: 'login'
+          })
         })
       }
       // 判断是否需要确认

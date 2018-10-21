@@ -3,6 +3,7 @@
     <page-header
       slot="header"
       @submit="handleSubmit"
+      @add="handleAdd"
       ref="header"/>
     <page-main
       :table-data="table"
@@ -17,7 +18,14 @@
 </template>
 
 <script>
-import { BusinessTable1List } from '@/api/demo/business/table/1'
+import {
+  getAllRouterAndEmployee,
+  deleteRouterAndEmployee,
+  addRouterToEmployee
+} from "@/api/schedule";
+import { getAllEmployee } from "@/api/employee";
+import Cookies from "js-cookie";
+
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
   name: 'scheduler',
@@ -52,27 +60,34 @@ export default {
     handleSubmit (form) {
       this.loading = true
       this.$notify({
-        title: '开始请求模拟表格数据'
+        title: '开始请求数据'
       })
-      BusinessTable1List({
-        ...form,
-        page: this.page
+
+      getAllRouterAndEmployee({
+        current: this.page.current,
+        pageSize: this.page.size,
+        ...form
       })
         .then(res => {
           this.loading = false
           this.$notify({
-            title: '模拟表格数据请求完毕'
+            title: '数据请求完毕'
           })
-          this.table = res.list
+
+          this.table = res.employeeRouterModel
           this.page = res.page
         })
         .catch(err => {
           this.loading = false
           this.$notify({
-            title: '模拟表格数据请求异常'
+            title: '数据请求异常'
           })
-          console.log('err', err)
         })
+    },
+    handleAdd () {
+      this.$notify({
+        title: '新增'
+      })
     }
   }
 }

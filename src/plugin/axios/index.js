@@ -48,7 +48,7 @@ service.interceptors.request.use(
         config.headers['X-Token'] = token
       }
     }
-    
+
     return config
   },
   error => {
@@ -63,6 +63,7 @@ service.interceptors.response.use(
   response => {
     // dataAxios 是 axios 返回数据中的 data
     const dataAxios = response.data
+    // alert(JSON.stringify(dataAxios))
     // 这个状态码是和后端约定的
     const { code } = dataAxios
     // 根据 code 进行判断
@@ -73,15 +74,40 @@ service.interceptors.response.use(
       // 有 code 代表这是一个后端接口 可以进行进一步的判断
       switch (code) {
         case 0:
-          // [ 示例 ] code === 0 代表没有错误
-          return dataAxios.data
-        case 'xxx':
-          // [ 示例 ] 其它和后台约定的 code
-          errorCreat(`[ code: xxx ] ${dataAxios.msg}: ${response.config.url}`)
+          return dataAxios
+        case 401:
+          errorCreat(`${code}: ${dataAxios.message}-${response.config.url}`)
+          break
+        case 403:
+          errorCreat(`${code}: ${dataAxios.message}-${response.config.url}`)
+          break
+        case 404:
+          errorCreat(`${code}: ${dataAxios.message}-${response.config.url}`)
+          break
+        case -1:
+          errorCreat(`${code}: ${dataAxios.message}-${response.config.url}`)
+          break
+        case -1001:
+        case -5001:
+          // 跳转首页
+          const host = window.location.host
+          // window.location.href = host + '/#/'
+          window.location.assign(host)
+          // alert(res.data.message)
+          // alert(window.location.host)
+          errorCreat(`${code}: ${dataAxios.message}-${response.config.url}`)
+          break
+        case -5003:
+          errorCreat(`${code}: ${dataAxios.message}-${response.config.url}`)
+          break
+        case -5004:
+          errorCreat(`${code}: ${dataAxios.message}-${response.config.url}`)
+          break
+        case -5005:
+          errorCreat(`${code}: ${dataAxios.message}-${response.config.url}`)
           break
         default:
-          // 不是正确的 code
-          errorCreat(`${dataAxios.msg}: ${response.config.url}`)
+          errorCreat(`${code}: ${dataAxios.message}-${response.config.url}`)
           break
       }
     }

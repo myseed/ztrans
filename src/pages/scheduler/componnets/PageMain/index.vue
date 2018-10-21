@@ -54,13 +54,13 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="卡密" :show-overflow-tooltip="true">
+      <el-table-column label="线路别名" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.key}}
         </template>
       </el-table-column>
 
-      <el-table-column label="面值" width="60" align="center">
+      <el-table-column label="调度人姓名" align="center">
         <template slot-scope="scope">
           <el-tag
             size="mini"
@@ -70,7 +70,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="状态" width="50" align="center">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <boolean-control
             :value="scope.row.type"
@@ -89,7 +89,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="状态" width="50" align="center">
+      <!-- <el-table-column label="状态" width="50" align="center">
         <template slot-scope="scope">
           <boolean-control-mini
             :value="scope.row.type"
@@ -140,7 +140,7 @@
         <template slot-scope="scope">
           {{scope.row.dateTimeUse}}
         </template>
-      </el-table-column>
+      </el-table-column> -->
 
     </el-table>
   </div>

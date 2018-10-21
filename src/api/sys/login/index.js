@@ -1,33 +1,20 @@
-import request from '@/plugin/axios'
-import { paramsify, signify, signifyLogin, timestamp } from '../../utils'
-import { CONFIG } from '../../config'
+import {httpGet} from '../http'
+import {paramsify, signify, signifyLogin, timestamp} from '../../utils'
 
-export function AccountLogin (data) {
-  return request({
-    url: '/login',
-    method: 'post',
-    data
-  })
+export function AccountLogin(params) {
+  const url = `/loginSystem`
+  const ts = timestamp()
+  const data = {
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signifyLogin(params, ts)
+  }
+  
+  return httpGet(url, data)
 }
 
-// export function AccountLogin (params) {
-//   const url = `${CONFIG.HOST}/loginSystem`
-//   const ts = timestamp()
-//   const data = {
-//     timestamp: ts,
-//     params: paramsify(params),
-//     sign: signifyLogin(params, ts)
-//   }
-
-//   return request({
-//     url,
-//     method: 'get',
-//     data
-//   })
-// }
-
-export function AccountLogout (params) {
-  const url = `${CONFIG.HOST}/cancelLoginSystem`
+export function AccountLogout(params) {
+  const url = `/cancelLoginSystem`
   const ts = timestamp()
   const data = {
     timestamp: ts,
@@ -36,9 +23,5 @@ export function AccountLogout (params) {
     sign: signify(params, ts)
   }
 
-  return request({
-    url,
-    method: 'get',
-    data
-  })
+  return httpGet(url, data)
 }
