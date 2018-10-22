@@ -8,22 +8,22 @@ export default {
      * @description 登录
      * @param {Object} param context
      * @param {Object} param vm {Object} vue 实例
-     * @param {Object} param username {String} 用户账号
-     * @param {Object} param password {String} 密码
+     * @param {Object} param customerAccount {String} 用户账号
+     * @param {Object} param customerPassword {String} 密码
      * @param {Object} param route {Object} 登录成功后定向的路由对象
      */
     login ({ dispatch }, {
       vm,
-      username,
-      password,
+      customerAccount,
+      customerPassword,
       route = {
         name: 'index'
       }
     }) {
       // 开始请求登录接口
       AccountLogin({
-        username,
-        password
+        customerAccount,
+        customerPassword
       })
         .then(async res => {
           // 设置 cookie 一定要存 uuid 和 token 两个 cookie
@@ -68,7 +68,7 @@ export default {
        */
       function logout () {
         AccountLogout({
-          sid: this.sid
+          sid: util.cookies.remove('__user__sid')
         }).then(res => {
           // 删除cookie
           util.cookies.remove('token')
