@@ -8,8 +8,8 @@ export default {
      * @description 登录
      * @param {Object} param context
      * @param {Object} param vm {Object} vue 实例
-     * @param {Object} param username {String} 用户账号
-     * @param {Object} param password {String} 密码
+     * @param {Object} param customerAccount {String} 用户账号
+     * @param {Object} param customerPassword {String} 密码
      * @param {Object} param route {Object} 登录成功后定向的路由对象
      */
     login ({ dispatch }, {
@@ -68,7 +68,7 @@ export default {
        */
       function logout () {
         AccountLogout({
-          sid: this.sid
+          sid: util.cookies.remove('__user__sid')
         }).then(res => {
           // 删除cookie
           util.cookies.remove('token')
