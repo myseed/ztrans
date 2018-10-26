@@ -14,16 +14,16 @@ export default {
      */
     login ({ dispatch }, {
       vm,
-      username,
-      password,
+      customerAccount,
+      customerPassword,
       route = {
         name: 'index'
       }
     }) {
       // 开始请求登录接口
       AccountLogin({
-        username,
-        password
+        customerAccount,
+        customerPassword
       })
         .then(async res => {
           // 设置 cookie 一定要存 uuid 和 token 两个 cookie
@@ -38,10 +38,10 @@ export default {
           util.cookies.set('uuid', res.customerNumId)
           util.cookies.set('__user__customernumid', res.customerNumId)
           util.cookies.set('__user__sid', res.sid)
-          util.cookies.set('__user__name', res.customerNumId)
+          util.cookies.set('__user__name', customerAccount)
           // 设置 vuex 用户信息
           await dispatch('d2admin/user/set', {
-            name: res.customerNumId
+            name: customerAccount
           }, { root: true })
           // 用户登录后从持久化数据加载一系列的设置
           await dispatch('load')

@@ -53,21 +53,23 @@
 </template>
 
 <script>
-import {
-  getRouterAliaList
-} from "@/api/schedule";
-import util from '@/libs/util'
+import { getRouterAliaList } from "@/api/schedule";
+import util from "@/libs/util";
 
 export default {
-  data () {
+  data() {
     return {
       routerDetail: [],
       form: {
         customerNumId: util.cookies.get("__user__customernumid"),
-        routerDetailAliaSearchKey: '',
-        employeeNameSearchKey: ''
+        routerDetailAliaSearchKey: "",
+        employeeNameSearchKey: ""
+      },
+      rules: {
+        type: [{ required: true, message: "请选择一个线路别名", trigger: "change" }],
+        user: [{ required: true, message: "请输入调度人", trigger: "change" }]
       }
-    }
+    };
   },
   created() {
     this._getRouterAliaList({
@@ -86,25 +88,25 @@ export default {
           console.log(err);
         });
     },
-    handleFormSubmit () {
-      this.$refs.form.validate((valid) => {
+    handleFormSubmit() {
+      this.$refs.form.validate(valid => {
         if (valid) {
-          this.$emit('submit', this.form)
+          this.$emit("submit", this.form);
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '表单校验失败'
-          })
-          return false
+            title: "错误",
+            message: "表单校验失败"
+          });
+          return false;
         }
-      })
+      });
     },
-    handleFormReset () {
-      this.$refs.form.resetFields()
+    handleFormReset() {
+      this.$refs.form.resetFields();
     },
-    handleAdd () {
-      this.$emit('add')
+    handleAdd() {
+      this.$emit("add");
     }
   }
-}
+};
 </script>
