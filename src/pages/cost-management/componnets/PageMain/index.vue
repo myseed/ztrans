@@ -1,46 +1,5 @@
 <template>
   <div>
-    <!-- <el-form
-      :inline="true"
-      size="mini">
-      <el-form-item :label="`已选数据下载 [ ${currentTableData.length} ]`">
-        <el-button-group>
-          <el-button
-            type="primary"
-            size="mini"
-            :disabled="currentTableData.length === 0"
-            @click="handleDownloadXlsx(currentTableData)">
-            xlsx
-          </el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            :disabled="currentTableData.length === 0"
-            @click="handleDownloadCsv(currentTableData)">
-            csv
-          </el-button>
-        </el-button-group>
-      </el-form-item>
-      <el-form-item :label="`已选数据下载 [ ${multipleSelection.length} ]`">
-        <el-button-group>
-          <el-button
-            type="primary"
-            size="mini"
-            :disabled="multipleSelection.length === 0"
-            @click="handleDownloadXlsx(multipleSelection)">
-            xlsx
-          </el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            :disabled="multipleSelection.length === 0"
-            @click="handleDownloadCsv(multipleSelection)">
-            csv
-          </el-button>
-        </el-button-group>
-      </el-form-item>
-    </el-form> -->
-
     <el-table
       :data="currentTableData"
       v-loading="loading"
@@ -54,91 +13,79 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="卡密" :show-overflow-tooltip="true">
+      <el-table-column label="订单号" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.key}}
+          {{scope.row.series}}
         </template>
       </el-table-column>
 
-      <el-table-column label="面值" width="60" align="center">
+      <el-table-column label="线路别名（编号）" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-tag
+          {{scope.row.routerAlisa}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="订单状态" :show-overflow-tooltip="true" width="70">
+        <template slot-scope="scope">
+          {{scope.row.deliveryStatus}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="订单类型" :show-overflow-tooltip="true" width="80">
+        <template slot-scope="scope">
+          {{scope.row.orderType}}
+        </template>
+      </el-table-column>
+      
+      <el-table-column label="车型" :show-overflow-tooltip="true" width="80">
+        <template slot-scope="scope">
+          {{scope.row.carTypeName}}
+        </template>
+      </el-table-column>
+      
+      <el-table-column label="尺寸" :show-overflow-tooltip="true" width="60">
+        <template slot-scope="scope">
+          {{scope.row.carSizeName}}
+        </template>
+      </el-table-column>
+      
+      <el-table-column label="用车时间" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.appointmentDate}}
+        </template>
+      </el-table-column>
+      
+      <el-table-column label="客户名称" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.masterCustomerName}}
+        </template>
+      </el-table-column>
+      
+      <el-table-column label="下单人" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.createOrderName}}
+        </template>
+      </el-table-column>
+      
+      <el-table-column label="下单时间" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.createOrderTime}}
+        </template>
+      </el-table-column>
+      
+      <el-table-column label="操作" align="center" width="300">
+        <template slot-scope="scope">
+          <el-button
             size="mini"
-            type="success">
-            {{scope.row.value}}
-          </el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="状态" width="50" align="center">
-        <template slot-scope="scope">
-          <boolean-control
-            :value="scope.row.type"
-            @change="(val) => {
-              handleSwitchChange(val, scope.$index)
-            }">
-            <d2-icon
-              name="check-circle"
-              style="font-size: 20px; line-height: 32px; color: #67C23A;"
-              slot="active"/>
-            <d2-icon
-              name="times-circle"
-              style="font-size: 20px; line-height: 32px; color: #F56C6C;"
-              slot="inactive"/>
-          </boolean-control>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="状态" width="50" align="center">
-        <template slot-scope="scope">
-          <boolean-control-mini
-            :value="scope.row.type"
-            @change="(val) => {
-              handleSwitchChange(val, scope.$index)
-            }">
-            <d2-icon
-              name="check-circle"
-              style="font-size: 20px; line-height: 32px; color: #67C23A;"
-              slot="active"/>
-            <d2-icon
-              name="times-circle"
-              style="font-size: 20px; line-height: 32px; color: #F56C6C;"
-              slot="inactive"/>
-          </boolean-control-mini>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="管理员" width="60">
-        <template slot-scope="scope">
-          {{scope.row.admin}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="管理员备注" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.adminNote}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="创建时间" width="150" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.dateTimeCreat}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="使用状态" width="100" align="center">
-        <template slot-scope="scope">
-          <el-tag
+            type="primary"
+            @click="handleDelete(scope.$index, scope.row)">变更车辆</el-button>
+          <el-button
             size="mini"
-            :type="scope.row.used ? 'info' : ''">
-            {{scope.row.used ? '已使用' : '未使用'}}
-          </el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="使用时间" width="150" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.dateTimeUse}}
+            @click="handleDelete(scope.$index, scope.row)">订单详情</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)">废弃订单</el-button>
         </template>
       </el-table-column>
 
@@ -147,13 +94,7 @@
 </template>
 
 <script>
-import BooleanControl from '../BooleanControl'
-import BooleanControlMini from '../BooleanControlMini'
 export default {
-  components: {
-    BooleanControl,
-    BooleanControlMini
-  },
   props: {
     tableData: {
       default: () => []

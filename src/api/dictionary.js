@@ -1,9 +1,8 @@
-import axios from 'axios'
+import {httpGet} from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
-import { CONFIG } from './config'
 
 export function getActiveStatus (params) {
-  const url = `${CONFIG.HOST}/getActiveStatus`
+  const url = `/getActiveStatus`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -12,11 +11,11 @@ export function getActiveStatus (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCheckStatus (params) {
-  const url = `${CONFIG.HOST}/getCheckStatus`
+  const url = `/getCheckStatus`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -25,11 +24,11 @@ export function getCheckStatus (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCustomerCaclulateType (params) {
-  const url = `${CONFIG.HOST}/getCustomerCaclulateType`
+  const url = `/getCustomerCaclulateType`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -38,11 +37,11 @@ export function getCustomerCaclulateType (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCustomerJob (params) {
-  const url = `${CONFIG.HOST}/getCustomerJob`
+  const url = `/getCustomerJob`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -51,11 +50,11 @@ export function getCustomerJob (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCustomerLevel (params) {
-  const url = `${CONFIG.HOST}/getCustomerLevel`
+  const url = `/getCustomerLevel`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -64,11 +63,11 @@ export function getCustomerLevel (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCustomerOrderLevel (params) {
-  const url = `${CONFIG.HOST}/getCustomerOrderLevel`
+  const url = `/getCustomerOrderLevel`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -77,11 +76,11 @@ export function getCustomerOrderLevel (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCustomerSex (params) {
-  const url = `${CONFIG.HOST}/getCustomerSex`
+  const url = `/getCustomerSex`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -90,11 +89,11 @@ export function getCustomerSex (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCustomerSource (params) {
-  const url = `${CONFIG.HOST}/getCustomerSource`
+  const url = `/getCustomerSource`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -103,11 +102,11 @@ export function getCustomerSource (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCustomerType (params) {
-  const url = `${CONFIG.HOST}/getCustomerType`
+  const url = `/getCustomerType`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -116,11 +115,11 @@ export function getCustomerType (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getOperateStatus (params) {
-  const url = `${CONFIG.HOST}/getOperateStatus`
+  const url = `/getOperateStatus`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -129,11 +128,11 @@ export function getOperateStatus (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getAllCity (params) {
-  const url = `${CONFIG.HOST}/getAllCity`
+  const url = `/getAllCity`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -142,11 +141,11 @@ export function getAllCity (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getAllCityArea (params) {
-  const url = `${CONFIG.HOST}/getAllCityArea`
+  const url = `/getAllCityArea`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -155,11 +154,11 @@ export function getAllCityArea (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getAllPrv (params) {
-  const url = `${CONFIG.HOST}/getAllPrv`
+  const url = `/getAllPrv`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -168,11 +167,11 @@ export function getAllPrv (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getAllTown (params) {
-  const url = `${CONFIG.HOST}/getAllTown`
+  const url = `/getAllTown`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -181,11 +180,11 @@ export function getAllTown (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getServiceType (params) {
-  const url = `${CONFIG.HOST}/getServiceType`
+  const url = `/getServiceType`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -194,11 +193,11 @@ export function getServiceType (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCarSizeList (params) {
-  const url = `${CONFIG.HOST}/getCarSizeList`
+  const url = `/getCarSizeList`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -207,5 +206,18 @@ export function getCarSizeList (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
+}
+
+export function getOrderType (params) {
+  const url = `getOrderType`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+
+  return httpGet(url, data)
 }

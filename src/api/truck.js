@@ -2,12 +2,11 @@
  * 车辆管理接口
  */
 
-import axios from 'axios'
+import {httpGet} from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
-import { CONFIG } from './config'
 
 export function getAllCar (params) {
-  const url = `${CONFIG.HOST}/getAllCar`
+  const url = `/getAllCar`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -16,11 +15,11 @@ export function getAllCar (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function deleteCar (params) {
-  const url = `${CONFIG.HOST}/deleteCar`
+  const url = `/deleteCar`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -29,11 +28,11 @@ export function deleteCar (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getMotorcadeList (params) {
-  const url = `${CONFIG.HOST}/getMotorcadeList`
+  const url = `/getMotorcadeList`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -42,11 +41,11 @@ export function getMotorcadeList (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function addCar (params) {
-  const url = `${CONFIG.HOST}/addCar`
+  const url = `/addCar`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -55,11 +54,11 @@ export function addCar (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function updateCar (params) {
-  const url = `${CONFIG.HOST}/updateCar`
+  const url = `/updateCar`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -68,11 +67,11 @@ export function updateCar (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getAllCarBand (params) {
-  const url = `${CONFIG.HOST}/getAllCarBand`
+  const url = `/getAllCarBand`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -81,11 +80,11 @@ export function getAllCarBand (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getAllCarColour (params) {
-  const url = `${CONFIG.HOST}/getAllCarColour`
+  const url = `/getAllCarColour`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -94,11 +93,11 @@ export function getAllCarColour (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getAllCarType (params) {
-  const url = `${CONFIG.HOST}/getAllCarType`
+  const url = `/getAllCarType`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -107,11 +106,11 @@ export function getAllCarType (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCarDetail (params) {
-  const url = `${CONFIG.HOST}/getCarDetail`
+  const url = `/getCarDetail`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -120,11 +119,11 @@ export function getCarDetail (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCarWeightList (params) {
-  const url = `${CONFIG.HOST}/getCarWeightList`
+  const url = `/getCarWeightList`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -133,11 +132,11 @@ export function getCarWeightList (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getCarSizeList (params) {
-  const url = `${CONFIG.HOST}/getCarSizeList`
+  const url = `/getCarSizeList`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -146,5 +145,5 @@ export function getCarSizeList (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }

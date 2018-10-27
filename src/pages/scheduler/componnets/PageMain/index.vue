@@ -19,7 +19,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="调度人姓名" align="left">
+      <el-table-column label="调度人姓名" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.customerName}}
         </template>
@@ -83,7 +83,7 @@ export default {
               type: "success",
               message: "删除成功!"
             });
-            this.tableData.splice(index, 1);
+            this.currentTableData.splice(index, 1);
           }
         })
         .catch(err => {

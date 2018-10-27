@@ -10,7 +10,7 @@
     <el-form-item label="线路别名" prop="routerDetailAliaSearchKey">
       <el-select
         v-model="form.routerDetailAliaSearchKey"
-        placeholder="线路别名"
+        placeholder="请选择"
         style="width: 150px;">
         <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>
       </el-select>
@@ -19,8 +19,8 @@
     <el-form-item label="调度人" prop="employeeNameSearchKey">
       <el-input
         v-model="form.employeeNameSearchKey"
-        placeholder="调度人"
-        style="width: 150px;"/>
+        placeholder="请输入"
+        style="width: 100px;"/>
     </el-form-item>
 
     <el-form-item>
@@ -65,10 +65,7 @@ export default {
         routerDetailAliaSearchKey: "",
         employeeNameSearchKey: ""
       },
-      rules: {
-        type: [{ required: true, message: "请选择一个线路别名", trigger: "change" }],
-        user: [{ required: true, message: "请输入调度人", trigger: "change" }]
-      }
+      rules: {}
     };
   },
   created() {

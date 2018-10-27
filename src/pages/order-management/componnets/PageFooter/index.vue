@@ -3,7 +3,7 @@
     :current-page="current"
     :page-size="size"
     :total="total"
-    :page-sizes="[100, 200, 300, 400]"
+    :page-sizes="[10, 20, 50, 100]"
     layout="total, sizes, prev, pager, next, jumper"
     style="margin: -10px;"
     @size-change="handleSizeChange"

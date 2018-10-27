@@ -7,38 +7,46 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="状态" prop="type">
-      <el-select
-        v-model="form.type"
-        placeholder="状态选择"
-        style="width: 100px;">
-        <el-option label="状态 1" value="1"/>
-        <el-option label="状态 2" value="2"/>
-        <el-option label="状态 3" value="3"/>
-        <el-option label="状态 4" value="4"/>
-        <el-option label="状态 5" value="5"/>
-      </el-select>
-    </el-form-item>
-
-    <el-form-item label="用户" prop="user">
+    <el-form-item label="客户名称" prop="customerNameSearchKey">
       <el-input
-        v-model="form.user"
-        placeholder="用户"
+        v-model="form.customerNameSearchKey"
+        placeholder="请输入"
         style="width: 100px;"/>
     </el-form-item>
 
-    <el-form-item label="卡密" prop="key">
+    <el-form-item label="联系人" prop="contactNameSearchKey">
       <el-input
-        v-model="form.key"
-        placeholder="卡密"
-        style="width: 120px;"/>
+        v-model="form.contactNameSearchKey"
+        placeholder="请输入"
+        style="width: 100px;"/>
     </el-form-item>
 
-    <el-form-item label="备注" prop="note">
+    <el-form-item label="联系电话" prop="mobilePhoneSearchKey">
       <el-input
-        v-model="form.note"
-        placeholder="备注"
-        style="width: 120px;"/>
+        v-model="form.mobilePhoneSearchKey"
+        placeholder="请输入"
+        style="width: 100px;"/>
+    </el-form-item>
+
+    <el-form-item label="销售员" prop="saleId">
+      <el-select v-model="form.saleId" placeholder="请选择">
+        <el-option v-for="(item, index) in customerSales" :key="index" :label="item.salePersonName" :value="item.salePersonId"></el-option>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="注册日期" prop="registerTime">
+      <el-date-picker
+        size="mini"
+        v-model="registerTime"
+        @change="onRegisterTimeChange"
+        type="datetimerange"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        :picker-options="pickerOptions"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        align="right">
+      </el-date-picker>
     </el-form-item>
 
     <el-form-item>
@@ -58,42 +66,115 @@
       </el-button>
     </el-form-item>
 
+    <el-form-item>
+      <el-button
+        type="primary"
+        @click="handleAdd">
+        <d2-icon name="plus"/>
+        新增
+      </el-button>
+    </el-form-item>
+
   </el-form>
 </template>
 
 <script>
+import util from "@/libs/util";
+import { getAllSaleList } from "@/api/customer";
+
 export default {
-  data () {
+  data() {
     return {
+      customerSales: [],
+      registerTime: "",
       form: {
-        type: '1',
-        user: 'FairyEver',
-        key: '',
-        note: ''
+        customerNumId: util.cookies.get("__user__customernumid"),
+        saleId: "",
+        contactNameSearchKey: "",
+        customerNameSearchKey: "",
+        mobilePhoneSearchKey: "",
+        registerEndTime: "",
+        registerStartTime: ""
       },
-      rules: {
-        type: [ { required: true, message: '请选择一个状态', trigger: 'change' } ],
-        user: [ { required: true, message: '请输入用户', trigger: 'change' } ]
+      rules: {},
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            }
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            }
+          }
+        ]
       }
-    }
+    };
+  },
+  created() {
+    this._getAllSaleList({
+      customerNumId: this.form.customerNumId,
+      franchiseeId: ""
+    });
   },
   methods: {
-    handleFormSubmit () {
-      this.$refs.form.validate((valid) => {
+    _getAllSaleList(params) {
+      getAllSaleList(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.customerSales = res.customerSales;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onRegisterTimeChange(time) {
+      this.form.registerStartTime = time[0];
+      this.form.registerEndTime = time[1];
+    },
+    handleFormSubmit() {
+      this.$refs.form.validate(valid => {
         if (valid) {
-          this.$emit('submit', this.form)
+          this.$emit("submit", this.form);
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '表单校验失败'
-          })
-          return false
+            title: "错误",
+            message: "表单校验失败"
+          });
+          return false;
         }
-      })
+      });
     },
-    handleFormReset () {
-      this.$refs.form.resetFields()
+    handleFormReset() {
+      this.$refs.form.resetFields();
+      this.registerTime = "";
+    },
+    handleAdd() {
+      this.$emit("add");
     }
   }
-}
+};
 </script>

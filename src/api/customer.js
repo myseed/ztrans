@@ -1,13 +1,11 @@
 /**
  * 客户管理接口
  */
-
-import axios from 'axios'
+import {httpGet} from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
-import { CONFIG } from './config'
 
 export function getAllMasterCustomer (params) {
-  const url = `${CONFIG.HOST}/getAllMasterCustomer`
+  const url = `/getAllMasterCustomer`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -16,11 +14,11 @@ export function getAllMasterCustomer (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getMasterCustomerDetail (params) {
-  const url = `${CONFIG.HOST}/getMasterCustomerDetail`
+  const url = `/getMasterCustomerDetail`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -29,11 +27,11 @@ export function getMasterCustomerDetail (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function deleteMasterCustomer (params) {
-  const url = `${CONFIG.HOST}/deleteMasterCustomer`
+  const url = `/deleteMasterCustomer`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -42,11 +40,11 @@ export function deleteMasterCustomer (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function addMasterCustomer (params) {
-  const url = `${CONFIG.HOST}/addMasterCustomer`
+  const url = `/addMasterCustomer`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -55,11 +53,11 @@ export function addMasterCustomer (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getAllSaleList (params) {
-  const url = `${CONFIG.HOST}/getAllSaleList`
+  const url = `/getAllSaleList`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -68,11 +66,11 @@ export function getAllSaleList (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function deleteCustomerContact (params) {
-  const url = `${CONFIG.HOST}/deleteCustomerContact`
+  const url = `/deleteCustomerContact`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -81,11 +79,11 @@ export function deleteCustomerContact (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function updateCustomerContact (params) {
-  const url = `${CONFIG.HOST}/updateCustomerContact`
+  const url = `/updateCustomerContact`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -94,11 +92,11 @@ export function updateCustomerContact (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function addCustomerContact (params) {
-  const url = `${CONFIG.HOST}/addCustomerContact`
+  const url = `/addCustomerContact`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -107,11 +105,11 @@ export function addCustomerContact (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function updateMasterCustomer (params) {
-  const url = `${CONFIG.HOST}/updateMasterCustomer`
+  const url = `/updateMasterCustomer`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -120,5 +118,5 @@ export function updateMasterCustomer (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }

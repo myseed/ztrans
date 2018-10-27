@@ -2,12 +2,11 @@
  * 指派接口
  */
 
-import axios from 'axios'
+import {httpGet} from './sys/http' 
 import { paramsify, signify, timestamp, sid } from './utils'
-import { CONFIG } from './config'
 
 export function getCarTypeList (params) {
-  const url = `${CONFIG.HOST}/getCarTypeList`
+  const url = `/getCarTypeList`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -16,11 +15,11 @@ export function getCarTypeList (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getOrderByCustomerNumId (params) {
-  const url = `${CONFIG.HOST}/getOrderByCustomerNumId`
+  const url = `/getOrderByCustomerNumId`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -29,11 +28,11 @@ export function getOrderByCustomerNumId (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function selectDriver (params) {
-  const url = `${CONFIG.HOST}/selectDriver`
+  const url = `/selectDriver`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -42,11 +41,11 @@ export function selectDriver (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function confirmDriver (params) {
-  const url = `${CONFIG.HOST}/confirmDriver`
+  const url = `/confirmDriver`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -55,11 +54,11 @@ export function confirmDriver (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getDriverOrderDetail (params) {
-  const url = `${CONFIG.HOST}/getDriverOrderDetail`
+  const url = `/getDriverOrderDetail`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -68,11 +67,11 @@ export function getDriverOrderDetail (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getUnDealOrderCount (params) {
-  const url = `${CONFIG.HOST}/getUnDealOrderCount`
+  const url = `/getUnDealOrderCount`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -81,10 +80,10 @@ export function getUnDealOrderCount (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 export function getCarSizeList (params) {
-  const url = `${CONFIG.HOST}/getCarSizeList`
+  const url = `/getCarSizeList`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -93,5 +92,5 @@ export function getCarSizeList (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }

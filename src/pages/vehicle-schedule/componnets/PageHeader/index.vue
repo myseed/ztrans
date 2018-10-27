@@ -7,38 +7,27 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="状态" prop="type">
+    <el-form-item label="线路别名" prop="routerDetailAliaSearchKey">
       <el-select
-        v-model="form.type"
-        placeholder="状态选择"
-        style="width: 100px;">
-        <el-option label="状态 1" value="1"/>
-        <el-option label="状态 2" value="2"/>
-        <el-option label="状态 3" value="3"/>
-        <el-option label="状态 4" value="4"/>
-        <el-option label="状态 5" value="5"/>
+        v-model="form.routerDetailAliaSearchKey"
+        placeholder="请选择"
+        style="width: 150px;">
+        <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>
       </el-select>
     </el-form-item>
 
-    <el-form-item label="用户" prop="user">
+    <el-form-item label="车牌号" prop="carPlateNumberSearchKey">
       <el-input
-        v-model="form.user"
-        placeholder="用户"
+        v-model="form.carPlateNumberSearchKey"
+        placeholder="请输入"
         style="width: 100px;"/>
     </el-form-item>
 
-    <el-form-item label="卡密" prop="key">
+    <el-form-item label="司机姓名" prop="driverNameSearchKey">
       <el-input
-        v-model="form.key"
-        placeholder="卡密"
-        style="width: 120px;"/>
-    </el-form-item>
-
-    <el-form-item label="备注" prop="note">
-      <el-input
-        v-model="form.note"
-        placeholder="备注"
-        style="width: 120px;"/>
+        v-model="form.driverNameSearchKey"
+        placeholder="请输入"
+        style="width: 100px;"/>
     </el-form-item>
 
     <el-form-item>
@@ -58,42 +47,71 @@
       </el-button>
     </el-form-item>
 
+    <el-form-item>
+      <el-button
+        type="primary"
+        @click="handleAdd">
+        <d2-icon name="plus"/>
+        新增
+      </el-button>
+    </el-form-item>
+
   </el-form>
 </template>
 
 <script>
+import util from "@/libs/util";
+import { getRouterAliaList } from "@/api/schedule";
+
 export default {
-  data () {
+  data() {
     return {
+      routerDetail: [],
       form: {
-        type: '1',
-        user: 'FairyEver',
-        key: '',
-        note: ''
+        customerNumId: util.cookies.get("__user__customernumid"),
+        routerDetailAliaSearchKey: "",
+        carPlateNumberSearchKey: "",
+        driverNameSearchKey: ""
       },
-      rules: {
-        type: [ { required: true, message: '请选择一个状态', trigger: 'change' } ],
-        user: [ { required: true, message: '请输入用户', trigger: 'change' } ]
-      }
-    }
+      rules: {}
+    };
+  },
+  created() {
+    this._getRouterAliaList({
+      customerNumId: this.form.customerNumId
+    });
   },
   methods: {
-    handleFormSubmit () {
-      this.$refs.form.validate((valid) => {
+    _getRouterAliaList(params) {
+      getRouterAliaList(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.routerDetail = res.routerDetail;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handleFormSubmit() {
+      this.$refs.form.validate(valid => {
         if (valid) {
-          this.$emit('submit', this.form)
+          this.$emit("submit", this.form);
         } else {
           this.$notify.error({
-            title: '错误',
-            message: '表单校验失败'
-          })
-          return false
+            title: "错误",
+            message: "表单校验失败"
+          });
+          return false;
         }
-      })
+      });
     },
-    handleFormReset () {
-      this.$refs.form.resetFields()
+    handleFormReset() {
+      this.$refs.form.resetFields();
+    },
+    handleAdd() {
+      this.$emit("add");
     }
   }
-}
+};
 </script>

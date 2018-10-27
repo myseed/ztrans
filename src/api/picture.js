@@ -1,9 +1,8 @@
-import axios from 'axios'
+import {httpGet} from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
-import { CONFIG } from './config'
 
 export function uploadPicture (params, file) {
-  const url = `${CONFIG.HOST}/uploadPicture`
+  const url = `/uploadPicture`
   const ts = timestamp()
   const data = new FormData()
   data.append('sid', sid())
@@ -18,16 +17,16 @@ export function uploadPicture (params, file) {
 }
 
 export function getPicture (params) {
-  const url = `${CONFIG.HOST}/getPicture`
+  const url = `/getPicture`
   const data = {
     params: paramsify(params),
     sign: signify(params)
   }
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function deletePicture (params) {
-  const url = `${CONFIG.HOST}/deletePicture`
+  const url = `/deletePicture`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -35,5 +34,5 @@ export function deletePicture (params) {
     params: paramsify(params),
     sign: signify(params, ts)
   }
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }

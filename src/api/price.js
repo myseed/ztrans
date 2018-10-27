@@ -2,12 +2,11 @@
  * 报价接口
  */
 
-import axios from 'axios'
+import {httpGet} from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
-import { CONFIG } from './config'
 
 export function getAllRouterPriceByRouterId (params) {
-  const url = `${CONFIG.HOST}/getAllRouterPriceByRouterId`
+  const url = `/getAllRouterPriceByRouterId`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -16,11 +15,11 @@ export function getAllRouterPriceByRouterId (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getAllRouterCustomerPrice (params) {
-  const url = `${CONFIG.HOST}/getAllRouterCustomerPrice`
+  const url = `/getAllRouterCustomerPrice`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -29,11 +28,11 @@ export function getAllRouterCustomerPrice (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function deleteRouterByRouterId (params) {
-  const url = `${CONFIG.HOST}/deleteRouterByRouterId`
+  const url = `/deleteRouterByRouterId`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -42,11 +41,11 @@ export function deleteRouterByRouterId (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function addRouterPrice (params) {
-  const url = `${CONFIG.HOST}/addRouterPrice`
+  const url = `/addRouterPrice`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -55,11 +54,11 @@ export function addRouterPrice (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function deleteRouterPrice (params) {
-  const url = `${CONFIG.HOST}/deleteRouterPrice`
+  const url = `/deleteRouterPrice`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -68,11 +67,11 @@ export function deleteRouterPrice (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function updateBatchRouterPrice (params) {
-  const url = `${CONFIG.HOST}/updateBatchRouterPrice`
+  const url = `/updateBatchRouterPrice`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -81,11 +80,11 @@ export function updateBatchRouterPrice (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getMasterCustomerList (params) {
-  const url = `${CONFIG.HOST}/getMasterCustomerList`
+  const url = `/getMasterCustomerList`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -94,11 +93,11 @@ export function getMasterCustomerList (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function deleteRouterCustomerPrice (params) {
-  const url = `${CONFIG.HOST}/deleteRouterCustomerPrice`
+  const url = `/deleteRouterCustomerPrice`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -107,11 +106,11 @@ export function deleteRouterCustomerPrice (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function addRouterCustomerPrice (params) {
-  const url = `${CONFIG.HOST}/addRouterCustomerPrice`
+  const url = `/addRouterCustomerPrice`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -120,11 +119,11 @@ export function addRouterCustomerPrice (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function updateRouterCustomerPrice (params) {
-  const url = `${CONFIG.HOST}/updateRouterCustomerPrice`
+  const url = `/updateRouterCustomerPrice`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -133,11 +132,11 @@ export function updateRouterCustomerPrice (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getConsumerRouterPriceByRouterId (params) {
-  const url = `${CONFIG.HOST}/getConsumerRouterPriceByRouterId`
+  const url = `/getConsumerRouterPriceByRouterId`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -146,11 +145,11 @@ export function getConsumerRouterPriceByRouterId (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
 
 export function getRouterPriceByRouterId (params) {
-  const url = `${CONFIG.HOST}/getRouterPriceByRouterId`
+  const url = `/getRouterPriceByRouterId`
   const ts = timestamp()
   const data = {
     sid: sid(),
@@ -159,5 +158,5 @@ export function getRouterPriceByRouterId (params) {
     sign: signify(params, ts)
   }
 
-  return axios.get(url, {params: data})
+  return httpGet(url, data)
 }
