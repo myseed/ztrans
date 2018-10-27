@@ -20,7 +20,6 @@
 <script>
 import {
   getAllRouterAndEmployee,
-  deleteRouterAndEmployee,
   addRouterToEmployee
 } from "@/api/schedule";
 import { getAllEmployee } from "@/api/employee";
