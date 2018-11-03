@@ -46,19 +46,5 @@ export default [
     children: [
       { path: '/cost-management', title: '订单费用', icon: 'money' }
     ]
-  },
-  {
-    title: '销售管理',
-    icon: 'child',
-    children: [
-      { path: '/sale-management', title: '销售管理', icon: 'child' }
-    ]
-  },
-  {
-    title: '手动下单',
-    icon: 'ticket',
-    children: [
-      { path: '/order-create', title: '手动下单', icon: 'ticket' }
-    ]
   }
 ]

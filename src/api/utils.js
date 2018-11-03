@@ -1,7 +1,7 @@
 /**
  * 工具
  */
-
+import util from '@/libs/util.js'
 import { Base64 } from 'js-base64'
 import MD5 from 'md5'
 import { CONFIG } from './config'
@@ -24,5 +24,6 @@ export function timestamp () {
 }
 
 export function sid () {
-  return Cookies.get('__user__sid')
+  return util.cookies.get('__user__sid')
+  // return Cookies.get('__user__sid')
 }

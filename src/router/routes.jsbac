@@ -83,18 +83,6 @@ const frameIn = [
         name: 'cost-management',
         component: () => import('@/pages/cost-management'),
         meta: { meta, title: '订单费用' }
-      },
-      {
-        path: '/sale-management',
-        name: 'sale-management',
-        component: () => import('@/pages/sale-management'),
-        meta: { meta, title: '销售管理' }
-      },
-      {
-        path: '/order-create',
-        name: 'order-create',
-        component: () => import('@/pages/order-create'),
-        meta: { meta, title: '创建订单' }
       }
     ]
   }
