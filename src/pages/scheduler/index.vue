@@ -210,7 +210,6 @@
             _getRouterAliaList(params) {
                 getRouterAliaList(params)
                     .then(res => {
-                        alert(res.routerDetail)
                         if (res.code === 0) {
                             this.routerDetail = res.routerDetail;
                         }
