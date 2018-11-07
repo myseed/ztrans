@@ -25,6 +25,18 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="司机名字" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.driverName}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="车牌号" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.carPlateNumber}}
+        </template>
+      </el-table-column>
+
       <el-table-column label="订单状态" :show-overflow-tooltip="true" width="70">
         <template slot-scope="scope">
           {{scope.row.deliveryStatus}}

@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import util from "@/libs/util";
 import {
   getRouterAliaList,
   getAllDriver,
@@ -69,6 +70,7 @@ export default {
       });
 
       getAllRouterAndCar({
+        customerNumId: util.cookies.get("__user__customernumid"),
         current: this.page.current,
         pageSize: this.page.size,
         ...form

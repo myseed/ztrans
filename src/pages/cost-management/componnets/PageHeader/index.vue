@@ -7,59 +7,33 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="客户名称" prop="customerNameSearchKey">
-      <el-input
-        v-model="form.customerNameSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+    <el-form-item>
+      <el-input v-model="form.carPlateNumberSearchKey" placeholder="车牌号" style="width: 150px;"></el-input>
     </el-form-item>
 
-    <el-form-item label="线路编号" prop="routerNumberSearchKey">
-      <el-input
-        v-model="form.routerNumberSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+    <el-form-item>
+      <el-input v-model="form.customerNameSearchKey" placeholder="客户名字" style="width: 150px;"></el-input>
     </el-form-item>
 
-    <el-form-item label="线路别名" prop="routerAliaSearchKey">
-      <el-select
-        v-model="form.routerAliaSearchKey"
-        placeholder="请选择"
-        style="width: 150px;">
+    <el-form-item>
+      <el-select v-model="form.routerDetailSeries" placeholder="线路别名" style="width: 150px;">
         <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>
       </el-select>
     </el-form-item>
 
-    <el-form-item label="车型" prop="carType">
-      <el-select
-        v-model="form.carType"
-        placeholder="请选择"
-        style="width: 150px;">
-        <el-option v-for="(item, index) in carTypes" :key="index" :label="item.typeName" :value="item.typeId"></el-option>
-      </el-select>
-    </el-form-item>
 
-    <el-form-item label="订单类型" prop="orderType">
-      <el-select
-        v-model="form.orderType"
-        placeholder="请选择"
-        style="width: 150px;">
-        <el-option v-for="(item, index) in orderTypes" :key="index" :label="item.orderTypeName" :value="item.orderTypeId"></el-option>
-      </el-select>
-    </el-form-item>
-
-    <el-form-item label="约车时间" prop="appointmentDate">
-      <el-date-picker
-        size="mini"
-        v-model="form.appointmentDate"
-        type="datetime"
-        placeholder="请选择"
-        align="right"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        :picker-options="pickerOptions"
-        style="width: 175px;">
-      </el-date-picker>
-    </el-form-item>
+    <el-date-picker
+            size="mini"
+            v-model="form.time"
+            @change="onTimeChange"
+            type="datetimerange"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            :picker-options="pickerOptions"
+            range-separator="至"
+            start-placeholder="约车开始日期"
+            end-placeholder="约车结束日期"
+            align="right">
+    </el-date-picker>
 
     <el-form-item>
       <el-button
@@ -95,13 +69,10 @@ export default {
       orderTypes: [],
       form: {
         customerNumId: util.cookies.get("__user__customernumid"),
-        carType: "",
-        orderType: "",
-        appointmentDate: "",
+        carPlateNumberSearchKey: "",
         customerNameSearchKey: "",
-        routerAliaSearchKey: "",
-        routerNumberSearchKey: "",
-        deliverStatus: 1
+        routerDetailSeries: "",
+        time: ""
       },
       rules: {},
       pickerOptions: {
@@ -139,36 +110,8 @@ export default {
     this._getRouterAliaList({
       customerNumId: this.form.customerNumId
     });
-    this._getCarTypeList({
-      customerNumId: this.form.customerNumId
-    });
-    this._getOrderTypeList({
-      customerNumId: this.form.customerNumId
-    });
   },
   methods: {
-    _getOrderTypeList(params) {
-      getOrderType(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.orderTypes = res.orderTypeModels;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    _getCarTypeList(params) {
-      getCarTypeList(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.carTypes = res.carTypes;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
     _getRouterAliaList(params) {
       getRouterAliaList(params)
         .then(res => {

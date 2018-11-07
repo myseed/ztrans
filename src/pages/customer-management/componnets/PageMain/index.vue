@@ -72,12 +72,43 @@
       </el-table-column>
 
     </el-table>
+
   </div>
+
+
 </template>
 
 <script>
 import util from "@/libs/util.js";
-import { deleteMasterCustomer } from "@/api/customer";
+import {
+    getAllMasterCustomer,
+    getMasterCustomerDetail,
+    deleteMasterCustomer,
+    addMasterCustomer,
+    getAllSaleList,
+    deleteCustomerContact,
+    updateMasterCustomer,
+    addCustomerContact,
+    updateCustomerContact,
+    deleteOldCustomerContact
+} from "@/api/customer";
+import {
+    getCheckStatus,
+    getActiveStatus,
+    getCustomerCaclulateType,
+    getCustomerJob,
+    getCustomerLevel,
+    getCustomerOrderLevel,
+    getCustomerSex,
+    getCustomerSource,
+    getCustomerType,
+    getOperateStatus,
+    getAllCity,
+    getAllCityArea,
+    getAllPrv,
+    getAllTown,
+    getServiceType
+} from "@/api/dictionary";
 
 export default {
   props: {
@@ -90,6 +121,9 @@ export default {
   },
   data() {
     return {
+        customerNumId: util.cookies.get('__user__customernumid'),
+        constantDetail: [],
+       editCustomerPopDialog: false,
       currentTableData: [],
       multipleSelection: [],
       downloadColumns: [
@@ -148,8 +182,31 @@ export default {
           console.log("取消删除");
         });
     },
-    handleEdit(index, row) {},
-    handleCheckDetail(index, row) {},
+    handleEdit(index, row) {
+        this.$emit("update",{customerMasterId: row.customerMasterId});
+    },
+      _getMasterCustomerDetail(params) {
+          console.log(params);
+          getMasterCustomerDetail(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.constantDetail = res.constantDetailModel;
+                      this.customerDetail = res.customerMaster;
+                      // 数据大客户编辑
+                      this.editCustomerItem = Object.assign(
+                          {},
+                          this.editCustomerItem,
+                          res.customerMaster
+                      );
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+    handleCheckDetail(index, row) {
+        this.$emit("getMasterDetail",{customerMasterId: row.customerMasterId});
+    },
     handleSwitchChange(val, index) {
       const oldValue = this.currentTableData[index];
       this.$set(this.currentTableData, index, {

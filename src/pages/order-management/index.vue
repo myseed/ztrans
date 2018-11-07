@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import util from "@/libs/util";
 import {
   getOrderByCustomerNumId,
   selectDriver,
@@ -71,8 +72,10 @@ export default {
       });
 
       getOrderByCustomerNumId({
+        customerNumId: util.cookies.get("__user__customernumid"),
         current: this.page.current,
         pageSize: this.page.size,
+        deliverStatus: 1,
         ...form
       })
         .then(res => {

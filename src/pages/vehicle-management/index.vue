@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import util from "@/libs/util";
 import {
   getAllMasterCustomer,
   getMasterCustomerDetail,
@@ -91,6 +92,7 @@ export default {
       });
 
       getAllMasterCustomer({
+        customerNumId: util.cookies.get("__user__customernumid"),
         current: this.page.current,
         pageSize: this.page.size,
         ...form

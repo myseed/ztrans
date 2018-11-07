@@ -23,7 +23,7 @@ import {
   addRouterToEmployee
 } from "@/api/schedule";
 import { getAllEmployee } from "@/api/employee";
-import Cookies from "js-cookie";
+import util from "@/libs/util";
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
@@ -37,6 +37,7 @@ export default {
     return {
       table: [],
       loading: false,
+      customerNumId: util.cookies.get('__user__customernumid'),
       page: {
         current: 1,
         size: 100,
@@ -69,6 +70,7 @@ export default {
       });
 
       getAllRouterAndEmployee({
+        customerNumId: this.customerNumId,
         current: this.page.current,
         pageSize: this.page.size,
         ...form
@@ -78,7 +80,6 @@ export default {
           this.$notify({
             title: "数据请求完毕"
           });
-
           this.table = res.employeeRouterModel;
           this.page = {
             current: 1,

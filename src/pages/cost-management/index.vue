@@ -17,15 +17,8 @@
 </template>
 
 <script>
-import {
-  getOrderByCustomerNumId,
-  selectDriver,
-  confirmDriver,
-  getDriverOrderDetail,
-  getCarSizeList,
-  deleteOrder
-} from "@/api/order";
-import { getOrderType } from "@/api/dictionary";
+import util from "@/libs/util";
+import { getOrderPriceList } from "@/api/orderprice";
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
@@ -69,31 +62,31 @@ export default {
       this.$notify({
         title: "开始请求数据"
       });
-
-      getOrderByCustomerNumId({
+        getOrderPriceList({
+        customerNumId: util.cookies.get("__user__customernumid"),
         current: this.page.current,
         pageSize: this.page.size,
         ...form
-      })
+     })
         .then(res => {
-          this.loading = false;
-          this.$notify({
-            title: "数据请求完毕"
-          });
+            this.loading = false;
+               this.$notify({
+                    title: "数据请求完毕"
+               });
 
-          this.table = res.orderModel;
-          this.page = {
-            current: 1,
-            size: 100,
-            total: res.total
-          };
-        })
-        .catch(err => {
-          this.loading = false;
-          this.$notify({
-            title: "数据请求异常"
-          });
-        });
+                this.table = res.orderPriceModels;
+                this.page = {
+                    current: 1,
+                    size: 100,
+                    total: res.total
+                };
+            })
+            .catch(err => {
+                this.loading = false;
+                this.$notify({
+                    title: "数据请求异常"
+                });
+            });
     }
   }
 };
