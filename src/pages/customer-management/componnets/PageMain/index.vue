@@ -170,6 +170,7 @@ export default {
         type: "warning"
       })
         .then(() => {
+
           this._deleteMasterCustomer(
             {
               customerNumId: util.cookies.get("__user__customernumid"),

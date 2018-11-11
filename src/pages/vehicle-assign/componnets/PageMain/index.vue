@@ -78,10 +78,10 @@
           <el-button
             size="mini"
             type="primary"
-            @click="handleDelete(scope.$index, scope.row)">指派车辆</el-button>
+            @click="selectCar(scope.$index, scope.row)">指派车辆</el-button>
           <el-button
             size="mini"
-            @click="handleDelete(scope.$index, scope.row)">订单详情</el-button>
+            @click="getOrderDetail(scope.$index, scope.row)">订单详情</el-button>
           <el-button
             size="mini"
             type="danger"
@@ -128,6 +128,15 @@ export default {
     }
   },
   methods: {
+      getOrderDetail(index, row) {
+          this.$emit("getOrderDetail",{orderId:row.series});
+      },
+      handleDelete(index, row) {
+          this.$emit("deleteOrder",{orderId:row.series});
+      },
+      selectCar(index, row) {
+          this.$emit("selectCar",{appointmentDate:row.appointmentDate,carType:row.carType,routerDetailSeries:row.routerDetailSeries,series:row.series});
+      },
     handleSwitchChange (val, index) {
       const oldValue = this.currentTableData[index]
       this.$set(this.currentTableData, index, {

@@ -810,7 +810,7 @@ export default {
           this.table = res.customerMaster;
           this.page = {
             current: 1,
-            size: 100,
+            size: this.page.size,
             total: res.total
           };
         })

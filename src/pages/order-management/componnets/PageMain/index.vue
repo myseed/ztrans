@@ -90,10 +90,10 @@
           <el-button
             size="mini"
             type="primary"
-            @click="handleDelete(scope.$index, scope.row)">变更车辆</el-button>
+            @click="selectCar(scope.$index, scope.row)">变更车辆</el-button>
           <el-button
             size="mini"
-            @click="handleDelete(scope.$index, scope.row)">订单详情</el-button>
+            @click="getOrderDetail(scope.$index, scope.row)">订单详情</el-button>
           <el-button
             size="mini"
             type="danger"
@@ -106,6 +106,15 @@
 </template>
 
 <script>
+    import {
+        getCarTypeList,
+        getOrderByCustomerNumId,
+        selectDriver,
+        confirmDriver,
+        getDriverOrderDetail,
+        getCarSizeList,
+        cancelOrderStatus
+    } from "@/api/order";
 export default {
   props: {
     tableData: {
@@ -158,6 +167,16 @@ export default {
         used: row.used ? '已使用' : '未使用'
       }))
     },
+    getOrderDetail(index, row) {
+        this.$emit("getOrderDetail",{orderId:row.series});
+    },
+    handleDelete(index, row) {
+        this.$emit("deleteOrder",{orderId:row.series});
+    },
+    selectCar(index, row) {
+        this.$emit("selectCar",{appointmentDate:row.appointmentDate,carType:row.carType,routerDetailSeries:row.routerDetailSeries,series:row.series});
+    },
+
     handleDownloadXlsx (data) {
       this.$export.excel({
         title: 'D2Admin 表格示例',

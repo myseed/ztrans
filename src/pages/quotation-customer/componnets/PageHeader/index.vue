@@ -56,9 +56,9 @@
 
 <script>
 import {
-        getMasterCustomerList,getRouterAliaSearchList
+getMasterCustomerList
 } from "@/api/price";
-import { getRouterAliaList } from "@/api/schedule";
+import { getRouterAliaSearchList } from "@/api/schedule";
 import util from "@/libs/util";
 
 export default {
@@ -95,7 +95,6 @@ export default {
           var results = qs
               ? routerDetail.filter(this.createStateFilter(qs))
               : routerDetail;
-
           cb(results);
       },
       createStateFilter(qs) {

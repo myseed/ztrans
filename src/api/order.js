@@ -94,3 +94,42 @@ export function getCarSizeList (params) {
 
   return httpGet(url, data)
 }
+export function getOrderDetailBySeries (params) {
+    const url = `/getOrderDetailBySeries`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+
+export function deleteOrder (params) {
+    const url = `/deleteOrder`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+
+
+export function cancelOrderStatus (params) {
+    const url = `/cancelOrderStatus`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

@@ -103,8 +103,25 @@
 
 <script>
 import util from "@/libs/util.js";
-import { deleteRouterAndEmployee } from "@/api/schedule";
-
+import { getRouterAliaSearchList } from "@/api/schedule";
+import { getCarTypeList } from "@/api/order";
+import {
+    getAllRouterCustomerPrice,
+    getMasterCustomerList,
+    addRouterCustomerPrice,
+    deleteRouterByRouterId,
+    deleteRouterCustomerPrice,
+    updateBatchRouterPrice,
+    updateRouterCustomerPrice,
+    getConsumerRouterPriceByRouterId
+} from "@/api/price";
+import {
+    getAllPrv,
+    getAllCity,
+    getAllCityArea,
+    getAllTown,
+    getCarSizeList
+} from "@/api/dictionary";
 export default {
   props: {
     tableData: {
@@ -116,6 +133,7 @@ export default {
   },
   data() {
     return {
+      customerNumId: util.cookies.get('__user__customernumid'),
       currentTableData: [],
       multipleSelection: [],
       downloadColumns: [
@@ -139,21 +157,7 @@ export default {
     }
   },
   methods: {
-    _deleteRouterAndEmployee(params, index) {
-      deleteRouterAndEmployee(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            this.currentTableData.splice(index, 1);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+
     handleDelete(index, row) {
       console.log(index, row);
       this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
@@ -213,7 +217,18 @@ export default {
         .then(() => {
           this.$message("导出CSV成功");
         });
-    }
+    },
+      onDeleteDetailPrice(index, row) {
+          this.$emit("onDeleteDetailPrice",{routerPriceId: row.routerPriceId});
+      }
+      ,
+      onDeleteCustomerPrice(index, row) {
+          this.$emit("onDeleteCustomerPrice",{routerDetailSeries: row.routerDetailSeries});
+      }
+      ,
+      onEditCustomerPrice(index, row) {
+          this.$emit("onEditCustomerPrice",{customerSeries:row.customerSeries,routerDetailSeries:row.routerDetailSeries});
+      }
   }
 };
 </script>

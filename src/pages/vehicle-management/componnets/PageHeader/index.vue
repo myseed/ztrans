@@ -7,46 +7,37 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="客户名称" prop="customerNameSearchKey">
-      <el-input
-        v-model="form.customerNameSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
-    </el-form-item>
-
-    <el-form-item label="联系人" prop="contactNameSearchKey">
-      <el-input
-        v-model="form.contactNameSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
-    </el-form-item>
-
-    <el-form-item label="联系电话" prop="mobilePhoneSearchKey">
-      <el-input
-        v-model="form.mobilePhoneSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
-    </el-form-item>
-
-    <el-form-item label="销售员" prop="saleId">
-      <el-select v-model="form.saleId" placeholder="请选择">
-        <el-option v-for="(item, index) in customerSales" :key="index" :label="item.salePersonName" :value="item.salePersonId"></el-option>
+    <el-form-item>
+      <el-select v-model="form.motorcadeId" placeholder="所属车队" clearable>
+        <el-option v-for="(item, index) in motorcadeNameList" :key="index" :label="item.motorcadeCar" :value="item.motorcadeId"></el-option>
       </el-select>
     </el-form-item>
 
-    <el-form-item label="注册日期" prop="registerTime">
-      <el-date-picker
-        size="mini"
-        v-model="registerTime"
-        @change="onRegisterTimeChange"
-        type="datetimerange"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        :picker-options="pickerOptions"
-        range-separator="至"
-        start-placeholder="开始日期"
-        end-placeholder="结束日期"
-        align="right">
-      </el-date-picker>
+    <el-form-item>
+      <el-select v-model="form.checkStatus" placeholder="审核状态" clearable>
+        <el-option v-for="(item, index) in checkIdAndCheckStatus" :key="index" :label="item.checkStatusName" :value="item.checkStatusId"></el-option>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="车牌号" prop="carPlateNumberSearchKey">
+      <el-input
+              v-model="form.carPlateNumberSearchKey"
+              placeholder="请输入"
+              style="width: 100px;"/>
+    </el-form-item>
+
+    <el-form-item label="司机姓名" prop="driverNameSearchKey">
+      <el-input
+              v-model="form.driverNameSearchKey"
+              placeholder="请输入"
+              style="width: 100px;"/>
+    </el-form-item>
+
+    <el-form-item label="司机手机号" prop="driverPhoneSearchKey">
+      <el-input
+              v-model="form.driverPhoneSearchKey"
+              placeholder="请输入"
+              style="width: 100px;"/>
     </el-form-item>
 
     <el-form-item>
@@ -80,21 +71,29 @@
 
 <script>
 import util from "@/libs/util";
-import { getAllSaleList } from "@/api/customer";
+import {
+    getCheckStatus,
+    getActiveStatus,
+    getAllCity,
+    getAllCityArea,
+    getAllPrv,
+    getAllTown
+} from "@/api/dictionary";
 
 export default {
   data() {
     return {
       customerSales: [],
       registerTime: "",
+      checkIdAndCheckStatus: [],
+      motorcadeNameList:[],
       form: {
         customerNumId: util.cookies.get("__user__customernumid"),
-        saleId: "",
-        contactNameSearchKey: "",
-        customerNameSearchKey: "",
-        mobilePhoneSearchKey: "",
-        registerEndTime: "",
-        registerStartTime: ""
+        motorcadeId: "",
+        checkStatus: "",
+        carPlateNumberSearchKey: "",
+        driverNameSearchKey: "",
+        driverPhoneSearchKey: "",
       },
       rules: {},
       pickerOptions: {
@@ -134,23 +133,22 @@ export default {
     };
   },
   created() {
-    this._getAllSaleList({
-      customerNumId: this.form.customerNumId,
-      franchiseeId: ""
-    });
+      this._getCheckStatus({
+          customerNumId: this.customerNumId
+      });
   },
   methods: {
-    _getAllSaleList(params) {
-      getAllSaleList(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.customerSales = res.customerSales;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+      _getCheckStatus(params) {
+          getCheckStatus(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.checkIdAndCheckStatus = res.checkIdAndCheckStatus;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     onRegisterTimeChange(time) {
       this.form.registerStartTime = time[0];
       this.form.registerEndTime = time[1];
