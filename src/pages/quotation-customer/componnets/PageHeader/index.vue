@@ -7,22 +7,24 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="线路别名" prop="routerDetailAliaSearchKey">
-      <el-select
-        v-model="form.routerDetailAliaSearchKey"
-        placeholder="请选择"
-        style="width: 150px;">
-        <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>
+    <el-form-item>
+      <el-select v-model="form.customerSeries" placeholder="客户编号" clearable>
+        <el-option v-for="(item, index) in customerMasterList" :key="index" :label="item.customerName" :value="item.customerMasterId"></el-option>
       </el-select>
     </el-form-item>
 
-    <el-form-item label="调度人" prop="employeeNameSearchKey">
-      <el-input
-        v-model="form.employeeNameSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+    <el-form-item>
+      <el-input v-model="form.routerNumberSearchKey" placeholder="线路编号" clearable></el-input>
     </el-form-item>
 
+    <el-form-item>
+      <el-autocomplete v-model="form.routerDetailAliaSearchKey"
+                       placeholder="线路别名"
+                       clearable
+                       :fetch-suggestions="querySearchAsync"
+                       @select="handleSelect">
+      </el-autocomplete>
+      </el-form-item>
     <el-form-item>
       <el-button
         type="primary"
@@ -53,27 +55,74 @@
 </template>
 
 <script>
-import { getRouterAliaList } from "@/api/schedule";
+import {
+getMasterCustomerList
+} from "@/api/price";
+import { getRouterAliaSearchList } from "@/api/schedule";
 import util from "@/libs/util";
 
 export default {
   data() {
     return {
       routerDetail: [],
+      customerMasterList: [],
       form: {
         customerNumId: util.cookies.get("__user__customernumid"),
-        routerDetailAliaSearchKey: "",
-        employeeNameSearchKey: ""
+        customerSeries: "",
+        routerNumberSearchKey: "",
+        routerDetailAliaSearchKey: ""
       },
       rules: {}
     };
   },
   created() {
+      this._getMasterCustomerList({
+          customerNumId: this.customerNumId,
+          saleId: ""
+      });
+      this._getRouterAliaSearchList({
+          customerNumId: this.customerNumId,
+          customerSeries: "",
+          routerSearchKey: ""
+      });
     this._getRouterAliaList({
       customerNumId: this.form.customerNumId
     });
   },
   methods: {
+      querySearchAsync(qs, cb) {
+          let routerDetail = this.routerDetail;
+          var results = qs
+              ? routerDetail.filter(this.createStateFilter(qs))
+              : routerDetail;
+          cb(results);
+      },
+      createStateFilter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) === 0;
+          };
+      },
+      handleSelect(item) {
+          console.log(item);
+      },
+      _getRouterAliaSearchList(params) {
+          getRouterAliaSearchList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let routerDetail = [];
+                      res.routerDetailAliaModel.forEach(item => {
+                          routerDetail.push({
+                              value: item.routerAlia,
+                              ...item
+                          });
+                      });
+                      this.routerDetail = routerDetail;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     _getRouterAliaList(params) {
       getRouterAliaList(params)
         .then(res => {
@@ -85,6 +134,17 @@ export default {
           console.log(err);
         });
     },
+      _getMasterCustomerList(params) {
+          getMasterCustomerList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.customerMasterList = res.customerMasterList;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {

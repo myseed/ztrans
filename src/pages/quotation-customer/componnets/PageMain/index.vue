@@ -1,16 +1,82 @@
 <template>
   <div>
     <el-table
-      :data="currentTableData"
-      v-loading="loading"
-      size="mini"
-      stripe
-      style="width: 100%;"
-      @selection-change="handleSelectionChange">
+            size="mini"
+            :data="currentTableData"
+            highlight-current-row
+            style="width: 100%"
+            stripe>
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-table
+                  size="mini"
+                  :data="props.row.routerPriceList"
+                  highlight-current-row
+                  style="width: 100%">
+            <el-table-column label="车型" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                {{scope.row.carTypeRealName}}
+              </template>
+            </el-table-column>
+            <el-table-column label="车长" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                {{scope.row.carSizeRealName}}
+              </template>
+            </el-table-column>
+            <el-table-column label="报价类型" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                {{scope.row.routerCustomerType}}
+              </template>
+            </el-table-column>
+            <el-table-column label="起步价格(元)" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                {{scope.row.initPrice}}
+              </template>
+            </el-table-column>
 
+            <el-table-column label="超出价格(元/公里)" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                {{scope.row.overstepPrice}}
+              </template>
+            </el-table-column>
+
+            <el-table-column label="销售比例" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                {{scope.row.saleProportion}}
+              </template>
+            </el-table-column>
+
+            <el-table-column label="加盟商比例" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                {{scope.row.franchiseeProportion}}
+              </template>
+            </el-table-column>
+
+            <el-table-column
+                    fixed="right"
+                    label="操作"
+                    width="120">
+              <template slot-scope="scope">
+                <el-button type="danger" @click="onDeleteDetailPrice(scope.$index, scope.row)" v-if="scope.$index % 2 === 1" size="mini">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </template>
+      </el-table-column>
       <el-table-column
-        type="selection"
-        width="55">
+              type="index"
+              width="50">
+      </el-table-column>
+      <el-table-column label="线路报价ID" :show-overflow-tooltip="true">
+      <template slot-scope="scope">
+        {{scope.row.routerDetailSeries}}
+      </template>
+    </el-table-column>
+
+      <el-table-column label="线路编号" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.routerNumber}}
+        </template>
       </el-table-column>
 
       <el-table-column label="线路别名" :show-overflow-tooltip="true">
@@ -19,28 +85,43 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="调度人姓名" :show-overflow-tooltip="true">
+      <el-table-column
+              fixed="right"
+              label="操作"
+              width="160">
         <template slot-scope="scope">
-          {{scope.row.customerName}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作" align="center">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button @click="onEditCustomerPrice(scope.$index, scope.row)" type="primary" size="mini">编辑</el-button>
+          <el-button @click="onDeleteCustomerPrice(scope.$index, scope.row)" type="danger" size="mini">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+
+
   </div>
 </template>
 
 <script>
 import util from "@/libs/util.js";
-import { deleteRouterAndEmployee } from "@/api/schedule";
-
+import { getRouterAliaSearchList } from "@/api/schedule";
+import { getCarTypeList } from "@/api/order";
+import {
+    getAllRouterCustomerPrice,
+    getMasterCustomerList,
+    addRouterCustomerPrice,
+    deleteRouterByRouterId,
+    deleteRouterCustomerPrice,
+    updateBatchRouterPrice,
+    updateRouterCustomerPrice,
+    getConsumerRouterPriceByRouterId
+} from "@/api/price";
+import {
+    getAllPrv,
+    getAllCity,
+    getAllCityArea,
+    getAllTown,
+    getCarSizeList
+} from "@/api/dictionary";
 export default {
   props: {
     tableData: {
@@ -52,6 +133,7 @@ export default {
   },
   data() {
     return {
+      customerNumId: util.cookies.get('__user__customernumid'),
       currentTableData: [],
       multipleSelection: [],
       downloadColumns: [
@@ -75,21 +157,7 @@ export default {
     }
   },
   methods: {
-    _deleteRouterAndEmployee(params, index) {
-      deleteRouterAndEmployee(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            this.currentTableData.splice(index, 1);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+
     handleDelete(index, row) {
       console.log(index, row);
       this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
@@ -149,7 +217,18 @@ export default {
         .then(() => {
           this.$message("导出CSV成功");
         });
-    }
+    },
+      onDeleteDetailPrice(index, row) {
+          this.$emit("onDeleteDetailPrice",{routerPriceId: row.routerPriceId});
+      }
+      ,
+      onDeleteCustomerPrice(index, row) {
+          this.$emit("onDeleteCustomerPrice",{routerDetailSeries: row.routerDetailSeries});
+      }
+      ,
+      onEditCustomerPrice(index, row) {
+          this.$emit("onEditCustomerPrice",{customerSeries:row.customerSeries,routerDetailSeries:row.routerDetailSeries});
+      }
   }
 };
 </script>

@@ -13,45 +13,51 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="客户名称" :show-overflow-tooltip="true">
+      <el-table-column label="车牌号" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.customerName}}
+          {{scope.row.carPlateNumber}}
         </template>
       </el-table-column>
 
-      <el-table-column label="客户代码" :show-overflow-tooltip="true">
+      <el-table-column label="车型" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.customerSimpleCode}}
+          {{scope.row.carTypeRealName}}
         </template>
       </el-table-column>
 
-      <el-table-column label="所在地区" :show-overflow-tooltip="true">
+      <el-table-column label="尺寸" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.prvCityArea}}
+          {{scope.row.carSizeRealName}}
         </template>
       </el-table-column>
 
-      <el-table-column label="联系人" :show-overflow-tooltip="true">
+      <el-table-column label="司机姓名" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.contactName}}
+          {{scope.row.driverName}}
         </template>
       </el-table-column>
 
-      <el-table-column label="联系电话" :show-overflow-tooltip="true">
+      <el-table-column label="司机身份证" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.contactPhone}}
+          {{scope.row.driverIdentityId}}
         </template>
       </el-table-column>
 
-      <el-table-column label="销售员" :show-overflow-tooltip="true">
+      <el-table-column label="司机手机" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.saleName}}
+          {{scope.row.driverPhone}}
         </template>
       </el-table-column>
 
-      <el-table-column label="注册日期" :show-overflow-tooltip="true">
+      <el-table-column label="激活状态" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.createDtme}}
+          {{scope.row.driverPhone}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="审核状态" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.checkStatusName}}
         </template>
       </el-table-column>
 
@@ -67,7 +73,7 @@
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            @click="onDeleteCar(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
 
@@ -77,7 +83,19 @@
 
 <script>
 import util from "@/libs/util.js";
-import { deleteMasterCustomer } from "@/api/customer";
+import {
+    getAllCar,
+    deleteCar,
+    getMotorcadeList,
+    addCar,
+    updateCar,
+    getAllCarBand,
+    getAllCarColour,
+    getAllCarType,
+    getCarDetail,
+    getCarWeightList,
+    getCarSizeList
+} from "@/api/truck";
 
 export default {
   props: {
@@ -90,6 +108,7 @@ export default {
   },
   data() {
     return {
+      customerNumId: util.cookies.get("__user__customernumid"),
       currentTableData: [],
       multipleSelection: [],
       downloadColumns: [
@@ -113,43 +132,47 @@ export default {
     }
   },
   methods: {
-    _deleteMasterCustomer(params, index) {
-      deleteMasterCustomer(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            this.currentTableData.splice(index, 1);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      onDeleteCar( index, row ) {
+          this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+          })
+              .then(() => {
+                  this._deleteCar(
+                      {
+                          customerNumId: this.customerNumId,
+                          driverId: row.carId
+                      },
+                      index
+                  );
+              })
+              .catch(() => {
+                  console.log("取消删除");
+              });
+      },
+      _deleteCar(params, index) {
+
+          deleteCar(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "删除成功!"
+                      });
+                      this.tableData.splice(index, 1);
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+    handleEdit(index, row) {
+        this.$emit("updateCarDetail",{carId:row.carId});
     },
-    handleDelete(index, row) {
-      console.log(index, row);
-      this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this._deleteMasterCustomer(
-            {
-              customerNumId: util.cookies.get("__user__customernumid"),
-              series: row.customerMasterId
-            },
-            index
-          );
-        })
-        .catch(() => {
-          console.log("取消删除");
-        });
+    handleCheckDetail(index, row) {
+        this.$emit("getCarDetail",{carId:row.carId});
     },
-    handleEdit(index, row) {},
-    handleCheckDetail(index, row) {},
     handleSwitchChange(val, index) {
       const oldValue = this.currentTableData[index];
       this.$set(this.currentTableData, index, {

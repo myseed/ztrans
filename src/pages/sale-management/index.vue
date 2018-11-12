@@ -22,7 +22,7 @@ import {
     getAllSale
 } from "@/api/sale";
 import { getAllEmployee } from "@/api/employee";
-import Cookies from "js-cookie";
+import util from "@/libs/util";
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
@@ -68,6 +68,7 @@ export default {
       });
 
         getAllSale({
+        customerNumId: util.cookies.get("__user__customernumid"),
         current: this.page.current,
         pageSize: this.page.size,
         ...form

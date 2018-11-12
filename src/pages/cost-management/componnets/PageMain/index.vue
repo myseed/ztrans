@@ -13,82 +13,72 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="订单号" :show-overflow-tooltip="true">
+      <el-table-column label="订单号" :show-overflow-tooltip="true"  width="150">
         <template slot-scope="scope">
           {{scope.row.series}}
         </template>
       </el-table-column>
 
-      <el-table-column label="线路别名（编号）" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          {{scope.row.routerAlisa}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="订单状态" :show-overflow-tooltip="true" width="70">
-        <template slot-scope="scope">
-          {{scope.row.deliveryStatus}}
-        </template>
-      </el-table-column>
-
-      <el-table-column label="订单类型" :show-overflow-tooltip="true" width="80">
-        <template slot-scope="scope">
-          {{scope.row.orderType}}
-        </template>
-      </el-table-column>
-      
-      <el-table-column label="车型" :show-overflow-tooltip="true" width="80">
+      <el-table-column label="车型" :show-overflow-tooltip="true" width="120">
         <template slot-scope="scope">
           {{scope.row.carTypeName}}
         </template>
       </el-table-column>
-      
-      <el-table-column label="尺寸" :show-overflow-tooltip="true" width="60">
+
+      <el-table-column label="客户名字" :show-overflow-tooltip="true" width="190">
         <template slot-scope="scope">
-          {{scope.row.carSizeName}}
+          {{scope.row.customerName}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="车牌号" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.carPlateNumber}}
         </template>
       </el-table-column>
       
-      <el-table-column label="用车时间" :show-overflow-tooltip="true">
+      <el-table-column label="司机名字" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.driverName}}
+        </template>
+      </el-table-column>
+      
+      <el-table-column label="线路别名" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.routerAlia}}
+        </template>
+      </el-table-column>
+      
+      <el-table-column label="预约时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.appointmentDate}}
         </template>
       </el-table-column>
       
-      <el-table-column label="客户名称" :show-overflow-tooltip="true">
+      <el-table-column label="销售员" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
-          {{scope.row.masterCustomerName}}
+          {{scope.row.saleName}}
         </template>
       </el-table-column>
       
-      <el-table-column label="下单人" :show-overflow-tooltip="true">
+      <el-table-column label="客户应付" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
-          {{scope.row.createOrderName}}
+          {{scope.row.orderMoney}}
         </template>
       </el-table-column>
       
-      <el-table-column label="下单时间" :show-overflow-tooltip="true">
+      <el-table-column label="司机应收" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
-          {{scope.row.createOrderTime}}
-        </template>
-      </el-table-column>
-      
-      <el-table-column label="操作" align="center" width="300">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="primary"
-            @click="handleDelete(scope.$index, scope.row)">变更车辆</el-button>
-          <el-button
-            size="mini"
-            @click="handleDelete(scope.$index, scope.row)">订单详情</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">废弃订单</el-button>
+          {{scope.row.driverMoney}}
         </template>
       </el-table-column>
 
+
+      <el-table-column label="司机额外费用" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.driverAddFee}}
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
