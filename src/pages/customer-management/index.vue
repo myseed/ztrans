@@ -441,7 +441,7 @@ export default {
       addCustomerPopDialog: false,
       page: {
         current: 1,
-        size: 100,
+        size: 10,
         total: 0
       }
     };
@@ -809,9 +809,9 @@ export default {
 
           this.table = res.customerMaster;
           this.page = {
-            current: 1,
-            size: this.page.size,
-            total: res.total
+              current: this.page.current,
+              size: this.page.size,
+              total: res.total
           };
         })
         .catch(err => {

@@ -5,7 +5,6 @@ import util from '@/libs/util.js'
 import { Base64 } from 'js-base64'
 import MD5 from 'md5'
 import { CONFIG } from './config'
-import Cookies from 'js-cookie'
 
 export function paramsify (params) {
   return Base64.encode(JSON.stringify(params))
@@ -25,5 +24,4 @@ export function timestamp () {
 
 export function sid () {
   return util.cookies.get('__user__sid')
-  // return Cookies.get('__user__sid')
 }

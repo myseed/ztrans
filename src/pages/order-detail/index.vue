@@ -123,120 +123,119 @@
 </template>
 
 <script>
-    import { getOrderDetailBySeries } from "@/api/order";
-    import util from "@/libs/util";
-    export default {
-        data() {
-            return {
-                customerNumId: util.cookies.get("__user__customernumid"),
-                orderId: "",
-                order: {
-                    series: "",
-                    routerAlisa: "",
-                    carTypeName: "",
-                    carSizeName: "",
-                    wetherTakeover: "",
-                    appointmentDate: "",
-                    masterCustomerName: "",
-                    createOrderName: "",
-                    routerStations: [],
-                    goodsRemark: "",
-                    remark: "",
-                    createOrderTime: "",
-                    sendAddressDetail: "",
-                    sendGoodsPersonName: "",
-                    sendGoodsPersonMobile: "",
-                    receiveGoodsPersonMobile: "",
-                    receiveGoodsPersonName: "",
-                    receiveAddressDetail: "",
-                    carPlateNumber: "",
-                    driverName: "",
-                    driverPhone: "",
-                    driverIdentityId: "",
-                    orderMoney: "",
-                    driverMoney: "",
-                    deliverStatus: "",
-                    orderBalanceStatus: "",
-                    orderType: "",
-                    driverRemark: "",
-                    driverReceitp: "",
-                    driverAddFee: "",
-                    driverCarSizeRealName: "",
-                    driverCarTypeRealName: "",
-                    driverCarBrandRealName: "",
-                    driverCarWeightRealName: "",
-                    routerSource: "",
-                    routerDestination: ""
-                }
-            };
-        },
-
-        created() {
-            this.orderId = this.$route.query.orderId;
-            if (!this.orderId == "") {
-                this.getOrder();
-                this._getOrderDetailBySeries({
-                    customerNumId: this.customerNumId,
-                    series: this.orderId
-                });
-            }
-        },
-        watch: {},
-        methods: {
-            getOrder() {
-                this._getOrderDetailBySeries({
-                    customerNumId: this.customerNumId,
-                    series: this.orderId
-                });
-            },
-            _getOrderDetailBySeries(params) {
-
-                getOrderDetailBySeries(params)
-                    .then(res => {
-                        if (res.code === 0) {
-                            this.order.series = res.series;
-                            this.order.routerAlisa = res.routerAlisa;
-                            this.order.carTypeName = res.carTypeName;
-                            this.order.carSizeName = res.carSizeName;
-                            this.order.wetherTakeover = res.wetherTakeover;
-                            this.order.appointmentDate = res.appointmentDate;
-                            this.order.masterCustomerName = res.masterCustomerName;
-                            this.order.createOrderName = res.createOrderName;
-                            this.order.routerStations = res.routerStations;
-                            this.order.goodsRemark = res.goodsRemark;
-                            this.order.remark = res.remark;
-                            this.order.createOrderTime = res.createOrderTime;
-                            this.order.sendAddressDetail = res.sendAddressDetail;
-                            this.order.sendGoodsPersonName = res.sendGoodsPersonName;
-                            this.order.sendGoodsPersonMobile = res.sendGoodsPersonMobile;
-                            this.order.receiveGoodsPersonMobile = res.receiveGoodsPersonMobile;
-                            this.order.receiveGoodsPersonName = res.receiveGoodsPersonName;
-                            this.order.receiveAddressDetail = res.receiveAddressDetail;
-                            this.order.carPlateNumber = res.carPlateNumber;
-                            this.order.driverName = res.driverName;
-                            this.order.driverPhone = res.driverPhone;
-                            this.order.driverIdentityId = res.driverIdentityId;
-                            this.order.orderMoney = res.orderMoney;
-                            this.order.driverMoney = res.driverMoney;
-                            this.order.deliverStatus = res.deliverStatus;
-                            this.order.orderBalanceStatus = res.orderBalanceStatus;
-                            this.order.orderType = res.orderType;
-                            this.order.driverRemark = res.driverRemark;
-                            this.order.driverReceitp = res.driverReceitp;
-                            this.order.driverAddFee = res.driverAddFee;
-                            this.order.driverCarSizeRealName = res.driverCarSizeRealName;
-                            this.order.driverCarTypeRealName = res.driverCarTypeRealName;
-                            this.order.driverCarBrandRealName = res.driverCarBrandRealName;
-                            this.order.driverCarWeightRealName = res.driverCarWeightRealName;
-                            this.order.routerSource = res.routerSource;
-                            this.order.routerDestination = res.routerDestination;
-                            this.order.initPrice = res.initPrice;
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            }
-        }
+import {getOrderDetailBySeries} from '@/api/order';
+import util from '@/libs/util';
+export default {
+  data() {
+    return {
+      customerNumId: util.cookies.get('__user__customernumid'),
+      orderId: '',
+      order: {
+        series: '',
+        routerAlisa: '',
+        carTypeName: '',
+        carSizeName: '',
+        wetherTakeover: '',
+        appointmentDate: '',
+        masterCustomerName: '',
+        createOrderName: '',
+        routerStations: [],
+        goodsRemark: '',
+        remark: '',
+        createOrderTime: '',
+        sendAddressDetail: '',
+        sendGoodsPersonName: '',
+        sendGoodsPersonMobile: '',
+        receiveGoodsPersonMobile: '',
+        receiveGoodsPersonName: '',
+        receiveAddressDetail: '',
+        carPlateNumber: '',
+        driverName: '',
+        driverPhone: '',
+        driverIdentityId: '',
+        orderMoney: '',
+        driverMoney: '',
+        deliverStatus: '',
+        orderBalanceStatus: '',
+        orderType: '',
+        driverRemark: '',
+        driverReceitp: '',
+        driverAddFee: '',
+        driverCarSizeRealName: '',
+        driverCarTypeRealName: '',
+        driverCarBrandRealName: '',
+        driverCarWeightRealName: '',
+        routerSource: '',
+        routerDestination: '',
+      },
     };
+  },
+
+  created() {
+    this.orderId = this.$route.query.orderId;
+    if (!this.orderId == '') {
+      this.getOrder();
+      this._getOrderDetailBySeries({
+        customerNumId: this.customerNumId,
+        series: this.orderId,
+      });
+    }
+  },
+  watch: {},
+  methods: {
+    getOrder() {
+      this._getOrderDetailBySeries({
+        customerNumId: this.customerNumId,
+        series: this.orderId,
+      });
+    },
+    _getOrderDetailBySeries(params) {
+      getOrderDetailBySeries(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.order.series = res.series;
+            this.order.routerAlisa = res.routerAlisa;
+            this.order.carTypeName = res.carTypeName;
+            this.order.carSizeName = res.carSizeName;
+            this.order.wetherTakeover = res.wetherTakeover;
+            this.order.appointmentDate = res.appointmentDate;
+            this.order.masterCustomerName = res.masterCustomerName;
+            this.order.createOrderName = res.createOrderName;
+            this.order.routerStations = res.routerStations;
+            this.order.goodsRemark = res.goodsRemark;
+            this.order.remark = res.remark;
+            this.order.createOrderTime = res.createOrderTime;
+            this.order.sendAddressDetail = res.sendAddressDetail;
+            this.order.sendGoodsPersonName = res.sendGoodsPersonName;
+            this.order.sendGoodsPersonMobile = res.sendGoodsPersonMobile;
+            this.order.receiveGoodsPersonMobile = res.receiveGoodsPersonMobile;
+            this.order.receiveGoodsPersonName = res.receiveGoodsPersonName;
+            this.order.receiveAddressDetail = res.receiveAddressDetail;
+            this.order.carPlateNumber = res.carPlateNumber;
+            this.order.driverName = res.driverName;
+            this.order.driverPhone = res.driverPhone;
+            this.order.driverIdentityId = res.driverIdentityId;
+            this.order.orderMoney = res.orderMoney;
+            this.order.driverMoney = res.driverMoney;
+            this.order.deliverStatus = res.deliverStatus;
+            this.order.orderBalanceStatus = res.orderBalanceStatus;
+            this.order.orderType = res.orderType;
+            this.order.driverRemark = res.driverRemark;
+            this.order.driverReceitp = res.driverReceitp;
+            this.order.driverAddFee = res.driverAddFee;
+            this.order.driverCarSizeRealName = res.driverCarSizeRealName;
+            this.order.driverCarTypeRealName = res.driverCarTypeRealName;
+            this.order.driverCarBrandRealName = res.driverCarBrandRealName;
+            this.order.driverCarWeightRealName = res.driverCarWeightRealName;
+            this.order.routerSource = res.routerSource;
+            this.order.routerDestination = res.routerDestination;
+            this.order.initPrice = res.initPrice;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+  },
+};
 </script>
