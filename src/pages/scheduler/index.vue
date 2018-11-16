@@ -61,9 +61,9 @@
               title="线路别名"
               :visible.sync="innerVisible"
               append-to-body>
-        <el-form :inline="true" :model="addItemParam" size="mini">
-          <el-form-item>
-            <el-select v-model="addItemParam.routerDetailSeries" placeholder="线路别名" clearable>
+        <el-form :inline="true" :model="addItemParam" size="mini" style="text-align: right;">
+          <el-form-item style="margin-right: 0;">
+            <el-select v-model="addItemParam.routerDetailSeries" placeholder="线路别名" clearable style="width: 191px;">
               <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.series"></el-option>
             </el-select>
           </el-form-item>

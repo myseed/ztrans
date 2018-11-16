@@ -7,13 +7,14 @@
           size="mini"
           style="margin-bottom: -18px;">
 
-    <el-form-item>
-      <el-input v-model="form.routerNumberSearchKey" placeholder="线路编号" clearable></el-input>
+    <el-form-item label="线路编号">
+      <el-input v-model="form.routerNumberSearchKey" placeholder="请输入" style="width: 100px;"></el-input>
     </el-form-item>
 
-    <el-form-item>
+    <el-form-item label="线路别名">
       <el-autocomplete v-model="form.routerDetailAliaSearchKey"
-                       placeholder="线路别名"
+                       style="width: 150px;"
+                       placeholder="请输入"
                        clearable
                        :fetch-suggestions="querySearchAsync"
                        @select="handleSelect">

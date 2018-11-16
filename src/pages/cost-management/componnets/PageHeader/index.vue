@@ -7,33 +7,33 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item>
-      <el-input v-model="form.carPlateNumberSearchKey" placeholder="车牌号" style="width: 150px;"></el-input>
+    <el-form-item label="车牌号">
+      <el-input v-model="form.carPlateNumberSearchKey" placeholder="请输入" style="width: 100px;"></el-input>
     </el-form-item>
 
-    <el-form-item>
-      <el-input v-model="form.customerNameSearchKey" placeholder="客户名字" style="width: 150px;"></el-input>
+    <el-form-item label="客户名字">
+      <el-input v-model="form.customerNameSearchKey" placeholder="请输入" style="width: 100px;"></el-input>
     </el-form-item>
 
-    <el-form-item>
-      <el-select v-model="form.routerDetailSeries" placeholder="线路别名" style="width: 150px;">
+    <el-form-item label="线路别名">
+      <el-select v-model="form.routerDetailSeries" placeholder="请选择" style="width: 150px;">
         <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>
       </el-select>
     </el-form-item>
 
-
-    <el-date-picker
-            size="mini"
-            v-model="form.time"
-            @change="onTimeChange"
-            type="datetimerange"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            :picker-options="pickerOptions"
-            range-separator="至"
-            start-placeholder="约车开始日期"
-            end-placeholder="约车结束日期"
-            align="right">
-    </el-date-picker>
+    <el-form-item label="约车日期">
+      <el-date-picker
+              size="mini"
+              v-model="form.time"
+              @change="onTimeChange"
+              type="datetimerange"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="约车开始日期"
+              end-placeholder="约车结束日期">
+      </el-date-picker>
+    </el-form-item>
 
     <el-form-item>
       <el-button

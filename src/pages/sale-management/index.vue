@@ -17,7 +17,7 @@
       @change="handlePaginationChange"/>
 
     <el-dialog title="添加销售" :visible.sync="addSalePopDialog">
-      <el-form :inline="true" :model="addSaleModel" label-position="left" size="mini">
+      <el-form label-width="100px" :model="addSaleModel" label-position="left" size="mini">
         <el-form-item label="销售员名字">
           <el-input v-model="addSaleModel.salePersonName"></el-input>
         </el-form-item>
@@ -53,7 +53,7 @@
 
 
     <el-dialog title="修改销售" :visible.sync="editSalePopDialog">
-      <el-form :inline="true" :model="editSaleModel" label-position="left" size="mini">
+      <el-form label-width="100px" :model="editSaleModel" label-position="left" size="mini">
         <el-form-item label="销售员名字">
           <el-input v-model="editSaleModel.salePersonName"></el-input>
         </el-form-item>

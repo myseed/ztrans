@@ -17,7 +17,7 @@
       :total="page.total"
       @change="handlePaginationChange"/>
     <el-dialog title="添加客户" :visible.sync="addCustomerPopDialog">
-      <el-form :inline="true" :model="addCustomerItem" label-position="left" size="mini">
+      <el-form :model="addCustomerItem" label-width="100px" size="mini">
         <el-form-item label="服务类型">
           <el-select v-model="addCustomerItem.serviceType" clearable>
             <el-option v-for="(item, index) in serviceTypeModels" :key="index" :label="item.serviceTypeName" :value="item.serviceTypeId"></el-option>
@@ -114,7 +114,7 @@
     </el-dialog>
 
     <el-dialog title="编辑客户" :visible.sync="editCustomerPopDialog">
-      <el-form :inline="true" :model="editCustomerItem" label-position="left" size="mini">
+      <el-form :model="editCustomerItem" label-width="100px" size="mini">
         <el-form-item label="服务类型">
           <el-select v-model="editCustomerItem.serviceType" clearable>
             <el-option v-for="(item, index) in serviceTypeModels" :key="index" :label="item.serviceTypeName" :value="item.serviceTypeId"></el-option>
