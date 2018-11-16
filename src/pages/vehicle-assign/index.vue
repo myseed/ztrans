@@ -19,18 +19,18 @@
     <el-dialog title="修改车辆" :visible.sync="addDialog">
       <el-form :inline="true" :model="searchItemPop" size="mini">
         <el-form-item>
-          <el-input v-model="searchItemPop.carPlateNumberSearchKey" placeholder="车牌号"></el-input>
+          <el-input v-model="searchItemPop.carPlateNumberSearchKey" placeholder="车牌号" style="width: 100px;"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="searchItemPop.driverNameSearchKey" placeholder="司机姓名"></el-input>
+          <el-input v-model="searchItemPop.driverNameSearchKey" placeholder="司机姓名" style="width: 100px;"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="searchItemPop.carTypeSeries" placeholder="车型" clearable>
+          <el-select v-model="searchItemPop.carTypeSeries" placeholder="车型" clearable style="width: 135px;">
             <el-option v-for="(item, index) in carTypes" :key="index" :label="item.typeName" :value="item.typeId"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="searchItemPop.carSizeSeries" placeholder="尺寸" clearable>
+          <el-select v-model="searchItemPop.carSizeSeries" placeholder="尺寸" clearable style="width: 135px;">
             <el-option v-for="(item, index) in carSizes" :key="index" :label="item.sizeName" :value="item.sizeId"></el-option>
           </el-select>
         </el-form-item>

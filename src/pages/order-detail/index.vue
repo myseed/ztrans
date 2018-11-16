@@ -10,112 +10,112 @@
         <!--</el-form-item>-->
       <!--</el-form>-->
 
-      <el-form :inline="true" size="large" >
+      <el-form size="mini" label-width="120px">
         <el-form-item label="订单号" >
-          <el-input v-model="order.series" style="width:200px" disabled></el-input>
+          <el-input v-model="order.series" disabled></el-input>
         </el-form-item>
         <el-form-item label="线路别名" >
-          <el-input v-model="order.routerAlisa" style="width:300px" disabled></el-input>
+          <el-input v-model="order.routerAlisa" disabled></el-input>
         </el-form-item>
         <el-form-item label="订单报价" >
-          <el-input v-model="order.orderMoney" style="width:200px" disabled></el-input>
+          <el-input v-model="order.orderMoney" disabled></el-input>
         </el-form-item>
         <el-form-item label="订单状态" >
-          <el-input v-model="order.deliverStatus" style="width:200px" disabled></el-input>
+          <el-input v-model="order.deliverStatus" disabled></el-input>
         </el-form-item>
         <el-form-item label="订单结算状态" >
-          <el-input v-model="order.orderBalanceStatus" style="width:200px" disabled></el-input>
+          <el-input v-model="order.orderBalanceStatus" disabled></el-input>
         </el-form-item>
         <el-form-item label="订单类型" >
-          <el-input v-model="order.orderType" style="width:200px" disabled></el-input>
+          <el-input v-model="order.orderType" disabled></el-input>
         </el-form-item>
         <el-form-item label="订单车辆车型" >
-          <el-input v-model="order.carTypeName" style="width:200px" disabled></el-input>
+          <el-input v-model="order.carTypeName" disabled></el-input>
         </el-form-item>
         <el-form-item label="订单车辆尺寸" >
-          <el-input v-model="order.carSizeName" style="width:200px" disabled></el-input>
+          <el-input v-model="order.carSizeName" disabled></el-input>
         </el-form-item>
         <el-form-item label="需要搬卸" >
-          <el-input v-model="order.wetherTakeover"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.wetherTakeover" disabled></el-input>
         </el-form-item>
         <el-form-item label="用车时间" >
-          <el-input v-model="order.appointmentDate"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.appointmentDate" disabled></el-input>
         </el-form-item>
         <el-form-item label="客户名称" >
-          <el-input v-model="order.masterCustomerName"   style="width:250px" disabled></el-input>
+          <el-input v-model="order.masterCustomerName" disabled></el-input>
         </el-form-item>
         <el-form-item label="下单人名字" >
-          <el-input v-model="order.createOrderName"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.createOrderName" disabled></el-input>
         </el-form-item>
         <el-form-item label="经停站点" >
-          <el-input v-model="order.routerStations"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.routerStations" disabled></el-input>
         </el-form-item>
 
         <el-form-item label="下单时间" >
-          <el-input v-model="order.createOrderTime"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.createOrderTime" disabled></el-input>
         </el-form-item>
         <el-form-item label="发货地址详情" >
-          <el-input v-model="order.sendAddressDetail"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.sendAddressDetail" disabled></el-input>
         </el-form-item>
         <el-form-item label="发货人" >
-          <el-input v-model="order.sendGoodsPersonName"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.sendGoodsPersonName" disabled></el-input>
         </el-form-item>
         <el-form-item label="发货人联系电话" >
-          <el-input v-model="order.sendGoodsPersonMobile"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.sendGoodsPersonMobile" disabled></el-input>
         </el-form-item>
         <el-form-item label="收货人联系电话" >
-          <el-input v-model="order.receiveGoodsPersonMobile"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.receiveGoodsPersonMobile" disabled></el-input>
         </el-form-item>
         <el-form-item label="收货人" >
-          <el-input v-model="order.receiveGoodsPersonName"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.receiveGoodsPersonName" disabled></el-input>
         </el-form-item>
         <el-form-item label="收货地址详情" >
-          <el-input v-model="order.receiveAddressDetail"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.receiveAddressDetail" disabled></el-input>
         </el-form-item>
         <el-form-item label="车牌号" >
-          <el-input v-model="order.carPlateNumber"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.carPlateNumber" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机名字" >
-          <el-input v-model="order.driverName"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.driverName" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机电话" >
-          <el-input v-model="order.driverPhone"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.driverPhone" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机身份证" >
-          <el-input v-model="order.driverIdentityId"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.driverIdentityId" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机交接单" >
-          <el-input v-model="order.driverReceitp"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.driverReceitp" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机额外费用" >
-          <el-input v-model="order.driverAddFee"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.driverAddFee" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机车辆尺寸" >
-          <el-input v-model="order.driverCarSizeRealName"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.driverCarSizeRealName" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机车辆车型" >
-          <el-input v-model="order.driverCarTypeRealName"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.driverCarTypeRealName" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机车辆品牌" >
-          <el-input v-model="order.driverCarBrandRealName"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.driverCarBrandRealName" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机车辆重量" >
-          <el-input v-model="order.driverCarWeightRealName"   style="width:200px" disabled></el-input>
+          <el-input v-model="order.driverCarWeightRealName" disabled></el-input>
         </el-form-item>
         <el-form-item label="线路起始地" >
-          <el-input v-model="order.routerSource"   style="width:400px" disabled></el-input>
+          <el-input v-model="order.routerSource" disabled></el-input>
         </el-form-item>
-        <el-form-item label="线路目的地" style="width:700px">
-          <el-input v-model="order.routerDestination"   style="width:400px" disabled></el-input>
+        <el-form-item label="线路目的地">
+          <el-input v-model="order.routerDestination" disabled></el-input>
         </el-form-item>
         <el-form-item label="货物描述" >
-          <el-input type="textarea" v-model="order.goodsRemark"  :rows="7"  style="width:400px" disabled></el-input>
+          <el-input type="textarea" v-model="order.goodsRemark"  :rows="7" disabled></el-input>
         </el-form-item>
         <el-form-item label="下单人备注" >
-          <el-input type="textarea" v-model="order.remark"   :rows="7" style="width:400px" disabled></el-input>
+          <el-input type="textarea" v-model="order.remark"   :rows="7" disabled></el-input>
         </el-form-item>
         <el-form-item label="司机备注" >
-          <el-input type="textarea" v-model="order.driverRemark"  :rows="7"  style="width:400px" disabled></el-input>
+          <el-input type="textarea" v-model="order.driverRemark"  :rows="7" disabled></el-input>
         </el-form-item>
       </el-form>
     </template>
