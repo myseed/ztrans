@@ -23,7 +23,7 @@
         线路设置
       </div>
       <div class="block" style="text-align: left; padding: 0 15px">
-        <el-form :inline="true" :model="addItem" size="mini" >
+        <el-form label-width="120px" :model="addItem" size="mini" >
           <el-form-item label="线路编号">
             <el-input v-model="addItem.routerNumber" placeholder="请输入"></el-input>
           </el-form-item>
@@ -162,7 +162,7 @@
             title="新增报价"
             :visible.sync="innerAddVisible"
             append-to-body>
-      <el-form :inline="true" size="mini">
+      <el-form label-width="145px" size="mini">
         <el-form-item label="车型">
           <el-select v-model="carTypeName" placeholder="请选择" clearable>
             <el-option v-for="(item, index) in carTypes" :key="index" :label="item.typeName" :value="`${item.typeId}-${item.typeName}`"></el-option>
@@ -178,7 +178,7 @@
         客户报价
       </div>
       <div class="block" style="padding: 0 15px">
-        <el-form :inline="true" :model="priceSetAddItem0" size="mini">
+        <el-form label-width="130px" :model="priceSetAddItem0" size="mini">
           <el-form-item label="起步距离(公里)">
             <el-input v-model="priceSetAddItem0.initDistance" placeholder=""></el-input>
           </el-form-item>
@@ -200,7 +200,7 @@
         司机报价
       </div>
       <div class="block" style="padding: 0 15px">
-        <el-form :inline="true" :model="priceSetAddItem1" size="mini">
+        <el-form label-width="130px" :model="priceSetAddItem1" size="mini">
           <el-form-item label="起步距离(公里)">
             <el-input v-model="priceSetAddItem1.initDistance" placeholder=""></el-input>
           </el-form-item>
@@ -228,7 +228,7 @@
         线路设置
       </div>
       <div class="block" style="text-align: left; padding: 0 15px">
-        <el-form :inline="true" :model="addItem" size="mini">
+        <el-form label-width="120px" :model="addItem" size="mini">
           <el-form-item label="线路编号">
             <el-input v-model="addItem.routerNumber" placeholder="请输入"></el-input>
           </el-form-item>
@@ -367,7 +367,7 @@
             title="编辑报价"
             :visible.sync="innerEditVisible"
             append-to-body>
-      <el-form :inline="true" size="mini">
+      <el-form label-width="145px"  size="mini">
         <el-form-item label="车型">
           <el-select v-model="carTypeName" placeholder="请选择" clearable>
             <el-option v-for="(item, index) in carTypes" :key="index" :label="item.typeName" :value="`${item.typeId}-${item.typeName}`"></el-option>
@@ -383,7 +383,7 @@
         客户报价
       </div>
       <div class="block" style="padding: 0 15px">
-        <el-form :inline="true" :model="priceSetAddItem0" size="mini">
+        <el-form label-width="130px" :model="priceSetAddItem0" size="mini">
           <el-form-item label="起步距离(公里)">
             <el-input v-model="priceSetAddItem0.initDistance" placeholder=""></el-input>
           </el-form-item>
@@ -405,7 +405,7 @@
         司机报价
       </div>
       <div class="block" style="padding: 0 15px">
-        <el-form :inline="true" :model="priceSetAddItem1" size="mini">
+        <el-form label-width="130px" :model="priceSetAddItem1" size="mini">
           <el-form-item label="起步距离(公里)">
             <el-input v-model="priceSetAddItem1.initDistance" placeholder=""></el-input>
           </el-form-item>

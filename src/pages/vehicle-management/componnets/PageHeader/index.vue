@@ -7,14 +7,14 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item>
-      <el-select v-model="form.motorcadeId" placeholder="所属车队" clearable>
+    <el-form-item label="所属车队">
+      <el-select v-model="form.motorcadeId" placeholder="请选择" style="width: 150px;">
         <el-option v-for="(item, index) in motorcadeNameList" :key="index" :label="item.motorcadeCar" :value="item.motorcadeId"></el-option>
       </el-select>
     </el-form-item>
 
-    <el-form-item>
-      <el-select v-model="form.checkStatus" placeholder="审核状态" clearable>
+    <el-form-item label="审核状态">
+      <el-select v-model="form.checkStatus" placeholder="请选择" style="width: 150px;">
         <el-option v-for="(item, index) in checkIdAndCheckStatus" :key="index" :label="item.checkStatusName" :value="item.checkStatusId"></el-option>
       </el-select>
     </el-form-item>

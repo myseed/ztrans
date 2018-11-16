@@ -67,7 +67,7 @@
       </el-row>
     </el-dialog>
     <el-dialog title="添加车辆" :visible.sync="addCarPopDialog">
-      <el-form :inline="true" :model="addCarItem" label-position="left" size="mini">
+      <el-form :model="addCarItem" label-width="100px" size="mini">
         <el-form-item label="驾驶员姓名">
           <el-input v-model="addCarItem.driverName" placeholder=""></el-input>
         </el-form-item>
@@ -232,7 +232,7 @@
       </div>
     </el-dialog>
     <el-dialog title="编辑车辆" :visible.sync="editCarPopDialog">
-      <el-form :inline="true" :model="addCarItem" label-position="left" size="mini">
+      <el-form :model="addCarItem" label-width="100px" size="mini">
         <el-form-item label="驾驶员姓名">
           <el-input v-model="addCarItem.driverName" placeholder=""></el-input>
         </el-form-item>
