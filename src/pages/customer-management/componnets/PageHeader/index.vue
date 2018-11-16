@@ -79,22 +79,22 @@
 </template>
 
 <script>
-import util from "@/libs/util";
-import { getAllSaleList } from "@/api/customer";
+import util from '@/libs/util';
+import {getAllSaleList} from '@/api/customer';
 
 export default {
   data() {
     return {
       customerSales: [],
-      registerTime: "",
+      registerTime: '',
       form: {
-        customerNumId: util.cookies.get("__user__customernumid"),
-        saleId: "",
-        contactNameSearchKey: "",
-        customerNameSearchKey: "",
-        mobilePhoneSearchKey: "",
-        registerEndTime: "",
-        registerStartTime: ""
+        customerNumId: util.cookies.get('__user__customernumid'),
+        saleId: '',
+        contactNameSearchKey: '',
+        customerNameSearchKey: '',
+        mobilePhoneSearchKey: '',
+        registerEndTime: '',
+        registerStartTime: '',
       },
       rules: {},
       pickerOptions: {
@@ -103,40 +103,40 @@ export default {
         },
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              picker.$emit('pick', [start, end]);
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              picker.$emit('pick', [start, end]);
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      }
+              picker.$emit('pick', [start, end]);
+            },
+          },
+        ],
+      },
     };
   },
   created() {
     this._getAllSaleList({
       customerNumId: this.form.customerNumId,
-      franchiseeId: ""
+      franchiseeId: '',
     });
   },
   methods: {
@@ -158,11 +158,11 @@ export default {
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.$emit("submit", this.form);
+          this.$emit('submit', this.form);
         } else {
           this.$notify.error({
-            title: "错误",
-            message: "表单校验失败"
+            title: '错误',
+            message: '表单校验失败',
           });
           return false;
         }
@@ -170,11 +170,11 @@ export default {
     },
     handleFormReset() {
       this.$refs.form.resetFields();
-      this.registerTime = "";
+      this.registerTime = '';
     },
     handleAdd() {
-      this.$emit("add");
-    }
-  }
+      this.$emit('add');
+    },
+  },
 };
 </script>

@@ -12,11 +12,29 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import Cookies from 'js-cookie'
+import { getUnDealOrderCount } from '@/api/order'
 export default {
+  data () {
+    return {
+      customerNumId: Cookies.get('__user__customernumid'),
+      timr: null
+    }
+  },
   computed: {
     ...mapState('d2admin/user', [
       'info'
     ])
+  },
+  created () {
+    this.timr = setInterval(() => {
+      this._getUnDealOrderCount({
+        customerNumId: this.customerNumId
+      })
+    }, 1000 * 60 * 5)
+  },
+  destroyed () {
+    this.timr = null
   },
   methods: {
     ...mapActions('d2admin/account', [
@@ -29,6 +47,20 @@ export default {
       this.logout({
         vm: this,
         confirm: true
+      })
+    },
+    _getUnDealOrderCount (params) {
+      getUnDealOrderCount(params).then(res => {
+        if (res.code === 0) {
+          if (res.total > 0) {
+            this.$message({
+              message: `您有${res.total}条订单尚未处理!`,
+              type: 'warning'
+            })
+          }
+        }
+      }).catch(err => {
+        console.log(err)
       })
     }
   }

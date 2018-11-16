@@ -30,53 +30,47 @@
 
 <script>
 /* eslint-disable */
-require('particles.js')
-import config from './config/default'
-import { mapActions } from 'vuex'
+require('particles.js');
+import config from './config/default';
+import {mapActions} from 'vuex';
 export default {
-  data () {
+  data() {
     return {
       // 快速选择用户
       dialogVisible: false,
       // 表单
       formLogin: {
         username: 'admin123',
-        password: 'admin123'
+        password: 'admin123',
       },
       // 校验
       rules: {
-        username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
-        ]
-      }
-    }
+        username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+        password: [{required: true, message: '请输入密码', trigger: 'blur'}],
+      },
+    };
   },
-  mounted () {
+  mounted() {
     // 初始化例子插件
-    particlesJS('login', config)
+    particlesJS('login', config);
   },
-  beforeDestroy () {
+  beforeDestroy() {
     // 销毁 particlesJS
     // thanks https://github.com/d2-projects/d2-admin/issues/65
     // ref https://github.com/VincentGarreau/particles.js/issues/63
     if (pJSDom && pJSDom.length > 0) {
-      pJSDom[0].pJS.fn.vendors.destroypJS()
-      pJSDom = []
+      pJSDom[0].pJS.fn.vendors.destroypJS();
+      pJSDom = [];
     }
   },
   methods: {
-    ...mapActions('d2admin/account', [
-      'login'
-    ]),
+    ...mapActions('d2admin/account', ['login']),
     /**
      * @description 提交表单
      */
     // 提交登录信息
-    submit () {
-      this.$refs.loginForm.validate((valid) => {
+    submit() {
+      this.$refs.loginForm.validate(valid => {
         if (valid) {
           // 登录
           // 注意 这里的演示没有传验证码
@@ -84,16 +78,16 @@ export default {
           this.login({
             vm: this,
             customerAccount: this.formLogin.username,
-            customerPassword: this.formLogin.password
-          })
+            customerPassword: this.formLogin.password,
+          });
         } else {
           // 登录表单校验失败
-          this.$message.error('表单校验失败')
+          this.$message.error('表单校验失败');
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">

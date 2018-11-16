@@ -407,39 +407,39 @@
 </template>
 
 <script>
-import util from "@/libs/util";
-import { getRouterAliaList } from "@/api/schedule";
-import { getCarTypeList } from "@/api/order";
+import util from '@/libs/util';
+import {getRouterAliaList} from '@/api/schedule';
+import {getCarTypeList} from '@/api/order';
 import {
-    getAllCar,
-    deleteCar,
-    getMotorcadeList,
-    addCar,
-    updateCar,
-    getAllCarBand,
-    getAllCarColour,
-    getAllCarType,
-    getCarDetail,
-    getCarWeightList,
-    getCarSizeList
-} from "@/api/truck";
+  getAllCar,
+  deleteCar,
+  getMotorcadeList,
+  addCar,
+  updateCar,
+  getAllCarBand,
+  getAllCarColour,
+  getAllCarType,
+  getCarDetail,
+  getCarWeightList,
+  getCarSizeList,
+} from '@/api/truck';
 import {
-    getCheckStatus,
-    getActiveStatus,
-    getAllCity,
-    getAllCityArea,
-    getAllPrv,
-    getAllTown
-} from "@/api/dictionary";
-import { uploadPicture, deletePicture } from "@/api/picture";
+  getCheckStatus,
+  getActiveStatus,
+  getAllCity,
+  getAllCityArea,
+  getAllPrv,
+  getAllTown,
+} from '@/api/dictionary';
+import {uploadPicture, deletePicture} from '@/api/picture';
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
-  name: "vehicle-schedule",
+  name: 'vehicle-schedule',
   components: {
-    PageHeader: () => import("./componnets/PageHeader"),
-    PageMain: () => import("./componnets/PageMain"),
-    PageFooter: () => import("./componnets/PageFooter")
+    PageHeader: () => import('./componnets/PageHeader'),
+    PageMain: () => import('./componnets/PageMain'),
+    PageFooter: () => import('./componnets/PageFooter'),
   },
   data() {
     return {
@@ -447,34 +447,34 @@ export default {
       loading: false,
       routerDetail: [],
       addCarItem: {
-            activeDtme: "",
-            activeStatus: "",
-            applyDtme: "",
-            carBrand: "",
-            carColour: "",
-            carPlateNumber: "",
-            carType: "",
-            carWeight: "",
-            carSize: "",
-            checkDtme: "",
-            checkPerson: "",
-            checkRemark: "",
-            checkStatus: "",
-            cityAreaName: "",
-            cityName: "",
-            customerNumId: "",
-            driverIdentityId: "",
-            driverName: "",
-            driverPhone: "",
-            drivingLicense: "",
-            drivingPicture: "",
-            identityCard: "",
-            motorcadeId: "",
-            persomCarPicture: "",
-            prvName: ""
+        activeDtme: '',
+        activeStatus: '',
+        applyDtme: '',
+        carBrand: '',
+        carColour: '',
+        carPlateNumber: '',
+        carType: '',
+        carWeight: '',
+        carSize: '',
+        checkDtme: '',
+        checkPerson: '',
+        checkRemark: '',
+        checkStatus: '',
+        cityAreaName: '',
+        cityName: '',
+        customerNumId: '',
+        driverIdentityId: '',
+        driverName: '',
+        driverPhone: '',
+        drivingLicense: '',
+        drivingPicture: '',
+        identityCard: '',
+        motorcadeId: '',
+        persomCarPicture: '',
+        prvName: '',
       },
       editCarPopDialog: false,
-      addCarPopDialog:false,
+      addCarPopDialog: false,
       checkIdAndCheckStatus: [],
       detailCarDialog: false,
       activeStatusModels: [],
@@ -488,84 +488,84 @@ export default {
       carWeight: [],
       carSizes: [],
       carDetail: {},
-      dialogImageUrl: "",
-      customerNumId: util.cookies.get("__user__customernumid"),
+      dialogImageUrl: '',
+      customerNumId: util.cookies.get('__user__customernumid'),
       carDetail: {},
       page: {
         current: 1,
-        size: 100,
-        total: 0
-      }
+        size: 10,
+        total: 0,
+      },
     };
   },
   created() {
     this._initMyPage();
-      this._getRouterAliaList({
-          customerNumId: this.customerNumId
-      });
-      this._getCarTypeList({
-          customerNumId: this.customerNumId
-      });
-      // 获取字典接口数据
-      this._getCheckStatus({
-          customerNumId: this.customerNumId
-      });
-      this._getActiveStatus({
-          customerNumId: this.customerNumId
-      });
-      this._getMotorcadeList({
-          franchiseeid: ""
-      });
-      this._getAllCarBand({
-          current: 1,
-          pageSize: 200,
-          customerNumId: this.customerNumId
-      });
-      this._getCarWeightList({
-          customerNumId: this.customerNumId
-      });
-      this._getAllCarColour({
-          current: 1,
-          pageSize: 200,
-          customerNumId: this.customerNumId
-      });
-      this._getCarSizeList({
-          customerNumId: this.customerNumId
-      });
-      // 省市区联动数据
-      this._getAllPrv({
-          current: 1,
-          customerNumId: this.customerNumId,
-          pageSize: 200
-      });
+    this._getRouterAliaList({
+      customerNumId: this.customerNumId,
+    });
+    this._getCarTypeList({
+      customerNumId: this.customerNumId,
+    });
+    // 获取字典接口数据
+    this._getCheckStatus({
+      customerNumId: this.customerNumId,
+    });
+    this._getActiveStatus({
+      customerNumId: this.customerNumId,
+    });
+    this._getMotorcadeList({
+      franchiseeid: '',
+    });
+    this._getAllCarBand({
+      current: 1,
+      pageSize: 200,
+      customerNumId: this.customerNumId,
+    });
+    this._getCarWeightList({
+      customerNumId: this.customerNumId,
+    });
+    this._getAllCarColour({
+      current: 1,
+      pageSize: 200,
+      customerNumId: this.customerNumId,
+    });
+    this._getCarSizeList({
+      customerNumId: this.customerNumId,
+    });
+    // 省市区联动数据
+    this._getAllPrv({
+      current: 1,
+      customerNumId: this.customerNumId,
+      pageSize: 200,
+    });
   },
-    watch: {
-        "addCarItem.prvName"() {
-            this._getAllCity({
-                current: 1,
-                pageSize: 200,
-                customerNumId: this.customerNumId,
-                prvId: this.addCarItem.prvName
-            });
-        },
-        "addCarItem.cityName"() {
-            this._getAllCityArea({
-                current: 1,
-                pageSize: 200,
-                customerNumId: this.customerNumId,
-                prvId: this.addCarItem.prvName,
-                cityId: this.addCarItem.cityName
-            });
-        }
+  watch: {
+    'addCarItem.prvName'() {
+      this._getAllCity({
+        current: 1,
+        pageSize: 200,
+        customerNumId: this.customerNumId,
+        prvId: this.addCarItem.prvName,
+      });
     },
+    'addCarItem.cityName'() {
+      this._getAllCityArea({
+        current: 1,
+        pageSize: 200,
+        customerNumId: this.customerNumId,
+        prvId: this.addCarItem.prvName,
+        cityId: this.addCarItem.cityName,
+      });
+    },
+  },
   methods: {
     _initMyPage() {
       this.handleSubmit();
     },
     handlePaginationChange(val) {
       this.$notify({
-        title: "分页变化",
-        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`
+        title: '分页变化',
+        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`,
       });
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
@@ -576,326 +576,326 @@ export default {
     handleSubmit(form) {
       this.loading = true;
       this.$notify({
-        title: "开始请求数据"
+        title: '开始请求数据',
       });
-        this._getAllCar({
-            customerNumId: this.customerNumId,
-            current: this.page.current,
-            pageSize: this.page.size,
-            ...form
+      this._getAllCar({
+        customerNumId: this.customerNumId,
+        current: this.page.current,
+        pageSize: this.page.size,
+        ...form,
+      });
+    },
+    _getAllCity(params) {
+      getAllCity(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.allCity = res.cityeNameAndCityeIds;
+          }
+        })
+        .catch(err => {
+          console.log(err);
         });
     },
-      _getAllCity(params) {
-          getAllCity(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.allCity = res.cityeNameAndCityeIds;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getAllCityArea(params) {
-          getAllCityArea(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.allCityArea = res.cityAreaNameAndCityAreaIdModel;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getAllCar(params) {
-          this.loading = true;
-          getAllCar(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.table = res.cars;
-                      this.page = {
-                          current: this.page.current,
-                          size: this.page.size,
-                          total: res.total
-                      };
-                      this.loading = false;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      getCarDetailTable(params) {
-          this.detailCarDialog = true;
-          this._getCarDetail({
-              carId: params.carId,
-              customerNumId: this.customerNumId
-          });
-      },
-      _getCarDetail(params) {
-          getCarDetail(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      // 清空数据
-                      this.carDetail = res.car;
-                      this.addCarItem = this.carDetail;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getRouterAliaList(params) {
-          getRouterAliaList(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.routerDetail = res.routerDetail;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getCarTypeList(params) {
-          getCarTypeList(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.carTypes = res.carTypes;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getCheckStatus(params) {
-          getCheckStatus(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.checkIdAndCheckStatus = res.checkIdAndCheckStatus;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getActiveStatus(params) {
-          getActiveStatus(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.activeStatusModels = res.activeStatusModels;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getMotorcadeList(params) {
-          getMotorcadeList(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.motorcadeNameList = res.motorcadeNameList;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getAllCarBand(params) {
-          getAllCarBand(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.carBrands = res.carBrands;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getCarWeightList(params) {
-          getCarWeightList(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.carWeight = res.carWeights;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getAllCarColour(params) {
-          getAllCarColour(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.carColours = res.carColours;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getCarSizeList(params) {
-          getCarSizeList(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.carSizes = res.carSizes;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getAllPrv(params) {
-          getAllPrv(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.allPrv = res.prvNameAndPrvIds;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      updateCarDetail(params){
-          this.addCarItem.drivingLicense = "";
-          this.addCarItem.drivingPicture = "";
-          this.addCarItem.identityCard = "";
-          this.addCarItem.persomCarPicture = "";
-          this._getCarDetail({
-              carId: params.carId,
-              customerNumId: this.customerNumId
-          });
-          this.editCarPopDialog = true;
-      },
-      onEditCarConfirm() {
-          this.addCarItem.customerNumId = this.customerNumId;
-          this._updateCar(this.addCarItem);
-      },
-      _updateCar(params) {
-          console.log(params);
-          updateCar(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.$message({
-                          type: "success",
-                          message: "编辑成功!"
-                      });
-                      this.editCarPopDialog = false;
-                      this.handleSubmit();
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      onAddCarConfirm() {
-          this.loading=true;
-          this.addCarItem.customerNumId = this.customerNumId;
-          this._addCar(this.addCarItem);
-          this.loading=false;
-      },
-      _addCar(params) {
-          if (params.carPlateNumber === "") {
-              this.$message({
-                  type: "error",
-                  message: "汽车牌照不可以为空！"
-              });
-              return;
+    _getAllCityArea(params) {
+      getAllCityArea(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.allCityArea = res.cityAreaNameAndCityAreaIdModel;
           }
-          if (params.carType === "") {
-              this.$message({
-                  type: "error",
-                  message: "车型不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getAllCar(params) {
+      this.loading = true;
+      getAllCar(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.table = res.cars;
+            this.page = {
+              current: this.page.current,
+              size: this.page.size,
+              total: res.total,
+            };
+            this.loading = false;
           }
-          if (params.carSize === "") {
-              this.$message({
-                  type: "error",
-                  message: "车尺寸不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getCarDetailTable(params) {
+      this.detailCarDialog = true;
+      this._getCarDetail({
+        carId: params.carId,
+        customerNumId: this.customerNumId,
+      });
+    },
+    _getCarDetail(params) {
+      getCarDetail(params)
+        .then(res => {
+          if (res.code === 0) {
+            // 清空数据
+            this.carDetail = res.car;
+            this.addCarItem = this.carDetail;
           }
-          if (params.prvName === "") {
-              this.$message({
-                  type: "error",
-                  message: "省不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getRouterAliaList(params) {
+      getRouterAliaList(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.routerDetail = res.routerDetail;
           }
-          if (params.cityName === "") {
-              this.$message({
-                  type: "error",
-                  message: "市不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getCarTypeList(params) {
+      getCarTypeList(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.carTypes = res.carTypes;
           }
-          if (params.cityAreaName === "") {
-              this.$message({
-                  type: "error",
-                  message: "区不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getCheckStatus(params) {
+      getCheckStatus(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.checkIdAndCheckStatus = res.checkIdAndCheckStatus;
           }
-          if (params.driverName === "") {
-              this.$message({
-                  type: "error",
-                  message: "驾驶员名字不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getActiveStatus(params) {
+      getActiveStatus(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.activeStatusModels = res.activeStatusModels;
           }
-          if (params.driverIdentityId === "") {
-              this.$message({
-                  type: "error",
-                  message: "驾驶员身份证不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getMotorcadeList(params) {
+      getMotorcadeList(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.motorcadeNameList = res.motorcadeNameList;
           }
-          if (params.driverPhone === "") {
-              this.$message({
-                  type: "error",
-                  message: "驾驶员手机号不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getAllCarBand(params) {
+      getAllCarBand(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.carBrands = res.carBrands;
           }
-          if (params.checkStatus === "") {
-              this.$message({
-                  type: "error",
-                  message: "审核状态不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getCarWeightList(params) {
+      getCarWeightList(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.carWeight = res.carWeights;
           }
-          if (params.checkPerson === "") {
-              this.$message({
-                  type: "error",
-                  message: "审核人不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getAllCarColour(params) {
+      getAllCarColour(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.carColours = res.carColours;
           }
-          if (params.checkDtme === "") {
-              this.$message({
-                  type: "error",
-                  message: "审核时间不可以为空！"
-              });
-              return;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getCarSizeList(params) {
+      getCarSizeList(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.carSizes = res.carSizes;
           }
-          addCar(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.$message({
-                          type: "success",
-                          message: "添加成功!"
-                      });
-                      this.addCarPopDialog = false;
-                      this._initMyPage();
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      handleAdd() {
-       this.addCarPopDialog=true;
-    }
-  }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    _getAllPrv(params) {
+      getAllPrv(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.allPrv = res.prvNameAndPrvIds;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    updateCarDetail(params) {
+      this.addCarItem.drivingLicense = '';
+      this.addCarItem.drivingPicture = '';
+      this.addCarItem.identityCard = '';
+      this.addCarItem.persomCarPicture = '';
+      this._getCarDetail({
+        carId: params.carId,
+        customerNumId: this.customerNumId,
+      });
+      this.editCarPopDialog = true;
+    },
+    onEditCarConfirm() {
+      this.addCarItem.customerNumId = this.customerNumId;
+      this._updateCar(this.addCarItem);
+    },
+    _updateCar(params) {
+      console.log(params);
+      updateCar(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.$message({
+              type: 'success',
+              message: '编辑成功!',
+            });
+            this.editCarPopDialog = false;
+            this.handleSubmit();
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onAddCarConfirm() {
+      this.loading = true;
+      this.addCarItem.customerNumId = this.customerNumId;
+      this._addCar(this.addCarItem);
+      this.loading = false;
+    },
+    _addCar(params) {
+      if (params.carPlateNumber === '') {
+        this.$message({
+          type: 'error',
+          message: '汽车牌照不可以为空！',
+        });
+        return;
+      }
+      if (params.carType === '') {
+        this.$message({
+          type: 'error',
+          message: '车型不可以为空！',
+        });
+        return;
+      }
+      if (params.carSize === '') {
+        this.$message({
+          type: 'error',
+          message: '车尺寸不可以为空！',
+        });
+        return;
+      }
+      if (params.prvName === '') {
+        this.$message({
+          type: 'error',
+          message: '省不可以为空！',
+        });
+        return;
+      }
+      if (params.cityName === '') {
+        this.$message({
+          type: 'error',
+          message: '市不可以为空！',
+        });
+        return;
+      }
+      if (params.cityAreaName === '') {
+        this.$message({
+          type: 'error',
+          message: '区不可以为空！',
+        });
+        return;
+      }
+      if (params.driverName === '') {
+        this.$message({
+          type: 'error',
+          message: '驾驶员名字不可以为空！',
+        });
+        return;
+      }
+      if (params.driverIdentityId === '') {
+        this.$message({
+          type: 'error',
+          message: '驾驶员身份证不可以为空！',
+        });
+        return;
+      }
+      if (params.driverPhone === '') {
+        this.$message({
+          type: 'error',
+          message: '驾驶员手机号不可以为空！',
+        });
+        return;
+      }
+      if (params.checkStatus === '') {
+        this.$message({
+          type: 'error',
+          message: '审核状态不可以为空！',
+        });
+        return;
+      }
+      if (params.checkPerson === '') {
+        this.$message({
+          type: 'error',
+          message: '审核人不可以为空！',
+        });
+        return;
+      }
+      if (params.checkDtme === '') {
+        this.$message({
+          type: 'error',
+          message: '审核时间不可以为空！',
+        });
+        return;
+      }
+      addCar(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.$message({
+              type: 'success',
+              message: '添加成功!',
+            });
+            this.addCarPopDialog = false;
+            this._initMyPage();
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handleAdd() {
+      this.addCarPopDialog = true;
+    },
+  },
 };
 </script>

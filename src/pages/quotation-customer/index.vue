@@ -620,7 +620,7 @@ export default {
         editPriceIndex: "",
       page: {
         current: 1,
-        size: 100,
+        size: 10,
         total: 0
       }
     };
@@ -717,6 +717,11 @@ export default {
               .then(res => {
                   if (res.code === 0) {
                       this.table = res.allRouterPriceGetModels;
+                      this.page = {
+                          current: this.page.current,
+                          size: this.page.size,
+                          total: res.total
+                      };
                   }
               })
               .catch(err => {

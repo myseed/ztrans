@@ -82,45 +82,45 @@
 </template>
 
 <script>
-import util from "@/libs/util.js";
+import util from '@/libs/util.js';
 import {
-    getAllCar,
-    deleteCar,
-    getMotorcadeList,
-    addCar,
-    updateCar,
-    getAllCarBand,
-    getAllCarColour,
-    getAllCarType,
-    getCarDetail,
-    getCarWeightList,
-    getCarSizeList
-} from "@/api/truck";
+  getAllCar,
+  deleteCar,
+  getMotorcadeList,
+  addCar,
+  updateCar,
+  getAllCarBand,
+  getAllCarColour,
+  getAllCarType,
+  getCarDetail,
+  getCarWeightList,
+  getCarSizeList,
+} from '@/api/truck';
 
 export default {
   props: {
     tableData: {
-      default: () => []
+      default: () => [],
     },
     loading: {
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      customerNumId: util.cookies.get("__user__customernumid"),
+      customerNumId: util.cookies.get('__user__customernumid'),
       currentTableData: [],
       multipleSelection: [],
       downloadColumns: [
-        { label: "卡密", prop: "key" },
-        { label: "面值", prop: "value" },
-        { label: "状态", prop: "type" },
-        { label: "管理员", prop: "admin" },
-        { label: "管理员备注", prop: "adminNote" },
-        { label: "创建时间", prop: "dateTimeCreat" },
-        { label: "使用状态", prop: "used" },
-        { label: "使用时间", prop: "dateTimeUse" }
-      ]
+        {label: '卡密', prop: 'key'},
+        {label: '面值', prop: 'value'},
+        {label: '状态', prop: 'type'},
+        {label: '管理员', prop: 'admin'},
+        {label: '管理员备注', prop: 'adminNote'},
+        {label: '创建时间', prop: 'dateTimeCreat'},
+        {label: '使用状态', prop: 'used'},
+        {label: '使用时间', prop: 'dateTimeUse'},
+      ],
     };
   },
   watch: {
@@ -128,56 +128,55 @@ export default {
       handler(val) {
         this.currentTableData = val;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
-      onDeleteCar( index, row ) {
-          this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              type: "warning"
-          })
-              .then(() => {
-                  this._deleteCar(
-                      {
-                          customerNumId: this.customerNumId,
-                          driverId: row.carId
-                      },
-                      index
-                  );
-              })
-              .catch(() => {
-                  console.log("取消删除");
-              });
-      },
-      _deleteCar(params, index) {
-
-          deleteCar(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.$message({
-                          type: "success",
-                          message: "删除成功!"
-                      });
-                      this.tableData.splice(index, 1);
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
+    onDeleteCar(index, row) {
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          this._deleteCar(
+            {
+              customerNumId: this.customerNumId,
+              driverId: row.carId,
+            },
+            index
+          );
+        })
+        .catch(() => {
+          console.log('取消删除');
+        });
+    },
+    _deleteCar(params, index) {
+      deleteCar(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!',
+            });
+            this.tableData.splice(index, 1);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     handleEdit(index, row) {
-        this.$emit("updateCarDetail",{carId:row.carId});
+      this.$emit('updateCarDetail', {carId: row.carId});
     },
     handleCheckDetail(index, row) {
-        this.$emit("getCarDetail",{carId:row.carId});
+      this.$emit('getCarDetail', {carId: row.carId});
     },
     handleSwitchChange(val, index) {
       const oldValue = this.currentTableData[index];
       this.$set(this.currentTableData, index, {
         ...oldValue,
-        type: val
+        type: val,
       });
       // 注意 这里并没有把修改后的数据传递出去 如果需要的话请自行修改
     },
@@ -187,32 +186,32 @@ export default {
     downloadDataTranslate(data) {
       return data.map(row => ({
         ...row,
-        type: row.type ? "禁用" : "正常",
-        used: row.used ? "已使用" : "未使用"
+        type: row.type ? '禁用' : '正常',
+        used: row.used ? '已使用' : '未使用',
       }));
     },
     handleDownloadXlsx(data) {
       this.$export
         .excel({
-          title: "D2Admin 表格示例",
+          title: 'D2Admin 表格示例',
           columns: this.downloadColumns,
-          data: this.downloadDataTranslate(data)
+          data: this.downloadDataTranslate(data),
         })
         .then(() => {
-          this.$message("导出表格成功");
+          this.$message('导出表格成功');
         });
     },
     handleDownloadCsv(data) {
       this.$export
         .csv({
-          title: "D2Admin 表格示例",
+          title: 'D2Admin 表格示例',
           columns: this.downloadColumns,
-          data: this.downloadDataTranslate(data)
+          data: this.downloadDataTranslate(data),
         })
         .then(() => {
-          this.$message("导出CSV成功");
+          this.$message('导出CSV成功');
         });
-    }
-  }
+    },
+  },
 };
 </script>

@@ -56,10 +56,10 @@
 </template>
 
 <script>
-import util from "@/libs/util";
-import { getRouterAliaList } from "@/api/schedule";
-import { getCarTypeList } from "@/api/order";
-import { getOrderType } from "@/api/dictionary";
+import util from '@/libs/util';
+import {getRouterAliaList} from '@/api/schedule';
+import {getCarTypeList} from '@/api/order';
+import {getOrderType} from '@/api/dictionary';
 
 export default {
   data() {
@@ -68,11 +68,11 @@ export default {
       carTypes: [],
       orderTypes: [],
       form: {
-        customerNumId: util.cookies.get("__user__customernumid"),
-        carPlateNumberSearchKey: "",
-        customerNameSearchKey: "",
-        routerDetailSeries: "",
-        time: ""
+        customerNumId: util.cookies.get('__user__customernumid'),
+        carPlateNumberSearchKey: '',
+        customerNameSearchKey: '',
+        routerDetailSeries: '',
+        time: '',
       },
       rules: {},
       pickerOptions: {
@@ -81,34 +81,34 @@ export default {
         },
         shortcuts: [
           {
-            text: "今天",
+            text: '今天',
             onClick(picker) {
-              picker.$emit("pick", new Date());
-            }
+              picker.$emit('pick', new Date());
+            },
           },
           {
-            text: "昨天",
+            text: '昨天',
             onClick(picker) {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit("pick", date);
-            }
+              picker.$emit('pick', date);
+            },
           },
           {
-            text: "一周前",
+            text: '一周前',
             onClick(picker) {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", date);
-            }
-          }
-        ]
-      }
+              picker.$emit('pick', date);
+            },
+          },
+        ],
+      },
     };
   },
   created() {
     this._getRouterAliaList({
-      customerNumId: this.form.customerNumId
+      customerNumId: this.form.customerNumId,
     });
   },
   methods: {
@@ -126,11 +126,11 @@ export default {
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.$emit("submit", this.form);
+          this.$emit('submit', this.form);
         } else {
           this.$notify.error({
-            title: "错误",
-            message: "表单校验失败"
+            title: '错误',
+            message: '表单校验失败',
           });
           return false;
         }
@@ -138,7 +138,7 @@ export default {
     },
     handleFormReset() {
       this.$refs.form.resetFields();
-    }
-  }
+    },
+  },
 };
 </script>

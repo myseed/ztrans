@@ -17,16 +17,16 @@
 </template>
 
 <script>
-import util from "@/libs/util";
-import { getOrderPriceList } from "@/api/orderprice";
+import util from '@/libs/util';
+import {getOrderPriceList} from '@/api/orderprice';
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
-  name: "vehicle-assign",
+  name: 'vehicle-assign',
   components: {
-    PageHeader: () => import("./componnets/PageHeader"),
-    PageMain: () => import("./componnets/PageMain"),
-    PageFooter: () => import("./componnets/PageFooter")
+    PageHeader: () => import('./componnets/PageHeader'),
+    PageMain: () => import('./componnets/PageMain'),
+    PageFooter: () => import('./componnets/PageFooter'),
   },
   data() {
     return {
@@ -34,9 +34,9 @@ export default {
       loading: false,
       page: {
         current: 1,
-        size: 100,
-        total: 0
-      }
+        size: 10,
+        total: 0,
+      },
     };
   },
   created() {
@@ -48,8 +48,8 @@ export default {
     },
     handlePaginationChange(val) {
       this.$notify({
-        title: "分页变化",
-        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`
+        title: '分页变化',
+        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`,
       });
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
@@ -60,34 +60,34 @@ export default {
     handleSubmit(form) {
       this.loading = true;
       this.$notify({
-        title: "开始请求数据"
+        title: '开始请求数据',
       });
-        getOrderPriceList({
-        customerNumId: util.cookies.get("__user__customernumid"),
+      getOrderPriceList({
+        customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
         pageSize: this.page.size,
-        ...form
-     })
+        ...form,
+      })
         .then(res => {
-            this.loading = false;
-               this.$notify({
-                    title: "数据请求完毕"
-               });
+          this.loading = false;
+          this.$notify({
+            title: '数据请求完毕',
+          });
 
-                this.table = res.orderPriceModels;
-                this.page = {
-                    current: 1,
-                    size: 100,
-                    total: res.total
-                };
-            })
-            .catch(err => {
-                this.loading = false;
-                this.$notify({
-                    title: "数据请求异常"
-                });
-            });
-    }
-  }
+          this.table = res.orderPriceModels;
+          this.page = {
+            current: this.page.current,
+            size: this.page.size,
+            total: res.total,
+          };
+        })
+        .catch(err => {
+          this.loading = false;
+          this.$notify({
+            title: '数据请求异常',
+          });
+        });
+    },
+  },
 };
 </script>

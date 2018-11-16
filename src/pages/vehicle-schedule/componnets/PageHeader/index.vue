@@ -60,25 +60,25 @@
 </template>
 
 <script>
-import util from "@/libs/util";
-import { getRouterAliaList } from "@/api/schedule";
+import util from '@/libs/util';
+import {getRouterAliaList} from '@/api/schedule';
 
 export default {
   data() {
     return {
       routerDetail: [],
       form: {
-        customerNumId: util.cookies.get("__user__customernumid"),
-        routerDetailAliaSearchKey: "",
-        carPlateNumberSearchKey: "",
-        driverNameSearchKey: ""
+        customerNumId: util.cookies.get('__user__customernumid'),
+        routerDetailAliaSearchKey: '',
+        carPlateNumberSearchKey: '',
+        driverNameSearchKey: '',
       },
-      rules: {}
+      rules: {},
     };
   },
   created() {
     this._getRouterAliaList({
-      customerNumId: this.form.customerNumId
+      customerNumId: this.form.customerNumId,
     });
   },
   methods: {
@@ -96,11 +96,11 @@ export default {
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.$emit("submit", this.form);
+          this.$emit('submit', this.form);
         } else {
           this.$notify.error({
-            title: "错误",
-            message: "表单校验失败"
+            title: '错误',
+            message: '表单校验失败',
           });
           return false;
         }
@@ -110,8 +110,8 @@ export default {
       this.$refs.form.resetFields();
     },
     handleAdd() {
-      this.$emit("add");
-    }
-  }
+      this.$emit('add');
+    },
+  },
 };
 </script>

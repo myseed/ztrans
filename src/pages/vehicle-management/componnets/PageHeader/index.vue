@@ -70,30 +70,30 @@
 </template>
 
 <script>
-import util from "@/libs/util";
+import util from '@/libs/util';
 import {
-    getCheckStatus,
-    getActiveStatus,
-    getAllCity,
-    getAllCityArea,
-    getAllPrv,
-    getAllTown
-} from "@/api/dictionary";
+  getCheckStatus,
+  getActiveStatus,
+  getAllCity,
+  getAllCityArea,
+  getAllPrv,
+  getAllTown,
+} from '@/api/dictionary';
 
 export default {
   data() {
     return {
       customerSales: [],
-      registerTime: "",
+      registerTime: '',
       checkIdAndCheckStatus: [],
-      motorcadeNameList:[],
+      motorcadeNameList: [],
       form: {
-        customerNumId: util.cookies.get("__user__customernumid"),
-        motorcadeId: "",
-        checkStatus: "",
-        carPlateNumberSearchKey: "",
-        driverNameSearchKey: "",
-        driverPhoneSearchKey: "",
+        customerNumId: util.cookies.get('__user__customernumid'),
+        motorcadeId: '',
+        checkStatus: '',
+        carPlateNumberSearchKey: '',
+        driverNameSearchKey: '',
+        driverPhoneSearchKey: '',
       },
       rules: {},
       pickerOptions: {
@@ -102,53 +102,53 @@ export default {
         },
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            }
+              picker.$emit('pick', [start, end]);
+            },
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            }
+              picker.$emit('pick', [start, end]);
+            },
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
-      }
+              picker.$emit('pick', [start, end]);
+            },
+          },
+        ],
+      },
     };
   },
   created() {
-      this._getCheckStatus({
-          customerNumId: this.customerNumId
-      });
+    this._getCheckStatus({
+      customerNumId: this.customerNumId,
+    });
   },
   methods: {
-      _getCheckStatus(params) {
-          getCheckStatus(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.checkIdAndCheckStatus = res.checkIdAndCheckStatus;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
+    _getCheckStatus(params) {
+      getCheckStatus(params)
+        .then(res => {
+          if (res.code === 0) {
+            this.checkIdAndCheckStatus = res.checkIdAndCheckStatus;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     onRegisterTimeChange(time) {
       this.form.registerStartTime = time[0];
       this.form.registerEndTime = time[1];
@@ -156,11 +156,11 @@ export default {
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.$emit("submit", this.form);
+          this.$emit('submit', this.form);
         } else {
           this.$notify.error({
-            title: "错误",
-            message: "表单校验失败"
+            title: '错误',
+            message: '表单校验失败',
           });
           return false;
         }
@@ -168,11 +168,11 @@ export default {
     },
     handleFormReset() {
       this.$refs.form.resetFields();
-      this.registerTime = "";
+      this.registerTime = '';
     },
     handleAdd() {
-      this.$emit("add");
-    }
-  }
+      this.$emit('add');
+    },
+  },
 };
 </script>

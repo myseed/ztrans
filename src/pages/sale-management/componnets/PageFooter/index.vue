@@ -15,30 +15,30 @@
 export default {
   props: {
     current: {
-      default: 0
+      default: 0,
     },
     size: {
-      default: 0
+      default: 0,
     },
     total: {
-      default: 0
-    }
+      default: 0,
+    },
   },
   methods: {
-    handleSizeChange (val) {
+    handleSizeChange(val) {
       this.$emit('change', {
         current: this.current,
         size: val,
-        total: this.total
-      })
+        total: this.total,
+      });
     },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.$emit('change', {
         current: val,
         size: this.size,
-        total: this.total
-      })
-    }
-  }
-}
+        total: this.total,
+      });
+    },
+  },
+};
 </script>

@@ -51,34 +51,32 @@
 </template>
 
 <script>
-import util from "@/libs/util.js";
-import {
-  deleteRouterAndCar
-} from "@/api/schedule";
+import util from '@/libs/util.js';
+import {deleteRouterAndCar} from '@/api/schedule';
 
 export default {
   props: {
     tableData: {
-      default: () => []
+      default: () => [],
     },
     loading: {
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       currentTableData: [],
       multipleSelection: [],
       downloadColumns: [
-        { label: "卡密", prop: "key" },
-        { label: "面值", prop: "value" },
-        { label: "状态", prop: "type" },
-        { label: "管理员", prop: "admin" },
-        { label: "管理员备注", prop: "adminNote" },
-        { label: "创建时间", prop: "dateTimeCreat" },
-        { label: "使用状态", prop: "used" },
-        { label: "使用时间", prop: "dateTimeUse" }
-      ]
+        {label: '卡密', prop: 'key'},
+        {label: '面值', prop: 'value'},
+        {label: '状态', prop: 'type'},
+        {label: '管理员', prop: 'admin'},
+        {label: '管理员备注', prop: 'adminNote'},
+        {label: '创建时间', prop: 'dateTimeCreat'},
+        {label: '使用状态', prop: 'used'},
+        {label: '使用时间', prop: 'dateTimeUse'},
+      ],
     };
   },
   watch: {
@@ -86,8 +84,8 @@ export default {
       handler(val) {
         this.currentTableData = val;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
     _deleteRouterAndCar(params, index) {
@@ -95,8 +93,8 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.$message({
-              type: "success",
-              message: "删除成功!"
+              type: 'success',
+              message: '删除成功!',
             });
             this.currentTableData.splice(index, 1);
           }
@@ -107,29 +105,29 @@ export default {
     },
     handleDelete(index, row) {
       console.log(index, row);
-      this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
       })
         .then(() => {
           this._deleteRouterAndCar(
             {
-              customerNumId: util.cookies.get("__user__customernumid"),
-              series: row.series
+              customerNumId: util.cookies.get('__user__customernumid'),
+              series: row.series,
             },
             index
           );
         })
         .catch(() => {
-          console.log("取消删除");
+          console.log('取消删除');
         });
     },
     handleSwitchChange(val, index) {
       const oldValue = this.currentTableData[index];
       this.$set(this.currentTableData, index, {
         ...oldValue,
-        type: val
+        type: val,
       });
       // 注意 这里并没有把修改后的数据传递出去 如果需要的话请自行修改
     },
@@ -139,32 +137,32 @@ export default {
     downloadDataTranslate(data) {
       return data.map(row => ({
         ...row,
-        type: row.type ? "禁用" : "正常",
-        used: row.used ? "已使用" : "未使用"
+        type: row.type ? '禁用' : '正常',
+        used: row.used ? '已使用' : '未使用',
       }));
     },
     handleDownloadXlsx(data) {
       this.$export
         .excel({
-          title: "D2Admin 表格示例",
+          title: 'D2Admin 表格示例',
           columns: this.downloadColumns,
-          data: this.downloadDataTranslate(data)
+          data: this.downloadDataTranslate(data),
         })
         .then(() => {
-          this.$message("导出表格成功");
+          this.$message('导出表格成功');
         });
     },
     handleDownloadCsv(data) {
       this.$export
         .csv({
-          title: "D2Admin 表格示例",
+          title: 'D2Admin 表格示例',
           columns: this.downloadColumns,
-          data: this.downloadDataTranslate(data)
+          data: this.downloadDataTranslate(data),
         })
         .then(() => {
-          this.$message("导出CSV成功");
+          this.$message('导出CSV成功');
         });
-    }
-  }
+    },
+  },
 };
 </script>

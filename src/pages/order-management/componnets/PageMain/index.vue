@@ -106,97 +106,104 @@
 </template>
 
 <script>
-    import {
-        getCarTypeList,
-        getOrderByCustomerNumId,
-        selectDriver,
-        confirmDriver,
-        getDriverOrderDetail,
-        getCarSizeList,
-        cancelOrderStatus
-    } from "@/api/order";
+import {
+  getCarTypeList,
+  getOrderByCustomerNumId,
+  selectDriver,
+  confirmDriver,
+  getDriverOrderDetail,
+  getCarSizeList,
+  cancelOrderStatus,
+} from '@/api/order';
 export default {
   props: {
     tableData: {
-      default: () => []
+      default: () => [],
     },
     loading: {
-      default: false
-    }
+      default: false,
+    },
   },
-  data () {
+  data() {
     return {
       currentTableData: [],
       multipleSelection: [],
       downloadColumns: [
-        { label: '卡密', prop: 'key' },
-        { label: '面值', prop: 'value' },
-        { label: '状态', prop: 'type' },
-        { label: '管理员', prop: 'admin' },
-        { label: '管理员备注', prop: 'adminNote' },
-        { label: '创建时间', prop: 'dateTimeCreat' },
-        { label: '使用状态', prop: 'used' },
-        { label: '使用时间', prop: 'dateTimeUse' }
-      ]
-    }
+        {label: '卡密', prop: 'key'},
+        {label: '面值', prop: 'value'},
+        {label: '状态', prop: 'type'},
+        {label: '管理员', prop: 'admin'},
+        {label: '管理员备注', prop: 'adminNote'},
+        {label: '创建时间', prop: 'dateTimeCreat'},
+        {label: '使用状态', prop: 'used'},
+        {label: '使用时间', prop: 'dateTimeUse'},
+      ],
+    };
   },
   watch: {
     tableData: {
-      handler (val) {
-        this.currentTableData = val
+      handler(val) {
+        this.currentTableData = val;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
-    handleSwitchChange (val, index) {
-      const oldValue = this.currentTableData[index]
+    handleSwitchChange(val, index) {
+      const oldValue = this.currentTableData[index];
       this.$set(this.currentTableData, index, {
         ...oldValue,
-        type: val
-      })
+        type: val,
+      });
       // 注意 这里并没有把修改后的数据传递出去 如果需要的话请自行修改
     },
-    handleSelectionChange (val) {
-      this.multipleSelection = val
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
     },
-    downloadDataTranslate (data) {
+    downloadDataTranslate(data) {
       return data.map(row => ({
         ...row,
         type: row.type ? '禁用' : '正常',
-        used: row.used ? '已使用' : '未使用'
-      }))
+        used: row.used ? '已使用' : '未使用',
+      }));
     },
     getOrderDetail(index, row) {
-        this.$emit("getOrderDetail",{orderId:row.series});
+      this.$emit('getOrderDetail', {orderId: row.series});
     },
     handleDelete(index, row) {
-        this.$emit("deleteOrder",{orderId:row.series});
+      this.$emit('deleteOrder', {orderId: row.series});
     },
     selectCar(index, row) {
-        this.$emit("selectCar",{appointmentDate:row.appointmentDate,carType:row.carType,routerDetailSeries:row.routerDetailSeries,series:row.series});
+      this.$emit('selectCar', {
+        appointmentDate: row.appointmentDate,
+        carType: row.carType,
+        routerDetailSeries: row.routerDetailSeries,
+        series: row.series,
+      });
     },
 
-    handleDownloadXlsx (data) {
-      this.$export.excel({
-        title: 'D2Admin 表格示例',
-        columns: this.downloadColumns,
-        data: this.downloadDataTranslate(data)
-      })
-        .then(() => {
-          this.$message('导出表格成功')
+    handleDownloadXlsx(data) {
+      this.$export
+        .excel({
+          title: 'D2Admin 表格示例',
+          columns: this.downloadColumns,
+          data: this.downloadDataTranslate(data),
         })
+        .then(() => {
+          this.$message('导出表格成功');
+        });
     },
-    handleDownloadCsv (data) {
-      this.$export.csv({
-        title: 'D2Admin 表格示例',
-        columns: this.downloadColumns,
-        data: this.downloadDataTranslate(data)
-      })
-        .then(() => {
-          this.$message('导出CSV成功')
+    handleDownloadCsv(data) {
+      this.$export
+        .csv({
+          title: 'D2Admin 表格示例',
+          columns: this.downloadColumns,
+          data: this.downloadDataTranslate(data),
         })
-    }
-  }
-}
+        .then(() => {
+          this.$message('导出CSV成功');
+        });
+    },
+  },
+};
 </script>
