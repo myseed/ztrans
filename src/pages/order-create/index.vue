@@ -1,27 +1,25 @@
 <template>
   <d2-container type="full" class="page">
     <template>
-      <el-form :inline="true" :model="searchItem" size="large" >
-        <el-form-item label="大客户名字" style="width:296px">
+      <el-form :model="searchItem" size="mini" label-width="140px">
+        <el-form-item label="大客户名字">
           <el-autocomplete v-model="customerName"
                            placeholder="大客户名字"
                            clearable
                            :fetch-suggestions="querySearchAsync"
-                           @select="handleSelect"
-                           style="width:200px">
+                           @select="handleSelect">
           </el-autocomplete>
         </el-form-item>
-        <el-form-item label="线路别名" style="width:300px">
+        <el-form-item label="线路别名">
           <el-autocomplete v-model="routerAlial"
                            placeholder="线路别名"
                            clearable
                            :fetch-suggestions="querySearchAsyncRouter"
-                           @select="handleSelectRouter"
-                           style="width:200px">
+                           @select="handleSelectRouter">
           </el-autocomplete>
         </el-form-item>
 
-        <el-form-item label="是否需要搬卸" style="width:400px">
+        <el-form-item label="是否需要搬卸">
           <el-select v-model="createOrder.wetherTakeover">
             <el-option
                     v-for="item in takeOver"
@@ -32,31 +30,31 @@
           </el-select>
         </el-form-item>
         <el-form-item label="发货人名字" >
-          <el-input v-model="createOrder.sendGoodsPersonName" placeholder="发货人名字" style="width:200px"></el-input>
+          <el-input v-model="createOrder.sendGoodsPersonName" placeholder="发货人名字" style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item label="发货人电话">
-          <el-input v-model="createOrder.sendGoodsPersonMobile" placeholder="发货人电话" style="width:200px"></el-input>
+          <el-input v-model="createOrder.sendGoodsPersonMobile" placeholder="发货人电话" style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="发货人地址" style="width:500px">
-          <el-input v-model="createOrder.sendAddressDetail" placeholder="发货人地址" style="width:400px"></el-input>
+        <el-form-item label="发货人地址">
+          <el-input v-model="createOrder.sendAddressDetail" placeholder="发货人地址" style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="发货地(省/市/区/县/)" style="width:500px">
-          <el-input size="large" v-model="sourceLocalction"  disabled style="width:300px"></el-input>
+        <el-form-item label="发货地(省/市/区/县/)">
+          <el-input v-model="sourceLocalction" disabled style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item label="收货人名字" >
-          <el-input v-model="createOrder.receiveGoodsPersonName" placeholder="收货人名字"  style="width:200px"></el-input>
+          <el-input v-model="createOrder.receiveGoodsPersonName" placeholder="收货人名字" style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item label="收货人电话">
-          <el-input v-model="createOrder.receiveGoodsPersonMobile" placeholder="收货人电话" style="width:200px"></el-input>
+          <el-input v-model="createOrder.receiveGoodsPersonMobile" placeholder="收货人电话" style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="收货人地址" style="width:500px">
-          <el-input v-model="createOrder.receiveAddressDetail" placeholder="收货人地址" style="width:400px"></el-input>
+        <el-form-item label="收货人地址">
+          <el-input v-model="createOrder.receiveAddressDetail" placeholder="收货人地址" style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="收货地(省/市/区/县/)" style="width:500px">
-          <el-input v-model="destinationLocalction" disabled style="width:300px"></el-input>
+        <el-form-item label="收货地(省/市/区/县/)">
+          <el-input v-model="destinationLocalction" disabled style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="车型和车长" style="width:285px">
-          <el-select v-model="carTypeAndSize" placeholder="请选择车型和车长" style="width:200px">
+        <el-form-item label="车型和车长">
+          <el-select v-model="carTypeAndSize" placeholder="请选择车型和车长">
             <el-option
                     v-for="item in carAndPriceModels"
                     :key="item.typeName"
@@ -65,12 +63,12 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="路径站点个数" style="width:300px">
-          <el-input v-model="createOrder.sendGoodsLocationNum" placeholder="路径站点个数" style="width:195px"></el-input>
+        <el-form-item label="路径站点个数">
+          <el-input v-model="createOrder.sendGoodsLocationNum" placeholder="路径站点个数" style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="约车时间" style="width:1200px">
+        <el-form-item label="约车时间">
           <el-date-picker
-                  size="large"
+                  style="width: 500px;"
                   v-model="createOrder.appointmentDate"
                   type="datetime"
                   placeholder="请选择约车时间"
@@ -79,15 +77,15 @@
                   :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="补充信息" style="width:500px">
-          <el-input  type="textarea" style="width:500px" v-model="createOrder.remark" :rows="7" placeholder="补充信息"></el-input>
+        <el-form-item label="补充信息">
+          <el-input  type="textarea" v-model="createOrder.remark" :rows="7" placeholder="补充信息" style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="货物信息" style="width:500px">
-          <el-input type="textarea" style="width:500px" v-model="createOrder.goodsRemark" :rows="7" placeholder="货物信息" ></el-input>
+        <el-form-item label="货物信息">
+          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="货物信息"  style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item style="width:1700px">
-          <el-button type="primary" @click="_createOrderByWeb"   :loading="searching">确认下单</el-button>
-          <el-button type="primary" @click="cancelSign()"   >重置</el-button>
+        <el-form-item>
+          <el-button type="primary" @click="_createOrderByWeb" :loading="searching">确认下单</el-button>
+          <el-button type="primary" @click="cancelSign()">重置</el-button>
         </el-form-item>
       </el-form>
     </template>
