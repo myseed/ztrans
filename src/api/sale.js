@@ -29,3 +29,32 @@ export function deleteSale (params) {
 
   return httpGet(url, data)
 }
+
+
+export function addSale (params) {
+    const url = `/addSale`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+
+
+export function editSaleBySeries (params) {
+    const url = `/updateSale`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+

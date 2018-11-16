@@ -37,7 +37,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作状态" :show-overflow-tooltip="true">
+      <el-table-column label="在职状态" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.operateStatusName}}
         </template>
@@ -142,7 +142,10 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    }
+    },
+      handleEdit(index, row) {
+          this.$emit("editSale",{salePersonId:row.salePersonId,franchiseeName:row.franchiseeName,salePersonName:row.salePersonName,salePersonPhone:row.salePersonPhone,barcodeAddress:row.barcodeAddress,operateStatusName:row.operateStatusName});
+      }
   }
 };
 </script>
