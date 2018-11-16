@@ -266,6 +266,21 @@ export default {
               .catch(err => {
                   console.log(err);
               });
+      },
+      cancelCustomer(){
+        this.addSalePopDialog=false;
+        this.editSalePopDialog=false;
+        this.editSaleModel.salePersonName="";
+        this.editSaleModel.franchiseeId="";
+        this.editSaleModel.salePersonPhone="";
+        this.editSaleModel.operateStatus="";
+        this.editSaleModel.salePersonId="";
+        this.addSaleModel.salePersonName="";
+        this.addSaleModel.franchiseeId="";
+        this.addSaleModel.salePersonPhone="";
+        this.addSaleModel.operateStatus="";
+        this.addSaleModel.salePersonId="";
+        this.addSaleModel.joinDtme="";
       }
   }
 };
