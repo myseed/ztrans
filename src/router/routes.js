@@ -91,6 +91,12 @@ const frameIn = [
         meta: { meta, title: '销售管理' }
       },
       {
+        path: '/franchisee-management',
+        name: 'franchisee-management',
+        component: () => import('@/pages/franchisee-management'),
+        meta: { meta, title: '销售管理' }
+      },
+      {
         path: '/order-create',
         name: 'order-create',
         component: () => import('@/pages/order-create'),

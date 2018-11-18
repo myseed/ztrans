@@ -40,8 +40,8 @@ export default {
       dialogVisible: false,
       // 表单
       formLogin: {
-        username: 'admin123',
-        password: 'admin123',
+        username: '',
+        password: '',
       },
       // 校验
       rules: {

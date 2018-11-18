@@ -19,27 +19,51 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="销售员姓名" :show-overflow-tooltip="true">
+      <el-table-column label="加盟商编码" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.salePersonName}}
+          {{scope.row.franchiseeCode}}
         </template>
       </el-table-column>
 
-      <el-table-column label="销售员联系方式" :show-overflow-tooltip="true">
+      <el-table-column label="加盟商类型" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.salePersonPhone}}
+          {{scope.row.franchiseeTypeName}}
         </template>
       </el-table-column>
 
-      <el-table-column label="二维码地址" :show-overflow-tooltip="true">
+      <el-table-column label="所在省" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.barcodeAddress}}
+          {{scope.row.prvRealName}}
         </template>
       </el-table-column>
 
-      <el-table-column label="在职状态" :show-overflow-tooltip="true">
+      <el-table-column label="所在市" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.operateStatusName}}
+          {{scope.row.cityRealName}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="所在区" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.cityAreaRealName}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="负责人名字" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.chargePersonName}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="负责人电话" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.chargePersonPhone}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="加盟商登录账户" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.customerAccount}}
         </template>
       </el-table-column>
 
@@ -61,7 +85,7 @@
 
 <script>
 import util from '@/libs/util.js';
-import {deleteSale} from '@/api/sale';
+import {deleteFranchisee} from '@/api/franchisee';
 
 export default {
   props: {
@@ -97,8 +121,8 @@ export default {
     },
   },
   methods: {
-    _deleteSale(params, index) {
-      deleteSale(params)
+    _deleteFranchisee(params, index) {
+        deleteFranchisee(params)
         .then(res => {
           if (res.code === 0) {
             this.$message({
@@ -120,10 +144,10 @@ export default {
         type: 'warning',
       })
         .then(() => {
-          this._deleteSale(
+          this._deleteFranchisee(
             {
               customerNumId: util.cookies.get('__user__customernumid'),
-              salePersonId: row.series,
+              franchiseeId: row.franchiseeId,
             },
             index
           );
@@ -144,7 +168,7 @@ export default {
       this.multipleSelection = val;
     },
       handleEdit(index, row) {
-          this.$emit("editSale",{salePersonId:row.salePersonId,franchiseeName:row.franchiseeId,salePersonName:row.salePersonName,salePersonPhone:row.salePersonPhone,barcodeAddress:row.barcodeAddress,operateStatusName:row.operateStatus});
+          this.$emit("editFranchisee",{franchiseeId:row.franchiseeId,franchiseeName:row.franchiseeName,franchiseeCode:row.franchiseeCode,prvName:row.prvName,cityName:row.cityName,cityAreaName:row.cityAreaName,chargePersonName:row.chargePersonName,chargePersonPhone:row.chargePersonPhone,franchiseeType:row.franchiseeType,customerAccount:row.customerAccount});
       }
   }
 };
