@@ -55,6 +55,13 @@ export default [
     ]
   },
   {
+    title: '加盟商管理',
+    icon: 'user-circle-o',
+    children: [
+      { path: '/franchisee-management', title: '加盟商管理', icon: 'user-circle-o' }
+    ]
+  },
+  {
     title: '手动下单',
     icon: 'ticket',
     children: [

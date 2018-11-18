@@ -11,13 +11,14 @@
 </template>
 
 <script>
+import util from '@/libs/util';
 import { mapState, mapActions } from 'vuex'
 import Cookies from 'js-cookie'
 import { getUnDealOrderCount } from '@/api/order'
 export default {
   data () {
     return {
-      customerNumId: Cookies.get('__user__customernumid'),
+      customerNumId: util.cookies.get('__user__customernumid'),
       timr: null
     }
   },

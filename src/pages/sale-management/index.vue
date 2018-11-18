@@ -176,6 +176,38 @@ export default {
          this.loading=false;
       },
      _addSale(params){
+         if (params.salePersonName === '') {
+             this.$message({
+                 type: 'error',
+                 message: '销售名字不可以为空！'
+             });
+             this.loading = false;
+             return;
+         }
+         if (params.salePersonPhone === '') {
+             this.$message({
+                 type: 'error',
+                 message: '销售电话不可以为空！'
+             });
+             this.loading = false;
+             return;
+         }
+         if (params.operateStatus === '') {
+             this.$message({
+                 type: 'error',
+                 message: '在职状态不可以为空！'
+             });
+             this.loading = false;
+             return;
+         }
+         if (params.joinDtme === '') {
+             this.$message({
+                 type: 'error',
+                 message: '入职时间！'
+             });
+             this.loading = false;
+             return;
+         }
          addSale(params)
              .then(res => {
                  if (res.code === 0) {
@@ -253,6 +285,38 @@ export default {
           this.loading=false;
       },
       _editSale(params){
+          if (params.salePersonName === '') {
+              this.$message({
+                  type: 'error',
+                  message: '销售名字不可以为空！'
+              });
+              this.loading = false;
+              return;
+          }
+          if (params.salePersonPhone === '') {
+              this.$message({
+                  type: 'error',
+                  message: '销售电话不可以为空！'
+              });
+              this.loading = false;
+              return;
+          }
+          if (params.operateStatus === '') {
+              this.$message({
+                  type: 'error',
+                  message: '在职状态不可以为空！'
+              });
+              this.loading = false;
+              return;
+          }
+          if (params.joinDtme === '') {
+              this.$message({
+                  type: 'error',
+                  message: '入职时间不可以为空！'
+              });
+              this.loading = false;
+              return;
+          }
           editSaleBySeries(params)
               .then(res => {
                   if (res.code === 0) {

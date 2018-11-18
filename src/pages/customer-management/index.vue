@@ -221,6 +221,9 @@
               <li>所在地区：{{customerDetail.prvRealName}}{{customerDetail.cityRealName}}{{customerDetail.cityAreaRealName}}</li>
               <li>销售员：{{customerDetail.saleName}}</li>
               <li>注册时间：{{customerDetail.finalDate}}</li>
+              <li>审核状态：{{customerDetail.checkStatusName}}</li>
+              <li>客户级别：{{customerDetail.customerLevelName}}</li>
+              <li>客户来源：{{customerDetail.customerSourceName}}</li>
             </ul>
           </el-col>
           <el-col :span="12">
@@ -229,6 +232,8 @@
               <li>详细地址：{{customerDetail.detailAddress}}</li>
               <li>客户类型：{{customerDetail.customerTypeName}}</li>
               <li>服务类型：{{customerDetail.serviceTypeName}}</li>
+              <li>结算方式：{{customerDetail.caculateTypeName}}</li>
+              <li>下单级别：{{customerDetail.orderLevelName}}</li>
             </ul>
           </el-col>
         </el-row>
