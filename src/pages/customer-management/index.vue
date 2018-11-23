@@ -210,78 +210,80 @@
       </div>
     </el-dialog>
     <el-dialog title="客户详情" :visible.sync="popDialog">
-      <div class="block">
-        客户信息
-      </div>
-      <div class="block">
-        <el-row>
-          <el-col :span="12">
-            <ul class="i-list">
-              <li>客户名称：{{customerDetail.customerName}}</li>
-              <li>所在地区：{{customerDetail.prvRealName}}{{customerDetail.cityRealName}}{{customerDetail.cityAreaRealName}}</li>
-              <li>销售员：{{customerDetail.saleName}}</li>
-              <li>注册时间：{{customerDetail.finalDate}}</li>
-              <li>审核状态：{{customerDetail.checkStatusName}}</li>
-              <li>客户级别：{{customerDetail.customerLevelName}}</li>
-              <li>客户来源：{{customerDetail.customerSourceName}}</li>
-            </ul>
-          </el-col>
-          <el-col :span="12">
-            <ul class="i-list">
-              <li>客户代码：{{customerDetail.customerSimpleCode}}</li>
-              <li>详细地址：{{customerDetail.detailAddress}}</li>
-              <li>客户类型：{{customerDetail.customerTypeName}}</li>
-              <li>服务类型：{{customerDetail.serviceTypeName}}</li>
-              <li>结算方式：{{customerDetail.caculateTypeName}}</li>
-              <li>下单级别：{{customerDetail.orderLevelName}}</li>
-            </ul>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="block">
-        联系人信息
-        <el-button style="padding: 2px 0" type="text" @click="onAddContact">添加联系人</el-button>
-      </div>
-      <div class="block">
-        <el-table
-                size="mini"
-                :data="constantDetail"
-                highlight-current-row
-                style="width: 100%"
-                stripe>
-          <el-table-column
-                  fixed
-                  type="index"
-                  width="50">
-          </el-table-column>
-          <el-table-column
-                  fixed
-                  prop="contactName"
-                  label="联系人">
-          </el-table-column>
-          <el-table-column
-                  width="140"
-                  prop="contactPhone"
-                  label="联系电话">
-          </el-table-column>
-          <el-table-column
-                  prop="wxName"
-                  label="微信名称">
-          </el-table-column>
-          <el-table-column
-                  prop="activeDtme"
-                  label="创建日期">
-          </el-table-column>
-          <el-table-column
-                  fixed="right"
-                  label="操作"
-                  width="100">
-            <template slot-scope="scope">
-              <el-button @click="onEditContact(scope.$index, scope.row)" type="text" size="small">编辑</el-button>
-              <el-button @click="onDeleteContact(scope.$index, scope.row)" type="text" size="small">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+      <div style="margin-top: -10px;">
+        <div class="block">
+          客户信息
+        </div>
+        <div class="block">
+          <el-row>
+            <el-col :span="12">
+              <ul class="i-list">
+                <li>客户名称：{{customerDetail.customerName}}</li>
+                <li>所在地区：{{customerDetail.prvRealName}}{{customerDetail.cityRealName}}{{customerDetail.cityAreaRealName}}</li>
+                <li>销售员：{{customerDetail.saleName}}</li>
+                <li>注册时间：{{customerDetail.finalDate}}</li>
+                <li>审核状态：{{customerDetail.checkStatusName}}</li>
+                <li>客户级别：{{customerDetail.customerLevelName}}</li>
+                <li>客户来源：{{customerDetail.customerSourceName}}</li>
+              </ul>
+            </el-col>
+            <el-col :span="12">
+              <ul class="i-list">
+                <li>客户代码：{{customerDetail.customerSimpleCode}}</li>
+                <li>详细地址：{{customerDetail.detailAddress}}</li>
+                <li>客户类型：{{customerDetail.customerTypeName}}</li>
+                <li>服务类型：{{customerDetail.serviceTypeName}}</li>
+                <li>结算方式：{{customerDetail.caculateTypeName}}</li>
+                <li>下单级别：{{customerDetail.orderLevelName}}</li>
+              </ul>
+            </el-col>
+          </el-row>
+        </div>
+        <div class="block">
+          联系人信息
+          <el-button style="padding: 2px 0" type="text" @click="onAddContact">添加联系人</el-button>
+        </div>
+        <div class="block">
+          <el-table
+                  size="mini"
+                  :data="constantDetail"
+                  highlight-current-row
+                  style="width: 100%"
+                  stripe>
+            <el-table-column
+                    fixed
+                    type="index"
+                    width="50">
+            </el-table-column>
+            <el-table-column
+                    fixed
+                    prop="contactName"
+                    label="联系人">
+            </el-table-column>
+            <el-table-column
+                    width="140"
+                    prop="contactPhone"
+                    label="联系电话">
+            </el-table-column>
+            <el-table-column
+                    prop="wxName"
+                    label="微信名称">
+            </el-table-column>
+            <el-table-column
+                    prop="activeDtme"
+                    label="创建日期">
+            </el-table-column>
+            <el-table-column
+                    fixed="right"
+                    label="操作"
+                    width="100">
+              <template slot-scope="scope">
+                <el-button @click="onEditContact(scope.$index, scope.row)" type="text" size="small">编辑</el-button>
+                <el-button @click="onDeleteContact(scope.$index, scope.row)" type="text" size="small">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
       </div>
     </el-dialog>
     <el-dialog title="编辑联系人" :visible.sync="editContactPopDialog">
@@ -1143,3 +1145,24 @@ export default {
   },
 };
 </script>
+
+
+<style lang="scss" scoped>
+  .block {
+    padding: 10px 30px;
+    text-align: left;
+  }
+  .pagination-wrapper {
+    padding: 10px 0;
+    text-align: right;
+  }
+  .i-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    & li {
+      padding: 2px 15px;
+    }
+  }
+</style>
+

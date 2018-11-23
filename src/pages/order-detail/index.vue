@@ -10,7 +10,7 @@
         <!--</el-form-item>-->
       <!--</el-form>-->
 
-      <el-form size="mini" label-width="120px">
+      <el-form size="mini" label-width="120px" style="width: 50%;">
         <el-form-item label="订单号" >
           <el-input v-model="order.series" disabled></el-input>
         </el-form-item>
