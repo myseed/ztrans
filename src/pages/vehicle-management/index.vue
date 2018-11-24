@@ -899,3 +899,36 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  .block {
+    padding: 10px 30px;
+    text-align: left;
+  }
+  .pagination-wrapper {
+    padding: 10px 0;
+    text-align: right;
+  }
+  .i-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  & li {
+      padding: 2px 15px;
+    }
+  }
+  .el-dialog__body {
+    text-align: center;
+  }
+  .tx-center {
+    padding: 20px 0;
+    text-align: center;
+  }
+  .cert-pic {
+    width: 148px;
+    outline: 1px #ccc dashed;
+  }
+  .el-upload.el-upload--picture-card > img {
+    width: 100%;
+  }
+</style>

@@ -68,7 +68,7 @@ export default {
        */
       function logout () {
         AccountLogout({
-          sid: util.cookies.remove('__user__sid')
+          sid: util.cookies.get('__user__sid')
         }).then(res => {
           // 删除cookie
           util.cookies.remove('token')
