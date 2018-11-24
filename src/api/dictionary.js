@@ -221,3 +221,72 @@ export function getOrderType (params) {
 
   return httpGet(url, data)
 }
+
+
+export function getAllDictionary (params) {
+    const url = `getAllDictionary`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+
+
+export function getDictionaryByBizId (params) {
+    const url = `getDictionaryByBizId`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+
+
+export function addDictionary (params) {
+    const url = `addDictionary`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+
+
+export function updateDictionary (params) {
+    const url = `updateDictionary`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+
+export function deleteDictionary (params) {
+    const url = `deleteDictionary`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

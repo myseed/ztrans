@@ -47,4 +47,5 @@ export default [
       { path: '/cost-management', title: '订单费用', icon: 'money' }
     ]
   }
+
 ]
