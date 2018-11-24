@@ -67,5 +67,12 @@ export default [
     children: [
       { path: '/order-create', title: '手动下单', icon: 'ticket' }
     ]
+  },
+   {
+    title: '字典管理',
+    icon: 'book',
+    children: [
+      { path: '/dictionary-management', title: '字典管理', icon: 'book' }
+     ]
   }
 ]

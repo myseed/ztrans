@@ -101,6 +101,18 @@ const frameIn = [
         name: 'order-create',
         component: () => import('@/pages/order-create'),
         meta: { meta, title: '创建订单' }
+      },
+      {
+        path: '/dictionary-management',
+        name: 'dictionary-management',
+        component: () => import('@/pages/dictionary-management'),
+        meta: { meta, title: '字典管理' }
+      },
+      {
+        path: '/dictionary-detail',
+        name: 'dictionary-detail',
+        component: () => import('@/pages/dictionary-detail'),
+        meta: { meta, title: '字典明细管理' }
       }
     ]
   }
