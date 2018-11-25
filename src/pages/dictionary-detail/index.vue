@@ -213,7 +213,9 @@ export default {
               });
       },
       cancelCustomer(){
+        this.editDictionaryModel.bizContentName='';
         this.editDictionaryPopDialog=false;
+        this.addDictionaryPopDialog=false;
       },
       handleSubmitPage(form){
           handleSubmit(form);

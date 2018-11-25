@@ -113,6 +113,30 @@ const frameIn = [
         name: 'dictionary-detail',
         component: () => import('@/pages/dictionary-detail'),
         meta: { meta, title: '字典明细管理' }
+      },
+      {
+        path: '/prv-management',
+        name: 'prv-management',
+        component: () => import('@/pages/prv-management'),
+        meta: { meta, title: '省' }
+      },
+      {
+        path: '/city-management',
+        name: 'city-management',
+        component: () => import('@/pages/city-management'),
+        meta: { meta, title: '市' }
+      },
+      {
+        path: '/cityarea-management',
+        name: 'cityarea-management',
+        component: () => import('@/pages/cityarea-management'),
+        meta: { meta, title: '区' }
+      },
+      {
+        path: '/town-management',
+        name: 'town-management',
+        component: () => import('@/pages/town-management'),
+        meta: { meta, title: '镇' }
       }
     ]
   }
