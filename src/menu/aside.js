@@ -74,5 +74,15 @@ export default [
     children: [
       { path: '/dictionary-management', title: '字典管理', icon: 'book' }
      ]
+  },
+   {
+    title: '地区管理',
+    icon: 'street-view',
+    children: [
+      { path: '/prv-management', title: '省', icon: 'hand-paper-o' },
+      { path: '/city-management', title: '市', icon: 'hand-peace-o' },
+      { path: '/cityarea-management', title: '区', icon: 'hand-rock-o' },
+      { path: '/town-management', title: '镇', icon: 'thumbs-o-up' }
+     ]
   }
 ]
