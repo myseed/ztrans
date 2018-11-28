@@ -84,5 +84,12 @@ export default [
       { path: '/cityarea-management', title: '区', icon: 'circle-o' },
       { path: '/town-management', title: '镇', icon: 'square-o' }
      ]
-  }
+  },
+   {
+      title: '员工管理',
+      icon: 'address-card',
+      children: [
+        { path: '/employee-management', title: '员工管理', icon: 'address-card' }
+      ]
+   }
 ]

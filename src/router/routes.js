@@ -137,6 +137,12 @@ const frameIn = [
         name: 'town-management',
         component: () => import('@/pages/town-management'),
         meta: { meta, title: '镇' }
+      },
+      {
+        path: '/employee-management',
+        name: 'employee-management',
+        component: () => import('@/pages/employee-management'),
+        meta: { meta, title: '员工管理' }
       }
     ]
   }
