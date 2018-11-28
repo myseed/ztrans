@@ -9,8 +9,8 @@
           <!--<el-button type="primary" @click="getOrder()"   icon="el-icon-search">查询订单</el-button>-->
         <!--</el-form-item>-->
       <!--</el-form>-->
-
-      <el-form size="mini" label-width="120px" style="width: 50%;">
+      <div class="header">客户和销售信息</div>
+      <el-form :inline="true" size="mini" label-width="110px">
         <el-form-item label="订单号" >
           <el-input v-model="order.series" disabled></el-input>
         </el-form-item>
@@ -35,6 +35,9 @@
         <el-form-item label="订单车辆尺寸" >
           <el-input v-model="order.carSizeName" disabled></el-input>
         </el-form-item>
+      </el-form>
+      <div class="header">基本信息</div>
+      <el-form :inline="true" size="mini" label-width="110px">
         <el-form-item label="需要搬卸" >
           <el-input v-model="order.wetherTakeover" disabled></el-input>
         </el-form-item>
@@ -47,10 +50,12 @@
         <el-form-item label="下单人名字" >
           <el-input v-model="order.createOrderName" disabled></el-input>
         </el-form-item>
+      </el-form>
+      <div class="header">起始地信息</div>
+      <el-form :inline="true" size="mini" label-width="110px">
         <el-form-item label="经停站点" >
           <el-input v-model="order.routerStations" disabled></el-input>
         </el-form-item>
-
         <el-form-item label="下单时间" >
           <el-input v-model="order.createOrderTime" disabled></el-input>
         </el-form-item>
@@ -60,6 +65,9 @@
         <el-form-item label="发货人" >
           <el-input v-model="order.sendGoodsPersonName" disabled></el-input>
         </el-form-item>
+      </el-form>
+      <div class="header">目的地地信息</div>
+      <el-form :inline="true" size="mini" label-width="110px">
         <el-form-item label="发货人联系电话" >
           <el-input v-model="order.sendGoodsPersonMobile" disabled></el-input>
         </el-form-item>
@@ -84,6 +92,9 @@
         <el-form-item label="司机身份证" >
           <el-input v-model="order.driverIdentityId" disabled></el-input>
         </el-form-item>
+      </el-form>
+      <div class="header">线路报价信息</div>
+      <el-form :inline="true" size="mini" label-width="110px">
         <el-form-item label="司机交接单" >
           <el-input v-model="order.driverReceitp" disabled></el-input>
         </el-form-item>
@@ -108,6 +119,9 @@
         <el-form-item label="线路目的地">
           <el-input v-model="order.routerDestination" disabled></el-input>
         </el-form-item>
+      </el-form>
+      <div class="header">运输信息</div>
+      <el-form :inline="true" size="mini" label-width="110px">
         <el-form-item label="货物描述" >
           <el-input type="textarea" v-model="order.goodsRemark"  :rows="7" disabled></el-input>
         </el-form-item>
@@ -239,3 +253,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+  .header {
+    padding: 0 10px;
+    margin-bottom: 20px;
+    border-left: #2f74ff 2px solid;
+    background: #f6f6f6;
+    font-size: 16px;
+  }
+</style>
