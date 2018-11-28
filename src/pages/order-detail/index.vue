@@ -259,7 +259,7 @@ export default {
     padding: 0 10px;
     margin-bottom: 20px;
     border-left: #2f74ff 2px solid;
-    background: #eee;
+    background: #f6f6f6;
     font-size: 16px;
   }
 </style>
