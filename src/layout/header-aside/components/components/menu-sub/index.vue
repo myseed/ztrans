@@ -1,6 +1,6 @@
 <template>
   <el-submenu :index="menu.path || uniqueId">
-    <template slot="title">
+    <template slot="title" style="height: 40px; line-height: 40px">
       <i v-if="menu.icon" :class="`fa fa-${menu.icon}`"></i>
       <d2-icon-svg v-else-if="menu.iconSvg" :name="menu.iconSvg"/>
       <i v-else class="fa fa-folder-o"></i>
