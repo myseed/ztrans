@@ -6,7 +6,7 @@ export default [
     icon: 'briefcase',
     children: [
       { path: '/scheduler', title: '调度人', icon: 'user' },
-      { path: '/vehicle-schedule', title: '调度车辆', icon: 'truck' }
+      // { path: '/vehicle-schedule', title: '调度车辆', icon: 'truck' }
     ]
   },
   {
