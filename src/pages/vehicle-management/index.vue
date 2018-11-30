@@ -575,9 +575,6 @@ export default {
     },
     handleSubmit(form) {
       this.loading = true;
-      this.$notify({
-        title: '开始请求数据',
-      });
       this._getAllCar({
         customerNumId: this.customerNumId,
         current: this.page.current,

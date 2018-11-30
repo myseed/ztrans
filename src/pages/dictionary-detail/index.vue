@@ -103,10 +103,6 @@ export default {
       this.handleSubmit();
     },
     handlePaginationChange(val) {
-      this.$notify({
-        title: '分页变化',
-        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`,
-      });
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
       this.$nextTick(() => {
@@ -115,10 +111,6 @@ export default {
     },
     handleSubmit(form) {
       this.loading = true;
-      this.$notify({
-        title: '开始请求数据',
-      });
-
        getDictionaryByBizId({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -127,10 +119,6 @@ export default {
       })
         .then(res => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求完毕',
-          });
-
           this.table = res.dictionarys;
           this.page = {
             current: this.page.current,
@@ -140,9 +128,6 @@ export default {
         })
         .catch(err => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求异常',
-          });
         });
     },
       editDictionary(param){
@@ -231,16 +216,10 @@ export default {
           })
               .then(res => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求完毕',
-                  });
                   this.handleSubmit();
               })
               .catch(err => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求异常',
-                  });
               });
 
       }

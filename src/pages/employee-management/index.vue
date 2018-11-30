@@ -301,10 +301,6 @@ export default {
       },
       handleSubmit(form) {
           this.loading = true;
-          this.$notify({
-              title: '开始请求数据',
-          });
-
           getAllEmployee({
               customerNumId: util.cookies.get('__user__customernumid'),
               current: this.page.current,
@@ -313,10 +309,6 @@ export default {
           })
               .then(res => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求完毕',
-                  });
-
                   this.table = res.baseCustomers;
                   this.page = {
                       current: this.page.current,
@@ -326,9 +318,6 @@ export default {
               })
               .catch(err => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求异常',
-                  });
               });
       },
       updatePasswordConfirm(){
@@ -336,9 +325,6 @@ export default {
           updatePassword(this.addCustomerModel)
               .then(res => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求完毕',
-                  });
                   this.$message({
                       type: "success",
                       message: "修改成功!"
@@ -347,9 +333,6 @@ export default {
               })
               .catch(err => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求异常',
-                  });
               });
       },
       handleAdd() {

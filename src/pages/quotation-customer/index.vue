@@ -701,9 +701,6 @@ export default {
     },
     handleSubmit(form) {
         this.loading = true;
-        this.$notify({
-            title: "开始请求数据"
-        });
         this._getAllRouterCustomerPrice({
             customerNumId: util.cookies.get("__user__customernumid"),
             current: this.page.current,
