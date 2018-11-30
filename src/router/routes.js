@@ -24,12 +24,12 @@ const frameIn = [
         component: () => import('@/pages/scheduler'),
         meta: { meta, title: '调度人' }
       },
-      {
-        path: '/vehicle-schedule',
-        name: 'vehicle-schedule',
-        component: () => import('@/pages/vehicle-schedule'),
-        meta: { meta, title: '调度车辆' }
-      },
+      // {
+      //   path: '/vehicle-schedule',
+      //   name: 'vehicle-schedule',
+      //   component: () => import('@/pages/vehicle-schedule'),
+      //   meta: { meta, title: '调度车辆' }
+      // },
       {
         path: '/vehicle-assign',
         name: 'vehicle-assign',

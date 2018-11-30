@@ -38,6 +38,11 @@ const setting = {
   theme: {
     list: [
       {
+        title: 'Tomorrow Night Blue (vsCode)',
+        name: 'tomorrow-night-blue',
+        preview: 'image/theme/tomorrow-night-blue/preview@2x.png'
+      },
+      {
         title: 'd2admin 经典',
         name: 'd2',
         preview: 'image/theme/d2/preview@2x.png'
@@ -58,11 +63,6 @@ const setting = {
         name: 'star',
         backgroundImage: 'image/theme/star/bg.jpg',
         preview: 'image/theme/star/preview@2x.png'
-      },
-      {
-        title: 'Tomorrow Night Blue (vsCode)',
-        name: 'tomorrow-night-blue',
-        preview: 'image/theme/tomorrow-night-blue/preview@2x.png'
       }
     ]
   },
