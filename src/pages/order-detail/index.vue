@@ -54,10 +54,10 @@
               <el-input v-model="order.sendGoodsPersonMobile" disabled></el-input>
           </el-form-item>
         <el-form-item label="发货地址详情" >
-          <el-input v-model="order.sendAddressDetail" disabled></el-input>
+          <el-input v-model="order.sendAddressDetail" disabled style="width: 400px;"></el-input>
         </el-form-item>
         <el-form-item label="线路起始地" >
-          <el-input v-model="order.routerSource" disabled></el-input>
+          <el-input v-model="order.routerSource" disabled style="width: 220px;"></el-input>
         </el-form-item>
       </el-form>
       <div class="header">目的地地信息</div>
@@ -68,11 +68,11 @@
         <el-form-item label="收货人联系电话" >
           <el-input v-model="order.receiveGoodsPersonMobile" disabled></el-input>
         </el-form-item>
-        <el-form-item label="收货地址详情" >
-          <el-input v-model="order.receiveAddressDetail" disabled></el-input>
+        <el-form-item label="收货地址详情"  >
+          <el-input v-model="order.receiveAddressDetail" disabled style="width: 400px;"></el-input>
         </el-form-item>
         <el-form-item label="线路目的地">
-          <el-input v-model="order.routerDestination" disabled></el-input>
+          <el-input v-model="order.routerDestination" disabled  style="width: 220px;"></el-input>
         </el-form-item>
       </el-form>
       <div class="header">线路报价信息</div>
@@ -131,9 +131,9 @@
           <el-form-item label="任务完成时间" >
               <el-input v-model="order.driverEndTime" disabled></el-input>
           </el-form-item>
-        <el-form-item label="司机交接单" >
-          <el-input v-model="order.driverReceitp" disabled></el-input>
-        </el-form-item>
+        <!--<el-form-item label="司机交接单" >-->
+          <!--<el-input v-model="order.driverReceitp" disabled></el-input>-->
+        <!--</el-form-item>-->
 
       </el-form>
       <el-form :inline="true" size="mini" label-width="110px">
@@ -147,6 +147,10 @@
         <el-form-item label="下单人备注" >
           <el-input type="textarea" v-model="order.remark"   :rows="7" disabled></el-input>
         </el-form-item>
+            <p>交接单</p>
+            <el-col class="tx-center" v-if="order.driverReceitp!==''">
+              <img  :src="order.driverReceitp"  alt="司机交接单" class="cert-pic">
+            </el-col>
       </el-form>
     </template>
   </d2-container>
@@ -159,6 +163,7 @@ export default {
   data() {
     return {
       customerNumId: util.cookies.get('__user__customernumid'),
+      ao:'',
       orderId: '',
       order: {
         series: '',
