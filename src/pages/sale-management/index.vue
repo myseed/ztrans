@@ -236,10 +236,6 @@ export default {
     },
     handleSubmit(form) {
       this.loading = true;
-      this.$notify({
-        title: '开始请求数据',
-      });
-
       getAllSale({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -248,10 +244,6 @@ export default {
       })
         .then(res => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求完毕',
-          });
-
           this.table = res.customerSales;
           this.page = {
             current: this.page.current,
@@ -261,9 +253,6 @@ export default {
         })
         .catch(err => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求异常',
-          });
         });
     },
     handleAdd() {

@@ -208,9 +208,6 @@ export default {
     },
     handleSubmit(form) {
       this.loading = true;
-      this.$notify({
-        title: '开始请求数据',
-      });
       if(form!=null){
       this.prvId=form.prvId;
       this.cityId=form.cityId;
@@ -224,9 +221,6 @@ export default {
       })
         .then(res => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求完毕',
-          });
           this.table = res.townNameAndTownIdModel;
           this.page = {
             current: this.page.current,
@@ -236,9 +230,6 @@ export default {
         })
         .catch(err => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求异常',
-          });
         });
     },
       editTown(param){
@@ -256,9 +247,6 @@ export default {
       },
       onEditCityConfirm(param){
           this.loading = true;
-          this.$notify({
-              title: '开始请求数据',
-          });
           if (this.editCityModel.townName === '') {
               this.$message({
                   type: 'error',
@@ -270,9 +258,6 @@ export default {
           updateTown(this.editCityModel)
               .then(res => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求完毕',
-                  });
                   this.$message({
                       type: 'success',
                       message: '修改镇成功!',
@@ -290,9 +275,6 @@ export default {
               })
               .catch(err => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求异常',
-                  });
               });
       },
       add(){
@@ -300,9 +282,6 @@ export default {
       },
       onAddCityConfirm(param){
           this.loading = true;
-          this.$notify({
-              title: '开始请求数据',
-          });
           if (this.addCityModel.townName === '') {
               this.$message({
                   type: 'error',
@@ -338,9 +317,6 @@ export default {
           addTown(this.addCityModel)
               .then(res => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求完毕',
-                  });
                   this.$message({
                       type: 'success',
                       message: '增加镇成功!',
@@ -357,9 +333,6 @@ export default {
               })
               .catch(err => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求异常',
-                  });
               });
       },
       deleteTown(param){
@@ -367,9 +340,6 @@ export default {
           deleteTown(this.editCityModel)
               .then(res => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求完毕',
-                  });
                   this.$message({
                       type: 'success',
                       message: '删除成功!',
@@ -385,9 +355,6 @@ export default {
               })
               .catch(err => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求异常',
-                  });
               });
       }
   }
