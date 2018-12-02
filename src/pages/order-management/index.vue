@@ -139,6 +139,18 @@
         <el-button type="primary" @click="onAssignConfirm" size="mini">确认车辆</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog title="废弃理由" :visible.sync="deleteOrderPopDialog">
+      <el-form :inline="true" :model="deleteModel" label-position="left" size="mini">
+        <el-form-item>
+          <el-input type="textarea" v-model="deleteModel.deleteReason" style="width: 900px;" :rows="7" placeholder="请输入订单废弃理由"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelDeleteOrder" size="mini">取 消</el-button>
+        <el-button type="primary" @click="deleteOrderConfirm" size="mini"  :loading="loading">确 定</el-button>
+      </div>
+    </el-dialog>
   </d2-container>
 </template>
 
@@ -167,6 +179,12 @@ export default {
   data() {
     return {
       customerNumId: util.cookies.get('__user__customernumid'),
+      deleteReason:'',
+      deleteModel:{
+          series: '',
+          deleteReason: '',
+      },
+      deleteOrderPopDialog:false,
       searchItemPop: {
         appointmentDate: '',
         carPlateNumberSearchKey: '',
@@ -325,11 +343,47 @@ export default {
       });
     },
     deleteOrder(param) {
-      this._cancelOrderStatus({
-        customerNumId: this.customerNumId,
-        series: param.orderId,
-      });
+      if(this.$route.query.status==='4'){
+          this.$message({
+              type: 'error',
+              message: '订单状态已经取消,不可以重复取消！',
+          });
+          return;
+      }
+        if(this.$route.query.status==='3'){
+            this.$message({
+                type: 'error',
+                message: '订单状态已经完成,不可以废除！',
+            });
+            return;
+        }
+      this.deleteOrderPopDialog=true;
+      this.deleteModel.series=param.orderId;
+      // this._cancelOrderStatus({
+      //   customerNumId: this.customerNumId,
+      //   series: param.orderId,
+      // });
     },
+      deleteOrderConfirm(param){
+        if(this.deleteModel.deleteReason===''){
+            this.$message({
+                type: 'error',
+                message: '删除理由不可以为空！',
+            });
+            return;
+        }
+          this._cancelOrderStatus({
+            customerNumId: this.customerNumId,
+            series: this.deleteModel.series,
+            deleteReason:  this.deleteModel.deleteReason,
+          });
+          this.deleteModel.deleteReason='';
+          this.deleteOrderPopDialog=false;
+      },
+      cancelDeleteOrder(){
+        this.deleteModel.deleteReason='';
+        this.deleteOrderPopDialog=false;
+      },
     _cancelOrderStatus(params) {
       cancelOrderStatus(params)
         .then(res => {

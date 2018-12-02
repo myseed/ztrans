@@ -144,6 +144,9 @@
         <el-form-item label="下单人备注" >
           <el-input type="textarea" v-model="order.remark"   :rows="7"></el-input>
         </el-form-item>
+        <el-form-item label="订单废弃理由" >
+          <el-input type="textarea" v-model="order.deleteReason"   :rows="7" disabled></el-input>
+        </el-form-item>
             <p>交接单</p>
             <el-col class="tx-center" v-if="order.driverReceitp!==''">
               <img  :src="order.driverReceitp"  alt="司机交接单" class="cert-pic">
@@ -204,6 +207,7 @@ export default {
         driverStartTime: '',
         driverArrTime: '',
         driverEndTime: '',
+        deleteReason:''
       },
     };
   },
@@ -272,6 +276,7 @@ export default {
             this.order.driverStartTime = res.driverStartTime;
             this.order.driverArrTime = res.driverArrTime;
             this.order.driverEndTime = res.driverEndTime;
+            this.order.deleteReason = res.deleteReason;
           }
         })
         .catch(err => {
