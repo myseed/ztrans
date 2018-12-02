@@ -143,6 +143,18 @@ const frameIn = [
         name: 'employee-management',
         component: () => import('@/pages/employee-management'),
         meta: { meta, title: '员工管理' }
+      },
+      {
+        path: '/vehicle-detail',
+        name: '/vehicle-detail',
+        component: () => import('@/pages/vehicle-detail'),
+        meta: { meta, title: '车辆明细' }
+      },
+      {
+        path: '/customer-detail',
+        name: '/customer-detail',
+        component: () => import('@/pages/customer-detail'),
+        meta: { meta, title: '客户明细' }
       }
     ]
   }

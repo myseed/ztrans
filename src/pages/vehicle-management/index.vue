@@ -623,11 +623,15 @@ export default {
         });
     },
     getCarDetailTable(params) {
-      this.detailCarDialog = true;
-      this._getCarDetail({
-        carId: params.carId,
-        customerNumId: this.customerNumId,
-      });
+        this.$router.push({
+            path: '/vehicle-detail',
+            query: {carId: params.carId},
+        });
+      // this.detailCarDialog = true;
+      // this._getCarDetail({
+      //   carId: params.carId,
+      //   customerNumId: this.customerNumId,
+      // });
     },
     _getCarDetail(params) {
       getCarDetail(params)

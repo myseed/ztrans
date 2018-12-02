@@ -120,3 +120,16 @@ export function updateMasterCustomer (params) {
 
   return httpGet(url, data)
 }
+
+export function deleteOldCustomerContact (params) {
+    const url = `/deleteOldCustomerContact`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
