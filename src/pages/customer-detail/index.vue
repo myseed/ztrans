@@ -327,7 +327,7 @@ export default {
                   console.log(err);
               });
       },
-      _deleteOldCustomerContact(params, index) {
+      _deleteOldCustomerContact(params) {
           deleteOldCustomerContact(params)
               .then(res => {
                   if (res.code === 0) {
