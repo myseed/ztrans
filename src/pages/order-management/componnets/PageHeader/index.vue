@@ -11,15 +11,17 @@
       <el-input
         v-model="form.customerNameSearchKey"
         placeholder="请输入"
-        style="width: 100px;"/>
+        style="width: 150px;"/>
     </el-form-item>
 
     <el-form-item label="线路编号" prop="routerNumberSearchKey">
       <el-input
         v-model="form.routerNumberSearchKey"
         placeholder="请输入"
-        style="width: 100px;"/>
+        style="width: 150px;"/>
     </el-form-item>
+
+
 
     <el-form-item label="线路别名" prop="routerAliaSearchKey">
       <el-select
@@ -28,6 +30,20 @@
         style="width: 150px;">
         <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>
       </el-select>
+    </el-form-item>
+
+    <el-form-item label="司机名字" prop="driverSearchKey">
+      <el-input
+              v-model="form.driverSearchKey"
+              placeholder="请输入"
+              style="width: 150px;"/>
+    </el-form-item>
+
+    <el-form-item label="车牌号" prop="platenumberSearchKey">
+      <el-input
+              v-model="form.platenumberSearchKey"
+              placeholder="请输入"
+              style="width: 150px;"/>
     </el-form-item>
 
     <el-form-item label="车型" prop="carType">
@@ -101,6 +117,8 @@ export default {
         customerNameSearchKey: '',
         routerAliaSearchKey: '',
         routerNumberSearchKey: '',
+        driverSearchKey:'',
+        platenumberSearchKey:'',
         deliverStatus: 1,
       },
       rules: {},

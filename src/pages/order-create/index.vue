@@ -179,6 +179,7 @@ export default {
     this._getMasterCustomerListBySearchKey({
       customerNumId: this.customerNumId,
     });
+    this.createOrder.appointmentDate=this.dateFormatter(new Date());
   },
   watch: {
     'createOrder.customerMasterId'() {
@@ -231,6 +232,16 @@ export default {
     },
   },
   methods: {
+    dateFormatter(str){
+    var d = new Date(str);
+    var year = d.getFullYear();
+    var month = (d.getMonth()+1)<10 ? '0'+(d.getMonth()+1) : (d.getMonth()+1);
+    var day = d.getDate()<10 ? '0'+d.getDate() : d.getDate();
+    var hour = d.getHours()<10 ? '0'+d.getHours() : d.getHours();
+    var minute = d.getMinutes()<10 ? '0'+d.getMinutes() : d.getMinutes();
+    var second = d.getSeconds()<10 ? '0'+d.getSeconds() : d.getSeconds();
+    return [year, month, day].join('-') + " " + [hour, minute, second].join(':');
+},
     querySearchAsync(qs, cb) {
       this.masterCustomerSearchKey.customerMasterSearchKey = qs;
       this.masterCustomerSearchKey.customerNumId = this.customerNumId;

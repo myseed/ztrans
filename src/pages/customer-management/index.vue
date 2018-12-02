@@ -997,10 +997,14 @@ export default {
     },
     getMasterDetail(param) {
       this.popDialog = true;
-      this._getMasterCustomerDetail({
-        customerNumId: this.customerNumId,
-        customerMasterId: param.customerMasterId,
-      });
+        this.$router.push({
+            path: '/customer-detail',
+            query: {customerMasterId:param.customerMasterId},
+        });
+      // this._getMasterCustomerDetail({
+      //   customerNumId: this.customerNumId,
+      //   customerMasterId: param.customerMasterId,
+      // });
       this.addContactItem.customerContactId = param.saleId;
       this.addContactItem.customerMasterId = param.customerMasterId;
       this.addContactItem.customerNumId = this.customerNumId;
