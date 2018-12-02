@@ -193,6 +193,7 @@ export default {
         size: 10,
         total: 0,
       },
+     status:'',
     };
   },
   created() {
@@ -295,12 +296,13 @@ export default {
       });
     },
     handleSubmit(form) {
+      this.status=this.$route.query.status;
       this.loading = true;
       getOrderByCustomerNumId({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
         pageSize: this.page.size,
-        deliverStatus: 1,
+        deliverStatus: this.status,
         ...form,
       })
         .then(res => {

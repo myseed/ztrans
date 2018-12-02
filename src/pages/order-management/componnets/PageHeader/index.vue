@@ -119,7 +119,6 @@ export default {
         routerNumberSearchKey: '',
         driverSearchKey:'',
         platenumberSearchKey:'',
-        deliverStatus: 1,
       },
       rules: {},
       pickerOptions: {
