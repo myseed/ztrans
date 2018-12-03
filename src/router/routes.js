@@ -37,7 +37,7 @@ const frameIn = [
         meta: { meta, title: '指派车辆' }
       },
       {
-        path: '/order-management',
+        path: '/order-management/:status',
         name: 'order-management',
         component: () => import('@/pages/order-management'),
         meta: { meta, title: '订单管理' }
