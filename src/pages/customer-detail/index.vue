@@ -4,56 +4,55 @@
       <div class="header">客户基本信息</div>
       <el-form :inline="true" size="mini" label-width="110px">
         <el-form-item label="大客户名字" >
-          <el-input v-model="editCustomerItem.customerName" disabled></el-input>
+          <el-input v-model="editCustomerItem.customerName"></el-input>
         </el-form-item>
         <el-form-item label="客户所在省" >
-          <el-input v-model="editCustomerItem.prvRealName" disabled></el-input>
+          <el-input v-model="editCustomerItem.prvRealName"></el-input>
         </el-form-item>
         <el-form-item label="客户所在市" >
-          <el-input v-model="editCustomerItem.cityRealName" disabled></el-input>
+          <el-input v-model="editCustomerItem.cityRealName"></el-input>
         </el-form-item>
         <el-form-item label="客户所在区" >
-          <el-input v-model="editCustomerItem.cityAreaRealName" disabled></el-input>
+          <el-input v-model="editCustomerItem.cityAreaRealName"></el-input>
         </el-form-item>
         <el-form-item label="客户所属销售" >
-          <el-input v-model="editCustomerItem.saleName" disabled></el-input>
+          <el-input v-model="editCustomerItem.saleName"></el-input>
         </el-form-item>
         <el-form-item label="客户注册时间" >
-          <el-input v-model="editCustomerItem.finalDate" disabled></el-input>
+          <el-input v-model="editCustomerItem.finalDate"></el-input>
         </el-form-item>
         <el-form-item label="客户审核状态" >
-          <el-input v-model="editCustomerItem.checkStatusName" disabled></el-input>
+          <el-input v-model="editCustomerItem.checkStatusName"></el-input>
         </el-form-item>
         <el-form-item label="客户代码" >
-          <el-input v-model="editCustomerItem.customerSimpleCode" disabled></el-input>
+          <el-input v-model="editCustomerItem.customerSimpleCode"></el-input>
         </el-form-item>
         <el-form-item label="客户地址" >
-          <el-input v-model="editCustomerItem.detailAddress" disabled></el-input>
+          <el-input v-model="editCustomerItem.detailAddress"></el-input>
         </el-form-item>
       </el-form>
       <div class="header">客户属性</div>
       <el-form :inline="true" size="mini" label-width="110px">
         <el-form-item label="客户级别" >
-          <el-input v-model="editCustomerItem.customerLevelName" disabled></el-input>
+          <el-input v-model="editCustomerItem.customerLevelName"></el-input>
         </el-form-item>
         <el-form-item label="客户来源" >
-          <el-input v-model="editCustomerItem.customerSourceName" disabled></el-input>
+          <el-input v-model="editCustomerItem.customerSourceName"></el-input>
         </el-form-item>
         <el-form-item label="客户类型" >
-          <el-input v-model="editCustomerItem.customerTypeName" disabled></el-input>
+          <el-input v-model="editCustomerItem.customerTypeName"></el-input>
         </el-form-item>
         <el-form-item label="服务类型" >
-          <el-input v-model="editCustomerItem.serviceTypeName" disabled></el-input>
+          <el-input v-model="editCustomerItem.serviceTypeName"></el-input>
         </el-form-item>
         <el-form-item label="结算方式" >
-          <el-input v-model="editCustomerItem.caculateTypeName" disabled></el-input>
+          <el-input v-model="editCustomerItem.caculateTypeName"></el-input>
         </el-form-item>
         <el-form-item label="下单级别" >
-          <el-input v-model="editCustomerItem.orderLevelName" disabled></el-input>
+          <el-input v-model="editCustomerItem.orderLevelName"></el-input>
         </el-form-item>
       </el-form>
       <div class="header">联系人属性
-
       </div>
       <el-button type="primary" @click="onAddContact">添加联系人</el-button>
       <div class="block">

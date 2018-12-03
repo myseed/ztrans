@@ -254,6 +254,11 @@ export default {
       );
     },
   },
+    watch: {
+      $route(to, from) {
+        this._initMyPage()
+      },
+    },
   methods: {
     _initMyPage() {
       this.handleSubmit();
@@ -314,7 +319,7 @@ export default {
       });
     },
     handleSubmit(form) {
-      this.status=this.$route.query.status;
+      this.status=this.$route.params.status;
       this.loading = true;
       getOrderByCustomerNumId({
         customerNumId: util.cookies.get('__user__customernumid'),
