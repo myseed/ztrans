@@ -25,7 +25,7 @@
             </el-table-column>
             <el-table-column label="报价类型" :show-overflow-tooltip="true">
               <template slot-scope="scope">
-                {{scope.row.routerCustomerType}}
+                {{scope.row.routerCustomerTypeName}}
               </template>
             </el-table-column>
             <el-table-column label="起步价格(元)" :show-overflow-tooltip="true">

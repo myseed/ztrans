@@ -145,7 +145,7 @@
           <el-input type="textarea" v-model="order.remark"   :rows="7"></el-input>
         </el-form-item>
         <el-form-item label="订单废弃理由" >
-          <el-input type="textarea" v-model="order.deleteReason"   :rows="7" disabled></el-input>
+          <el-input type="textarea" v-model="order.deleteReason"   :rows="7" ></el-input>
         </el-form-item>
             <p>交接单</p>
             <el-col class="tx-center" v-if="order.driverReceitp!==''">
