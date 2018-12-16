@@ -3,6 +3,7 @@
     <page-header
       slot="header"
       @submit="handleSubmit"
+      @downLoadExcel="downLoadExcel"
       ref="header"/>
     <page-main
       :table-data="table"
@@ -18,7 +19,7 @@
 
 <script>
 import util from '@/libs/util';
-import {getOrderPriceList} from '@/api/orderprice';
+import {getOrderPriceList,exportOrderPrice} from '@/api/orderprice';
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
@@ -57,27 +58,36 @@ export default {
         this.$refs.header.handleFormSubmit();
       });
     },
-    handleSubmit(form) {
+      handleSubmit(form) {
+          this.loading = true;
+          getOrderPriceList({
+              customerNumId: util.cookies.get('__user__customernumid'),
+              current: this.page.current,
+              pageSize: this.page.size,
+              ...form,
+          })
+              .then(res => {
+                  this.loading = false;
+                  this.table = res.orderPriceModels;
+                  this.page = {
+                      current: this.page.current,
+                      size: this.page.size,
+                      total: res.total,
+                  };
+              })
+              .catch(err => {
+                  this.loading = false;
+              });
+      },
+     downLoadExcel(form) {
       this.loading = true;
-      getOrderPriceList({
+      var url=exportOrderPrice({
         customerNumId: util.cookies.get('__user__customernumid'),
-        current: this.page.current,
-        pageSize: this.page.size,
         ...form,
-      })
-        .then(res => {
-          this.loading = false;
-          this.table = res.orderPriceModels;
-          this.page = {
-            current: this.page.current,
-            size: this.page.size,
-            total: res.total,
-          };
-        })
-        .catch(err => {
-          this.loading = false;
-        });
-    },
+      });
+         window.location.href =url;
+         this.loading = false;
+     },
   },
 };
 </script>

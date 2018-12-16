@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <el-form
+    <el-form
       :inline="true"
       size="mini">
       <el-form-item :label="`已选数据下载 [ ${currentTableData.length} ]`">
@@ -8,14 +8,12 @@
           <el-button
             type="primary"
             size="mini"
-            :disabled="currentTableData.length === 0"
             @click="handleDownloadXlsx(currentTableData)">
             xlsx
           </el-button>
           <el-button
             type="primary"
             size="mini"
-            :disabled="currentTableData.length === 0"
             @click="handleDownloadCsv(currentTableData)">
             csv
           </el-button>
@@ -39,7 +37,7 @@
           </el-button>
         </el-button-group>
       </el-form-item>
-    </el-form> -->
+    </el-form>
 
     <el-table
       :data="currentTableData"
