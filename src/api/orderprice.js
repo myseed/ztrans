@@ -17,3 +17,9 @@ export function getOrderPriceList (params) {
 
   return httpGet(url, data)
 }
+
+export function exportOrderPrice (params) {
+  const url = `/exportOrderPrice`
+  const ts = timestamp()
+  return '' + process.env.VUE_APP_API + url + '?params=' + paramsify(params) + '&sid=' + sid() + '&sign=' + signify(params, ts) + '&timestamp=' + ts
+}
