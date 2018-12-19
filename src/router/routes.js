@@ -24,12 +24,12 @@ const frameIn = [
         component: () => import('@/pages/scheduler'),
         meta: { meta, title: '调度人' }
       },
-      {
-        path: '/vehicle-schedule',
-        name: 'vehicle-schedule',
-        component: () => import('@/pages/vehicle-schedule'),
-        meta: { meta, title: '调度车辆' }
-      },
+      // {
+      //   path: '/vehicle-schedule',
+      //   name: 'vehicle-schedule',
+      //   component: () => import('@/pages/vehicle-schedule'),
+      //   meta: { meta, title: '调度车辆' }
+      // },
       {
         path: '/vehicle-assign',
         name: 'vehicle-assign',
@@ -37,7 +37,7 @@ const frameIn = [
         meta: { meta, title: '指派车辆' }
       },
       {
-        path: '/order-management',
+        path: '/order-management/:status',
         name: 'order-management',
         component: () => import('@/pages/order-management'),
         meta: { meta, title: '订单管理' }
@@ -137,6 +137,24 @@ const frameIn = [
         name: 'town-management',
         component: () => import('@/pages/town-management'),
         meta: { meta, title: '镇' }
+      },
+      {
+        path: '/employee-management',
+        name: 'employee-management',
+        component: () => import('@/pages/employee-management'),
+        meta: { meta, title: '员工管理' }
+      },
+      {
+        path: '/vehicle-detail',
+        name: '/vehicle-detail',
+        component: () => import('@/pages/vehicle-detail'),
+        meta: { meta, title: '车辆明细' }
+      },
+      {
+        path: '/customer-detail',
+        name: '/customer-detail',
+        component: () => import('@/pages/customer-detail'),
+        meta: { meta, title: '客户明细' }
       }
     ]
   }

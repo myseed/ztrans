@@ -694,9 +694,6 @@ export default {
     },
     handleSubmit(form) {
       this.loading = true;
-      this.$notify({
-        title: '开始请求数据',
-      });
       this._getAllRouterPriceByRouterId({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -712,7 +709,7 @@ export default {
           if (res.code === 0) {
             this.table = res.allRouterPriceGetModels;
             this.page = {
-              current: 1,
+              current: this.page.current,
               size: this.page.size,
               total: res.total,
             };

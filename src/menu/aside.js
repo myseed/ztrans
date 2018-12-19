@@ -6,7 +6,7 @@ export default [
     icon: 'briefcase',
     children: [
       { path: '/scheduler', title: '调度人', icon: 'user' },
-      { path: '/vehicle-schedule', title: '调度车辆', icon: 'truck' }
+      // { path: '/vehicle-schedule', title: '调度车辆', icon: 'truck' }
     ]
   },
   {
@@ -14,7 +14,10 @@ export default [
     icon: 'file-text',
     children: [
       { path: '/vehicle-assign', title: '指派车辆', icon: 'truck' },
-      { path: '/order-management', title: '订单', icon: 'file-text' }
+      { path: '/order-management/1', title: '未接单订单', icon: 'file-text' },
+      { path: '/order-management/2', title: '未完成订单', icon: 'file-text' },
+      { path: '/order-management/3', title: '已完成订单', icon: 'file-text' },
+      { path: '/order-management/4', title: '异常订单', icon: 'file-text' }
     ]
   },
   {
@@ -84,5 +87,12 @@ export default [
       { path: '/cityarea-management', title: '区', icon: 'circle-o' },
       { path: '/town-management', title: '镇', icon: 'square-o' }
      ]
-  }
+  },
+   {
+      title: '员工管理',
+      icon: 'address-card',
+      children: [
+        { path: '/employee-management', title: '员工管理', icon: 'address-card' }
+      ]
+   }
 ]

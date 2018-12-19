@@ -13,7 +13,7 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="订单号" :show-overflow-tooltip="true">
+      <el-table-column label="订单号" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.series}}
         </template>
@@ -61,7 +61,7 @@
         </template>
       </el-table-column>
       
-      <el-table-column label="下单人" :show-overflow-tooltip="true">
+      <el-table-column label="下单人" :show-overflow-tooltip="true" width="90">
         <template slot-scope="scope">
           {{scope.row.createOrderName}}
         </template>

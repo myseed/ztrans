@@ -8,10 +8,10 @@ export function httpGet (url, params = {}) {
   })
 }
 
-export function httpPost (url, data = {}) {
+export function httpPost (url, params = {}) {
   return request({
     url,
     method: 'post',
-    data
+    params
   })
 }

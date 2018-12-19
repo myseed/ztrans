@@ -108,10 +108,6 @@ export default {
     },
     handleSubmit(form) {
       this.loading = true;
-      this.$notify({
-        title: '开始请求数据',
-      });
-
       getAllPrv({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -120,10 +116,6 @@ export default {
       })
         .then(res => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求完毕',
-          });
-
           this.table = res.prvNameAndPrvIds;
           this.page = {
             current: this.page.current,
@@ -133,9 +125,6 @@ export default {
         })
         .catch(err => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求异常',
-          });
         });
     },
       editPrv(param){
@@ -152,9 +141,6 @@ export default {
       },
       onEditPrvConfirm(param){
           this.loading = true;
-          this.$notify({
-              title: '开始请求数据',
-          });
           if (this.editPrvModel.newPrvName === '') {
               this.$message({
                   type: 'error',
@@ -188,9 +174,6 @@ export default {
       },
       onAddPrvConfirm(param){
           this.loading = true;
-          this.$notify({
-              title: '开始请求数据',
-          });
           if (this.addPrvModel.prvName === '') {
               this.$message({
                   type: 'error',
@@ -202,9 +185,6 @@ export default {
           addPrv(this.addPrvModel)
               .then(res => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求完毕',
-                  });
                   this.$message({
                       type: 'success',
                       message: '增加省成功!',
@@ -214,9 +194,6 @@ export default {
               })
               .catch(err => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求异常',
-                  });
               });
       },
       deletePrv(param){
@@ -224,9 +201,6 @@ export default {
           deletePrv(this.editPrvModel)
               .then(res => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求完毕',
-                  });
                   this.$message({
                       type: 'success',
                       message: '删除成功!',
@@ -235,9 +209,6 @@ export default {
               })
               .catch(err => {
                   this.loading = false;
-                  this.$notify({
-                      title: '数据请求异常',
-                  });
               });
       }
   }

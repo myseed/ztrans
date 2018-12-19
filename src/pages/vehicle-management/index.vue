@@ -47,19 +47,19 @@
         <el-col :span="24">
           <el-row>
             <el-col :span="6" class="tx-center">
-              <img v-lazy="carDetail.drivingPicture" alt="驾驶证" class="cert-pic">
+              <img  :src="carDetail.drivingPicture"  alt="驾驶证" class="cert-pic">
               <p>驾驶证</p>
             </el-col>
             <el-col :span="6" class="tx-center">
-              <img v-lazy="carDetail.drivingLicense" alt="行驶证" class="cert-pic">
+              <img :src="carDetail.drivingLicense" alt="行驶证" class="cert-pic">
               <p>行驶证</p>
             </el-col>
             <el-col :span="6" class="tx-center">
-              <img v-lazy="carDetail.identityCard" alt="身份证" class="cert-pic">
+              <img :src="carDetail.identityCard"   alt="身份证" class="cert-pic">
               <p>身份证</p>
             </el-col>
             <el-col :span="6" class="tx-center">
-              <img v-lazy="carDetail.persomCarPicture" alt="人车合照" class="cert-pic">
+              <img  :src="carDetail.persomCarPicture"  alt="人车合照" class="cert-pic">
               <p>人车合照</p>
             </el-col>
           </el-row>
@@ -575,9 +575,6 @@ export default {
     },
     handleSubmit(form) {
       this.loading = true;
-      this.$notify({
-        title: '开始请求数据',
-      });
       this._getAllCar({
         customerNumId: this.customerNumId,
         current: this.page.current,
@@ -626,11 +623,15 @@ export default {
         });
     },
     getCarDetailTable(params) {
-      this.detailCarDialog = true;
-      this._getCarDetail({
-        carId: params.carId,
-        customerNumId: this.customerNumId,
-      });
+        this.$router.push({
+            path: '/vehicle-detail',
+            query: {carId: params.carId},
+        });
+      // this.detailCarDialog = true;
+      // this._getCarDetail({
+      //   carId: params.carId,
+      //   customerNumId: this.customerNumId,
+      // });
     },
     _getCarDetail(params) {
       getCarDetail(params)
@@ -638,6 +639,7 @@ export default {
           if (res.code === 0) {
             // 清空数据
             this.carDetail = res.car;
+
             this.addCarItem = this.carDetail;
           }
         })

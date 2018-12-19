@@ -52,7 +52,7 @@
                 label="操作"
                 width="60">
           <template slot-scope="scope">
-            <el-button @click="onAddRouterToEmployee(scope.row)" type="text" size="small">添加</el-button>
+            <el-button @click="onAddRouterToEmployee(scope.row)" type="primary" size="small">添加</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -61,8 +61,16 @@
               title="线路别名"
               :visible.sync="innerVisible"
               append-to-body>
-        <el-form :inline="true" :model="addItemParam" size="mini" style="text-align: right;">
-          <el-form-item style="margin-right: 0;">
+        <el-form :inline="true" :model="addItemParam" size="mini"style="margin-right: 0;">
+          <el-form-item label="大客户名字">
+            <el-autocomplete v-model="customerName"
+                             placeholder="大客户名字"
+                             clearable
+                             :fetch-suggestions="querySearchAsync"
+                             @select="handleSelect">
+            </el-autocomplete>
+          </el-form-item>
+          <el-form-item style="margin-right: 0;" label="线路别名">
             <el-select v-model="addItemParam.routerDetailSeries" placeholder="线路别名" clearable style="width: 191px;">
               <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.series"></el-option>
             </el-select>
@@ -82,6 +90,9 @@ import {
 } from '@/api/schedule';
 import {getAllEmployee} from '@/api/employee';
 import util from '@/libs/util';
+import {
+    getMasterCustomerListBySearchKey
+} from '@/api/createorder';
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
@@ -99,15 +110,22 @@ export default {
       addDialog: false,
       innerVisible: false,
       routerDetail: [],
+      customerMaster: [],
+      customerName:'',
       customerNumId: util.cookies.get('__user__customernumid'),
       page: {
         current: 1,
         size: 10,
         total: 0,
       },
+      masterCustomerSearchKey: {
+        customerMasterSearchKey: '',
+        customerNumId: '',
+      },
       addItemParam: {
         routerDetailSeries: '',
         employeeNumId: '',
+        customerSeries: '',
       },
     };
   },
@@ -132,12 +150,40 @@ export default {
         this.$refs.header.handleFormSubmit();
       });
     },
+      querySearchAsync(qs, cb) {
+          this.masterCustomerSearchKey.customerMasterSearchKey = qs;
+          this.masterCustomerSearchKey.customerNumId = this.customerNumId;
+          getMasterCustomerListBySearchKey(this.masterCustomerSearchKey).then(
+              res => {
+                  if (res.code === 0) {
+                      let customerMasters = [];
+                      // customerMasters= res.customerMasterList;
+                      res.customerMasterList.forEach(item => {
+                          customerMasters.push({
+                              value: item.customerName,
+                              ...item,
+                          });
+                      });
+                      this.customerMaster = customerMasters;
+                      let customerMaster = this.customerMaster;
+                      var results = qs
+                          ? customerMaster.filter(this.createStateFilter(qs))
+                          : customerMaster;
+                      cb(results);
+                  }
+              }
+          );
+      },
+      createStateFilter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
+      handleSelect(item) {
+          this.addItemParam.customerSeries = item.customerMasterId;
+      },
     handleSubmit(form) {
       this.loading = true;
-      this.$notify({
-        title: '开始请求数据',
-      });
-
       getAllRouterAndEmployee({
         current: this.page.current,
         pageSize: this.page.size,
@@ -145,10 +191,6 @@ export default {
       })
         .then(res => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求完毕',
-          });
-
           this.table = res.employeeRouterModel;
           this.page = {
             current: this.page.current,
@@ -158,9 +200,6 @@ export default {
         })
         .catch(err => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求异常',
-          });
         });
     },
     handleAdd() {
@@ -188,12 +227,33 @@ export default {
       this.addItemParam.employeeNumId = row.customerNumId;
     },
     onAddRouterToEmployeeComfirm() {
+        if(this.addItemParam.customerSeries!==''){
+        this.$confirm('选了客户后，当前客户下所有线路都会指派给该调度,是否确定添加', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+        })
+            .then(() => {
+                this._addRouterToEmployee({
+                    customerNumId: this.customerNumId,
+                    employeeNumId: this.addItemParam.employeeNumId,
+                    routerDetailSeries: this.addItemParam.routerDetailSeries,
+                    customerSeries: this.addItemParam.customerSeries,
+                });
+            })
+            .catch(() => {
+                console.log('取消删除');
+            });
+        }else{
+            this._addRouterToEmployee({
+                customerNumId: this.customerNumId,
+                employeeNumId: this.addItemParam.employeeNumId,
+                routerDetailSeries: this.addItemParam.routerDetailSeries,
+                customerSeries: this.addItemParam.customerSeries,
+            });
+        }
       this.innerVisible = false;
-      this._addRouterToEmployee({
-        customerNumId: this.customerNumId,
-        employeeNumId: this.addItemParam.employeeNumId,
-        routerDetailSeries: this.addItemParam.routerDetailSeries,
-      });
+
     },
     _addRouterToEmployee(params) {
       addRouterToEmployee(params)
@@ -204,7 +264,7 @@ export default {
               message: '添加成功!',
             });
             this.addDialog = false;
-            this.onSearch();
+              this.handleSubmit();
           }
         })
         .catch(err => {

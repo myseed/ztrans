@@ -798,10 +798,6 @@ export default {
     },
     handleSubmit(form) {
       this.loading = true;
-      this.$notify({
-        title: '开始请求数据',
-      });
-
       getAllMasterCustomer({
         customerNumId: this.customerNumId,
         current: this.page.current,
@@ -810,10 +806,6 @@ export default {
       })
         .then(res => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求完毕',
-          });
-
           this.table = res.customerMaster;
           this.page = {
             current: this.page.current,
@@ -823,9 +815,6 @@ export default {
         })
         .catch(err => {
           this.loading = false;
-          this.$notify({
-            title: '数据请求异常',
-          });
         });
     },
     onAddCustomerConfirm() {
@@ -1008,10 +997,14 @@ export default {
     },
     getMasterDetail(param) {
       this.popDialog = true;
-      this._getMasterCustomerDetail({
-        customerNumId: this.customerNumId,
-        customerMasterId: param.customerMasterId,
-      });
+        this.$router.push({
+            path: '/customer-detail',
+            query: {customerMasterId:param.customerMasterId},
+        });
+      // this._getMasterCustomerDetail({
+      //   customerNumId: this.customerNumId,
+      //   customerMasterId: param.customerMasterId,
+      // });
       this.addContactItem.customerContactId = param.saleId;
       this.addContactItem.customerMasterId = param.customerMasterId;
       this.addContactItem.customerNumId = this.customerNumId;
