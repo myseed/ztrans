@@ -133,3 +133,10 @@ export function cancelOrderStatus (params) {
 
     return httpGet(url, data)
 }
+
+
+export function exportOrder (params) {
+    const url = `/exportOrder`
+    const ts = timestamp()
+    return '' + process.env.VUE_APP_API + url + '?params=' + paramsify(params) + '&sid=' + sid() + '&sign=' + signify(params, ts) + '&timestamp=' + ts
+}

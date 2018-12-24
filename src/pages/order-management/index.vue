@@ -3,6 +3,7 @@
     <page-header
       slot="header"
       @submit="handleSubmit"
+      @downLoadExcel="downLoadExcel"
       ref="header"/>
     <page-main
       :table-data="table"
@@ -165,6 +166,7 @@ import {
   getDriverOrderDetail,
   getCarSizeList,
   cancelOrderStatus,
+  exportOrder,
 } from '@/api/order';
 import {getOrderType} from '@/api/dictionary';
 
@@ -482,6 +484,15 @@ export default {
           console.log(err);
         });
     },
+      downLoadExcel(form) {
+          this.loading = true;
+          var url=exportOrder({
+              customerNumId: util.cookies.get('__user__customernumid'),
+              ...form,
+          });
+          window.location.href =url;
+          this.loading = false;
+      },
   },
 };
 </script>

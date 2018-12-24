@@ -64,16 +64,17 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="约车时间" prop="appointmentDate">
+    <el-form-item label="约车日期">
       <el-date-picker
-        size="mini"
-        v-model="form.appointmentDate"
-        type="datetime"
-        placeholder="请选择"
-        align="right"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        :picker-options="pickerOptions"
-        style="width: 175px;">
+              size="mini"
+              v-model="registerTime"
+              @change="onTimeChange"
+              type="datetimerange"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="约车开始日期"
+              end-placeholder="约车结束日期">
       </el-date-picker>
     </el-form-item>
 
@@ -92,6 +93,12 @@
         <d2-icon name="refresh"/>
         重置
       </el-button>
+      <el-button
+              type="primary"
+              size="mini"
+              @click="handleDownloadXlsx">
+        导出订单excel
+      </el-button>
     </el-form-item>
 
   </el-form>
@@ -109,11 +116,13 @@ export default {
       routerDetail: [],
       carTypes: [],
       orderTypes: [],
+      registerTime: '',
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         carType: '',
         orderType: '',
-        appointmentDate: '',
+        startTime: '',
+        endTime: '',
         customerNameSearchKey: '',
         routerAliaSearchKey: '',
         routerNumberSearchKey: '',
@@ -197,6 +206,23 @@ export default {
           console.log(err);
         });
     },
+      handleDownloadXlsx (data) {
+          this.$refs.form.validate(valid => {
+              if (valid) {
+                  this.$emit('downLoadExcel', this.form);
+              } else {
+                  this.$notify.error({
+                      title: '错误',
+                      message: '表单校验失败',
+                  });
+                  return false;
+              }
+          });
+      },
+      onTimeChange(time) {
+          this.form.startTime = time[0];
+          this.form.endTime = time[1];
+      },
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {

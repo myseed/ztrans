@@ -21,10 +21,14 @@
       </el-autocomplete>
     </el-form-item>
 
+
     <el-form-item label="线路别名">
-      <el-select v-model="form.routerDetailSeries" placeholder="请选择" style="width: 150px;">
-        <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>
-      </el-select>
+      <el-autocomplete v-model="form.routerDetailSeries"
+                       placeholder="线路别名"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncRouter"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="约车日期">
@@ -72,7 +76,7 @@ import util from '@/libs/util';
 import {
     getMasterCustomerListBySearchKey
 } from '@/api/createorder';
-import {getRouterAliaList} from '@/api/schedule';
+import {getRouterAliaSearchList} from '@/api/schedule';
 import {getCarTypeList} from '@/api/order';
 import {getOrderType} from '@/api/dictionary';
 
@@ -133,11 +137,31 @@ export default {
     };
   },
   created() {
-    this._getRouterAliaList({
-      customerNumId: this.form.customerNumId,
-    });
+      this._getRouterAliaSearchList({
+          customerNumId: this.customerNumId,
+          customerSeries: '',
+          routerSearchKey: '',
+      });
   },
   methods: {
+      _getRouterAliaSearchList(params) {
+          getRouterAliaSearchList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let routerDetail = [];
+                      res.routerDetailAliaModel.forEach(item => {
+                          routerDetail.push({
+                              value: item.routerAlia,
+                              ...item,
+                          });
+                      });
+                      this.routerDetail = routerDetail;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
       querySearchAsync(qs, cb) {
           this.masterCustomerSearchKey.customerMasterSearchKey = qs;
           this.masterCustomerSearchKey.customerNumId = this.customerNumId;
@@ -172,6 +196,21 @@ export default {
           this.form.endTime = time[1];
       },
       handleSelect(item) {
+      },
+      querySearchAsyncRouter(qs, cb) {
+          let routerDetails = this.routerDetail;
+          var results = qs
+              ? routerDetails.filter(this.createStateFilterRouter(qs))
+              : routerDetails;
+          cb(results);
+      },
+      createStateFilterRouter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
+      handleSelectRouter(item) {
+
       },
       handleDownloadXlsx (data) {
           this.$refs.form.validate(valid => {
