@@ -7,11 +7,14 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="客户名称" prop="customerNameSearchKey">
-      <el-input
-        v-model="form.customerNameSearchKey"
-        placeholder="请输入"
-        style="width: 150px;"/>
+
+    <el-form-item label="客户名字">
+      <el-autocomplete v-model="form.customerNameSearchKey"
+                       placeholder="客户名字"
+                       clearable
+                       :fetch-suggestions="querySearchAsync"
+                       @select="handleSelect">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="线路编号" prop="routerNumberSearchKey">
@@ -23,13 +26,22 @@
 
 
 
-    <el-form-item label="线路别名" prop="routerAliaSearchKey">
-      <el-select
-        v-model="form.routerAliaSearchKey"
-        placeholder="请选择"
-        style="width: 150px;">
-        <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>
-      </el-select>
+    <!--<el-form-item label="线路别名" prop="routerAliaSearchKey">-->
+      <!--<el-select-->
+        <!--v-model="form.routerAliaSearchKey"-->
+        <!--placeholder="请选择"-->
+        <!--style="width: 150px;">-->
+        <!--<el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>-->
+      <!--</el-select>-->
+    <!--</el-form-item>-->
+
+    <el-form-item label="线路别名">
+      <el-autocomplete v-model="form.routerAliaSearchKey"
+                       placeholder="线路别名"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncRouter"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="司机名字" prop="driverSearchKey">
@@ -64,16 +76,17 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="约车时间" prop="appointmentDate">
+    <el-form-item label="约车日期">
       <el-date-picker
-        size="mini"
-        v-model="form.appointmentDate"
-        type="datetime"
-        placeholder="请选择"
-        align="right"
-        value-format="yyyy-MM-dd HH:mm:ss"
-        :picker-options="pickerOptions"
-        style="width: 175px;">
+              size="mini"
+              v-model="registerTime"
+              @change="onTimeChange"
+              type="datetimerange"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              :picker-options="pickerOptions"
+              range-separator="至"
+              start-placeholder="约车开始日期"
+              end-placeholder="约车结束日期">
       </el-date-picker>
     </el-form-item>
 
@@ -92,6 +105,12 @@
         <d2-icon name="refresh"/>
         重置
       </el-button>
+      <el-button
+              type="primary"
+              size="mini"
+              @click="handleDownloadXlsx">
+        导出订单excel
+      </el-button>
     </el-form-item>
 
   </el-form>
@@ -99,21 +118,30 @@
 
 <script>
 import util from '@/libs/util';
-import {getRouterAliaList} from '@/api/schedule';
+import {getRouterAliaList,getRouterAliaSearchList} from '@/api/schedule';
 import {getCarTypeList} from '@/api/order';
 import {getOrderType} from '@/api/dictionary';
-
+import {
+    getMasterCustomerListBySearchKey
+} from '@/api/createorder';
 export default {
   data() {
     return {
       routerDetail: [],
       carTypes: [],
       orderTypes: [],
+      registerTime: '',
+      customerMaster: [],
+      masterCustomerSearchKey: {
+         customerMasterSearchKey: '',
+         customerNumId: '',
+      },
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         carType: '',
         orderType: '',
-        appointmentDate: '',
+        startTime: '',
+        endTime: '',
         customerNameSearchKey: '',
         routerAliaSearchKey: '',
         routerNumberSearchKey: '',
@@ -153,9 +181,11 @@ export default {
     };
   },
   created() {
-    this._getRouterAliaList({
-      customerNumId: this.form.customerNumId,
-    });
+      this._getRouterAliaSearchList({
+          customerNumId: this.customerNumId,
+          customerSeries: '',
+          routerSearchKey: '',
+      });
     this._getCarTypeList({
       customerNumId: this.form.customerNumId,
     });
@@ -164,6 +194,24 @@ export default {
     });
   },
   methods: {
+      _getRouterAliaSearchList(params) {
+          getRouterAliaSearchList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let routerDetail = [];
+                      res.routerDetailAliaModel.forEach(item => {
+                          routerDetail.push({
+                              value: item.routerAlia,
+                              ...item,
+                          });
+                      });
+                      this.routerDetail = routerDetail;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     _getOrderTypeList(params) {
       getOrderType(params)
         .then(res => {
@@ -197,6 +245,23 @@ export default {
           console.log(err);
         });
     },
+      handleDownloadXlsx (data) {
+          this.$refs.form.validate(valid => {
+              if (valid) {
+                  this.$emit('downLoadExcel', this.form);
+              } else {
+                  this.$notify.error({
+                      title: '错误',
+                      message: '表单校验失败',
+                  });
+                  return false;
+              }
+          });
+      },
+      onTimeChange(time) {
+          this.form.startTime = time[0];
+          this.form.endTime = time[1];
+      },
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
@@ -210,6 +275,52 @@ export default {
         }
       });
     },
+      querySearchAsyncRouter(qs, cb) {
+          let routerDetails = this.routerDetail;
+          var results = qs
+              ? routerDetails.filter(this.createStateFilterRouter(qs))
+              : routerDetails;
+          cb(results);
+      },
+      createStateFilterRouter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
+      handleSelectRouter(item) {
+
+      },
+      handleSelect(item) {
+      },
+      querySearchAsync(qs, cb) {
+          this.masterCustomerSearchKey.customerMasterSearchKey = qs;
+          this.masterCustomerSearchKey.customerNumId = this.customerNumId;
+          getMasterCustomerListBySearchKey(this.masterCustomerSearchKey).then(
+              res => {
+                  if (res.code === 0) {
+                      let customerMasters = [];
+                      // customerMasters= res.customerMasterList;
+                      res.customerMasterList.forEach(item => {
+                          customerMasters.push({
+                              value: item.customerName,
+                              ...item,
+                          });
+                      });
+                      this.customerMaster = customerMasters;
+                      let customerMaster = this.customerMaster;
+                      var results = qs
+                          ? customerMaster.filter(this.createStateFilter(qs))
+                          : customerMaster;
+                      cb(results);
+                  }
+              }
+          );
+      },
+      createStateFilter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
     handleFormReset() {
       this.$refs.form.resetFields();
     },
