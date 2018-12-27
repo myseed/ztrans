@@ -40,7 +40,7 @@ export default {
           util.cookies.set('__user__customernumid', res.customerNumId)
           util.cookies.set('__user__sid', res.sid)
           util.cookies.set('__user__name', customerAccount)
-          util.cookies.set('__user__routes', res.routerMenuJson[0])
+          util.cookies.set('__user__routes', res.routerMenuJson)
           // 设置 vuex 用户信息
           await dispatch('d2admin/user/set', {
             name: customerAccount
