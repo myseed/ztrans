@@ -50,7 +50,7 @@
         <el-table-column
                 fixed="right"
                 label="操作"
-                width="60">
+                width="80">
           <template slot-scope="scope">
             <el-button @click="onAddRouterToEmployee(scope.row)" type="primary" size="small">添加</el-button>
           </template>
