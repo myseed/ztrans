@@ -41,6 +41,7 @@ export default {
           util.cookies.set('__user__sid', res.sid)
           util.cookies.set('__user__name', customerAccount)
           util.cookies.set('__user__routes', res.routerMenuJson)
+          util.cookies.set('__user__superid', res.superId)
           // 设置 vuex 用户信息
           await dispatch('d2admin/user/set', {
             name: customerAccount
@@ -78,6 +79,7 @@ export default {
           util.cookies.remove('__user__sid')
           util.cookies.remove('__user__customernumid')
           util.cookies.remove('__user__routes')
+          util.cookies.remove('__user__superid')
           // 跳转路由
           vm.$router.push({
             name: 'login'
