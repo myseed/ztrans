@@ -24,6 +24,7 @@
           </el-form>
         </el-card>
       </div>
+      <!--<vue-access-control></vue-access-control>-->
     </div>
   </div>
 </template>
@@ -32,8 +33,13 @@
 /* eslint-disable */
 require('particles.js');
 import config from './config/default';
+// import VueAccessControl from 'vue-access-control';
+
 import {mapActions} from 'vuex';
 export default {
+  // components: {
+  //   VueAccessControl
+  // },
   data() {
     return {
       // 快速选择用户

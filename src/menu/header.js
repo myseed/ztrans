@@ -14,10 +14,10 @@ export default [
         icon: 'file-text',
         children: [
             { path: '/vehicle-assign', title: '指派车辆', icon: 'truck' },
-            { path: '/order-management/1', title: '未接单订单', icon: 'file-text' },-
-                { path: '/order-management/2', title: '未完成订单', icon: 'file-text' },
+            { path: '/order-management/1', title: '未接单订单', icon: 'file-text' },
+            { path: '/order-management/2', title: '未完成订单', icon: 'file-text' },
             { path: '/order-management/3', title: '已完成订单', icon: 'file-text' },
-            { path: '/order-management/4', title: '异常订单', icon: 'file-text' },
+            { path: '/order-management/4', title: '异常订单', icon: 'file-text' }
         ]
     },
     {
