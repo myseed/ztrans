@@ -160,3 +160,30 @@ export function getRouterPriceByRouterId (params) {
 
   return httpGet(url, data)
 }
+
+export function addRouterCustomerPriceNew (params) {
+  const url = `/addRouterCustomerPriceNew`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+
+  return httpGet(url, data)
+}
+
+
+export function updateRouterCustomerPriceNew (params) {
+  const url = `/updateRouterCustomerPriceNew`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+
+  return httpGet(url, data)
+}

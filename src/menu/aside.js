@@ -40,7 +40,8 @@ export default [
     children: [
       { path: '/quotation-line', title: '线路报价', icon: 'chain' },
       { path: '/quotation-citywide', title: '同城报价', icon: 'bandcamp' },
-      { path: '/quotation-customer', title: '客户报价', icon: 'address-book' }
+      { path: '/quotation-customer', title: '客户报价', icon: 'address-book' },
+      { path: '/quotation-customer-new', title: '客户报价(新)', icon: 'address-book' }
     ]
   },
   {

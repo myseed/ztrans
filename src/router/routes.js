@@ -79,6 +79,12 @@ const frameIn = [
         meta: { meta, title: '客户报价' }
       },
       {
+        path: '/quotation-customer-new',
+        name: 'quotation-customer-new',
+        component: () => import('@/pages/quotation-customer-new'),
+        meta: { meta, title: '客户报价（新）' }
+      },
+      {
         path: '/cost-management',
         name: 'cost-management',
         component: () => import('@/pages/cost-management'),
@@ -155,7 +161,14 @@ const frameIn = [
         name: '/customer-detail',
         component: () => import('@/pages/customer-detail'),
         meta: { meta, title: '客户明细' }
+      },
+      {
+        path: '/customer-router-detail',
+        name: '/customer-router-detail',
+        component: () => import('@/pages/customer-router-detail'),
+        meta: { meta, title: '客户线路明细' }
       }
+
     ]
   }
 ]
