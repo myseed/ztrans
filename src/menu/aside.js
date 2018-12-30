@@ -5,9 +5,21 @@ let aside = ''
 
 if (eval(util.cookies.get('__user__routes'))) {
     aside = eval(util.cookies.get('__user__routes'))
+    aside.forEach((item, index) => {
+        if (item.children.length === 0) {
+            delete item.children
+        } else {
+            item.children.forEach((v , k) => {
+                if (v.children.length === 0) {
+                    delete v.children
+                }
+            })
+        }
+    })
 } else {
     aside = [{ path: '/index', title: '首页', icon: 'home' }]
 }
+console.log(aside)
 export default aside
 // export default [
 //   { path: '/index', title: '首页', icon: 'home' },

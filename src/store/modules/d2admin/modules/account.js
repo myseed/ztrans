@@ -77,6 +77,7 @@ export default {
           util.cookies.remove('uuid')
           util.cookies.remove('__user__sid')
           util.cookies.remove('__user__customernumid')
+          util.cookies.remove('__user__routes')
           // 跳转路由
           vm.$router.push({
             name: 'login'
