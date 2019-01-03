@@ -54,6 +54,10 @@ export default {
           vm.$router.replace(path ? { path } : route)
           // 删除 cookie 中保存的重定向页面
           util.cookies.remove('redirect')
+
+          setTimeout(() => {
+            window.location.reload()
+          }, 0)
         })
         .catch(err => {
           console.log('err: ', err)
