@@ -43,6 +43,11 @@ export default {
   created() {
     this._initMyPage();
   },
+    watch: {
+        $route(to, from) {
+            this._initMyPage();
+        }
+    },
   methods: {
     _initMyPage() {
       this.handleSubmit();
@@ -64,6 +69,7 @@ export default {
               customerNumId: util.cookies.get('__user__customernumid'),
               current: this.page.current,
               pageSize: this.page.size,
+              status:this.$route.params.status,
               ...form,
           })
               .then(res => {

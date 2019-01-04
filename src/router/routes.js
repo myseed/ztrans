@@ -79,7 +79,25 @@ const frameIn = [
         meta: { meta, title: '客户报价' }
       },
       {
-        path: '/cost-management',
+        path: '/quotation-line-new',
+        name: 'quotation-line-new',
+        component: () => import('@/pages/quotation-line-new'),
+        meta: { meta, title: '线路报价(新)' }
+      },
+      {
+        path: '/quotation-citywide-new',
+        name: 'quotation-citywide-new',
+        component: () => import('@/pages/quotation-citywide-new'),
+        meta: { meta, title: '同城报价(新)' }
+      },
+      {
+        path: '/quotation-customer-new',
+        name: 'quotation-customer-new',
+        component: () => import('@/pages/quotation-customer-new'),
+        meta: { meta, title: '客户报价（新）' }
+      },
+      {
+        path: '/cost-management/:status',
         name: 'cost-management',
         component: () => import('@/pages/cost-management'),
         meta: { meta, title: '订单费用' }
@@ -155,7 +173,26 @@ const frameIn = [
         name: '/customer-detail',
         component: () => import('@/pages/customer-detail'),
         meta: { meta, title: '客户明细' }
+      },
+      {
+        path: '/customer-router-detail',
+        name: '/customer-router-detail',
+        component: () => import('@/pages/customer-router-detail'),
+        meta: { meta, title: '客户线路明细' }
+      },
+      {
+        path: '/router-line-detail',
+        name: '/router-line-detail',
+        component: () => import('@/pages/router-line-detail'),
+        meta: { meta, title: '线路明细' }
+      },
+      {
+        path: '/router-city-detail',
+        name: '/router-city-detail',
+        component: () => import('@/pages/router-city-detail'),
+        meta: { meta, title: '线路明细' }
       }
+
     ]
   }
 ]

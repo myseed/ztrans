@@ -61,16 +61,21 @@ if (superId == '1') {
             title: '报价管理',
             icon: 'dollar',
             children: [
-                { path: '/quotation-line', title: '线路报价', icon: 'chain' },
-                { path: '/quotation-citywide', title: '同城报价', icon: 'bandcamp' },
-                { path: '/quotation-customer', title: '客户报价', icon: 'address-book' }
+                // { path: '/quotation-line', title: '线路报价', icon: 'chain' },
+                // { path: '/quotation-citywide', title: '同城报价', icon: 'bandcamp' },
+                // { path: '/quotation-customer', title: '客户报价', icon: 'address-book' },
+                { path: '/quotation-line-new', title: '线路报价', icon: 'chain' },
+                { path: '/quotation-citywide-new', title: '同城报价', icon: 'bandcamp' },
+                { path: '/quotation-customer-new', title: '客户报价', icon: 'address-book' }
             ]
         },
         {
             title: '订单费用管理',
             icon: 'money',
             children: [
-                { path: '/cost-management', title: '订单费用', icon: 'money' }
+                { path: '/cost-management/1', title: '订单完整费用', icon: 'money' },
+                { path: '/cost-management/2', title: '司机费用', icon: 'money' },
+                { path: '/cost-management/3', title: '客户费用', icon: 'money' }
             ]
         },
         {

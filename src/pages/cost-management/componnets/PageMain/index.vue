@@ -61,20 +61,20 @@
         </template>
       </el-table-column>
       
-      <el-table-column label="客户应付" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="客户应付" :show-overflow-tooltip="true" width="150" v-if='showCustomer'>
         <template slot-scope="scope">
           {{scope.row.orderMoney}}
         </template>
       </el-table-column>
       
-      <el-table-column label="司机应收" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="司机应收" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
         <template slot-scope="scope">
           {{scope.row.driverMoney}}
         </template>
       </el-table-column>
 
 
-      <el-table-column label="司机额外费用" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="司机额外费用" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
         <template slot-scope="scope">
           {{scope.row.driverAddFee}}
         </template>
@@ -95,6 +95,9 @@ export default {
   },
   data () {
     return {
+      showDriver:true,
+      showCustomer:true,
+      status:'',
       currentTableData: [],
       multipleSelection: [],
       downloadColumns: [
@@ -109,16 +112,35 @@ export default {
       ]
     }
   },
+  created() {
+      this.getTrueColumn();
+  },
   watch: {
+      $route(to, from) {
+          this.getTrueColumn();
+      },
     tableData: {
       handler (val) {
         this.currentTableData = val
       },
       immediate: true
-    }
+    },
   },
   methods: {
-    handleSwitchChange (val, index) {
+      getTrueColumn () {
+          this.status=this.$route.params.status;
+          if(this.status=='2'){
+              this.showCustomer=false;
+              this.showDriver=true;
+          }else  if(this.status=='3'){
+              this.showCustomer=true;
+              this.showDriver=false;
+          }else{
+              this.showCustomer=true;
+              this.showDriver=true;
+          }
+      },
+      handleSwitchChange (val, index) {
       const oldValue = this.currentTableData[index]
       this.$set(this.currentTableData, index, {
         ...oldValue,
