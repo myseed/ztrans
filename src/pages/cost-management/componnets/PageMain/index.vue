@@ -74,7 +74,7 @@
       </el-table-column>
 
 
-      <el-table-column label="司机额外费用" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
+      <el-table-column label="司机额外费用" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.driverAddFee}}
         </template>
