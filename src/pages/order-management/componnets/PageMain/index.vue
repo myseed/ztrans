@@ -19,7 +19,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="线路别名（编号）" :show-overflow-tooltip="true" width="200">
+      <el-table-column label="线路名称（编号）" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.routerAlisa}}
         </template>

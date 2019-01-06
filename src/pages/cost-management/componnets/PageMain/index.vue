@@ -43,7 +43,7 @@
         </template>
       </el-table-column>
       
-      <el-table-column label="线路别名" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="线路名称" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.routerAlia}}
         </template>

@@ -23,6 +23,11 @@
                 {{scope.row.carSizeRealName}}
               </template>
             </el-table-column>
+            <el-table-column label="载重" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                {{scope.row.carWeightRealName}}
+              </template>
+            </el-table-column>
             <el-table-column label="报价类型" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 {{scope.row.routerCustomerTypeName}}
@@ -79,7 +84,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="线路别名" :show-overflow-tooltip="true">
+      <el-table-column label="线路名称" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.routerAlia}}
         </template>

@@ -37,21 +37,21 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="司机身份证" :show-overflow-tooltip="true">
+      <el-table-column label="司机身份证" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.driverIdentityId}}
         </template>
       </el-table-column>
 
-      <el-table-column label="司机手机" :show-overflow-tooltip="true">
+      <el-table-column label="司机手机" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.driverPhone}}
         </template>
       </el-table-column>
 
-      <el-table-column label="激活状态" :show-overflow-tooltip="true">
+      <el-table-column label="激活状态" :show-overflow-tooltip="true" >
         <template slot-scope="scope">
-          {{scope.row.driverPhone}}
+          {{scope.row.activeStatusName}}
         </template>
       </el-table-column>
 
