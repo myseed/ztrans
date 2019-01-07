@@ -89,6 +89,7 @@ export default {
       this.loading = true;
       var url=exportOrderPrice({
         customerNumId: util.cookies.get('__user__customernumid'),
+        status:this.$route.params.status,
         ...form,
       });
          window.location.href =url;

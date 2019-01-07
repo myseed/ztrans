@@ -19,7 +19,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="线路别名（编号）" :show-overflow-tooltip="true" width="200">
+      <el-table-column label="线路名称（编号）" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.routerAlisa}}
         </template>
@@ -82,6 +82,36 @@
       <el-table-column label="下单时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.createOrderTime}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="司机接单时间" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.driverReceiveTime}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="司机靠车时间" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.driverGetgoodsTime}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="司机发车时间" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.driverStartTime}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="司机到达时间" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.driverArrTime}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="司机完成时间" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.driverEndTime}}
         </template>
       </el-table-column>
       

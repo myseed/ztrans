@@ -10,9 +10,9 @@
                            @select="handleSelect">
           </el-autocomplete>
         </el-form-item>
-        <el-form-item label="线路别名">
+        <el-form-item label="线路名称">
           <el-autocomplete v-model="routerAlial"
-                           placeholder="线路别名"
+                           placeholder="线路名称"
                            clearable
                            :fetch-suggestions="querySearchAsyncRouter"
                            @select="handleSelectRouter">

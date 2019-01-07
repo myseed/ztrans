@@ -49,7 +49,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="注册日期" :show-overflow-tooltip="true">
+      <el-table-column label="注册日期" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.createDtme}}
         </template>

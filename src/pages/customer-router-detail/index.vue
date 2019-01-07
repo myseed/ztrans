@@ -11,7 +11,7 @@
         <el-form-item label="线路编号" >
           <el-input v-model="editCustomerRouterItem.routerNumber"></el-input>
         </el-form-item>
-        <el-form-item label="线路名字" >
+        <el-form-item label="线路名称" >
           <el-input v-model="editCustomerRouterItem.routerAlia" disabled></el-input>
         </el-form-item>
         <el-form-item label="发货人名字" >
@@ -140,6 +140,10 @@
                   label="尺寸">
           </el-table-column>
           <el-table-column
+                  prop="carWeightRealName"
+                  label="载重">
+          </el-table-column>
+          <el-table-column
                   prop="routerCustomerTypeName"
                   label="报价类别">
           </el-table-column>
@@ -165,7 +169,8 @@
           </el-table-column>
           <el-table-column
                   fixed="right"
-                  label="操作">
+                  label="操作"
+                  width="220">
             <template slot-scope="scope">
               <el-button @click="onEditCustomerRouter(scope.$index, scope.row)" type="primary" size="small">编辑</el-button>
               <el-button @click="onDeleteCustomerRouter(scope.$index, scope.row)" type="danger" size="small">删除</el-button>
@@ -187,6 +192,11 @@
               <el-form-item label="车长">
                   <el-select v-model="carSizeName" placeholder="请选择" clearable>
                       <el-option v-for="(item, index) in carSizes" :key="index" :label="item.sizeName" :value="item.sizeId"></el-option>
+                  </el-select>
+              </el-form-item>
+              <el-form-item label="载重">
+                  <el-select v-model="carWeightName" placeholder="请选择" clearable>
+                      <el-option v-for="(item, index) in carWeights" :key="index" :label="item.weightName" :value="item.weightId"></el-option>
                   </el-select>
               </el-form-item>
           </el-form>
@@ -245,7 +255,7 @@
               title="修改客户报价"
               :visible.sync="innerUpdateCustomerVisible"
               append-to-body>
-          <el-form label-width="145px" size="mini" disabled>
+          <el-form label-width="145px" size="mini" >
               <el-form-item label="车型">
                   <el-select v-model="carTypeName" placeholder="请选择" clearable>
                       <el-option v-for="(item, index) in carTypes" :key="index" :label="item.typeName" :value="item.typeId"></el-option>
@@ -254,6 +264,11 @@
               <el-form-item label="车长">
                   <el-select v-model="carSizeName" placeholder="请选择" clearable>
                       <el-option v-for="(item, index) in carSizes" :key="index" :label="item.sizeName" :value="item.sizeId"></el-option>
+                  </el-select>
+              </el-form-item>
+              <el-form-item label="载重">
+                  <el-select v-model="carWeightName" placeholder="请选择" clearable>
+                      <el-option v-for="(item, index) in carWeights" :key="index" :label="item.weightName" :value="item.weightId"></el-option>
                   </el-select>
               </el-form-item>
           </el-form>
@@ -280,7 +295,7 @@
               </el-form>
           </div>
           <span slot="footer" class="dialog-footer">
-          <el-button @click="innerAddVisible = false" size="mini">取 消</el-button>
+          <el-button @click="innerUpdateCustomerVisible = false" size="mini">取 消</el-button>
           <el-button type="primary" @click="updateRouterPrice" size="mini">提 交</el-button>
         </span>
       </el-dialog>
@@ -290,7 +305,7 @@
               title="修改司机报价"
               :visible.sync="innerUpdateDriverVisible"
               append-to-body>
-          <el-form label-width="145px" size="mini" disabled>
+          <el-form label-width="145px" size="mini" >
               <el-form-item label="车型">
                   <el-select v-model="carTypeName" placeholder="请选择" clearable>
                       <el-option v-for="(item, index) in carTypes" :key="index" :label="item.typeName" :value="item.typeId"></el-option>
@@ -299,6 +314,11 @@
               <el-form-item label="车长">
                   <el-select v-model="carSizeName" placeholder="请选择" clearable>
                       <el-option v-for="(item, index) in carSizes" :key="index" :label="item.sizeName" :value="item.sizeId"></el-option>
+                  </el-select>
+              </el-form-item>
+              <el-form-item label="载重">
+                  <el-select v-model="carWeightName" placeholder="请选择" clearable>
+                      <el-option v-for="(item, index) in carWeights" :key="index" :label="item.weightName" :value="item.weightId"></el-option>
                   </el-select>
               </el-form-item>
           </el-form>
@@ -325,7 +345,7 @@
               </el-form>
           </div>
           <span slot="footer" class="dialog-footer">
-          <el-button @click="innerAddVisible = false" size="mini">取 消</el-button>
+          <el-button @click="innerUpdateCustomerVisible = false" size="mini">取 消</el-button>
           <el-button type="primary" @click="updateRouterPrice" size="mini">提 交</el-button>
         </span>
       </el-dialog>
@@ -350,9 +370,10 @@
         getAllCity,
         getAllCityArea,
         getAllTown,
-        getCarSizeList
+        getCarSizeList,
     } from "@/api/dictionary";
     import { getCarTypeList } from "@/api/order";
+    import { getCarWeightList } from "@/api/truck";
  import util from '@/libs/util';
 export default {
   data() {
@@ -387,6 +408,7 @@ export default {
           routerDetailSeries: '',
           carTypeName: '',
           carSizeName: '',
+          carWeightName: '',
           routerPriceList: [],
        },
        editContactItem: {
@@ -420,13 +442,17 @@ export default {
       innerUpdateDriverVisible:false,
       carTypeName: "",
       carSizeName: "",
+      carWeightName:"",
       carTypes: [],
       carSizes: [],
+      carWeights: [],
       priceSetAddItem0: {
             carTypeName: "",
             carTypeRealName: "",
             carSizeName: "",
             carSizeRealName: "",
+            carWeightName: "",
+            carWeightRealName: "",
             franchiseeProportion: "",
             initDistance: "",
             initPrice: "",
@@ -441,6 +467,8 @@ export default {
             carTypeRealName: "",
             carSizeName: "",
             carSizeRealName: "",
+            carWeightName: "",
+            carWeightRealName: "",
             franchiseeProportion: "",
             initDistance: "",
             initPrice: "",
@@ -473,6 +501,9 @@ export default {
           customerNumId: this.customerNumId
       });
       this._getCarSizeList({
+          customerNumId: this.customerNumId
+      });
+      this._getCarWeightList({
           customerNumId: this.customerNumId
       });
   },
@@ -536,6 +567,17 @@ export default {
               routerDetailSeries: this.routerDetailSeries,
               routerType: this.routerType
           });
+      },
+      _getCarWeightList(params) {
+          getCarWeightList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.carWeights = res.carWeights;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
       },
       _getAllPrv(params) {
           getAllPrv(params)
@@ -630,11 +672,14 @@ export default {
           // 清空数据
           this.carTypeName = "";
           this.carSizeName = "";
+          this.carWeightName = "";
           this.priceSetAddItem0 = {
               carTypeName: "",
               carTypeRealName: "",
               carSizeName: "",
               carSizeRealName: "",
+              carWeightName: "",
+              carWeightRealName: "",
               franchiseeProportion: 0,
               initDistance: 0,
               initPrice: "",
@@ -649,6 +694,8 @@ export default {
               carTypeRealName: "",
               carSizeName: "",
               carSizeRealName: "",
+              carWeightName: "",
+              carWeightRealName: "",
               franchiseeProportion: 0,
               initDistance: 0,
               initPrice: "",
@@ -734,6 +781,7 @@ export default {
           this.addRouterPriceModel.routerDetailSeries=this.routerDetailSeries;
           this.addRouterPriceModel.carTypeName=this.carTypeName;
           this.addRouterPriceModel.carSizeName=this.carSizeName;
+          this.addRouterPriceModel.carWeightName=this.carWeightName;
           this.addRouterPriceModel.routerPriceList.push(this.priceSetAddItem0);
           this.addRouterPriceModel.routerPriceList.push(this.priceSetAddItem1);
           this._addRouterCustomerPriceNew(this.addRouterPriceModel);
@@ -792,6 +840,7 @@ export default {
       onEditCustomerRouter(index, row) {
           this.carTypeName=row.carTypeName;
           this.carSizeName=row.carSizeName;
+          this.carWeightName=row.carWeightName;
           this.priceSetAddItem0.initDistance=row.initDistance;
           this.priceSetAddItem0.franchiseeProportion=row.franchiseeProportion;
           this.priceSetAddItem0.initPrice=row.initPrice;
@@ -806,6 +855,9 @@ export default {
           }
       },
       updateRouterPrice() {
+          this.priceSetAddItem0.carTypeName=this.carTypeName;
+          this.priceSetAddItem0.carSizeName=this.carSizeName;
+          this.priceSetAddItem0.carWeightName=this.carWeightName;
           this._updateRouterCustomerPriceNew(this.priceSetAddItem0);
       },
       _updateRouterCustomerPriceNew(params) {
