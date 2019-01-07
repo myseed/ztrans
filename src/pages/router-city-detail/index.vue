@@ -136,7 +136,7 @@
           </el-table-column>
           <el-table-column
                   prop="carWeightRealName"
-                  label="载重">
+                  label="吨位">
           </el-table-column>
           <el-table-column
                   prop="routerCustomerTypeName"
@@ -189,7 +189,7 @@
                       <el-option v-for="(item, index) in carSizes" :key="index" :label="item.sizeName" :value="item.sizeId"></el-option>
                   </el-select>
               </el-form-item>
-              <el-form-item label="载重">
+              <el-form-item label="吨位">
                   <el-select v-model="carWeightName" placeholder="请选择" clearable>
                       <el-option v-for="(item, index) in carWeights" :key="index" :label="item.weightName" :value="item.weightId"></el-option>
                   </el-select>
@@ -261,7 +261,7 @@
                       <el-option v-for="(item, index) in carSizes" :key="index" :label="item.sizeName" :value="item.sizeId"></el-option>
                   </el-select>
               </el-form-item>
-              <el-form-item label="载重">
+              <el-form-item label="吨位">
                   <el-select v-model="carWeightName" placeholder="请选择" clearable>
                       <el-option v-for="(item, index) in carWeights" :key="index" :label="item.weightName" :value="item.weightId"></el-option>
                   </el-select>
@@ -311,7 +311,7 @@
                       <el-option v-for="(item, index) in carSizes" :key="index" :label="item.sizeName" :value="item.sizeId"></el-option>
                   </el-select>
               </el-form-item>
-              <el-form-item label="载重">
+              <el-form-item label="吨位">
                   <el-select v-model="carWeightName" placeholder="请选择" clearable>
                       <el-option v-for="(item, index) in carWeights" :key="index" :label="item.weightName" :value="item.weightId"></el-option>
                   </el-select>

@@ -33,6 +33,9 @@
         <el-form-item label="订单车辆尺寸" >
           <el-input v-model="order.carSizeName"></el-input>
         </el-form-item>
+        <el-form-item label="订单车辆吨位" >
+          <el-input v-model="order.carWeightName"></el-input>
+        </el-form-item>
 
       </el-form>
       <div class="header">客户和销售信息</div>
@@ -170,6 +173,7 @@ export default {
         routerAlisa: '',
         carTypeName: '',
         carSizeName: '',
+        carWeightName: '',
         wetherTakeover: '',
         appointmentDate: '',
         masterCustomerName: '',
@@ -277,6 +281,7 @@ export default {
             this.order.driverArrTime = res.driverArrTime;
             this.order.driverEndTime = res.driverEndTime;
             this.order.deleteReason = res.deleteReason;
+            this.order.carWeightName = res.carWeightName;
           }
         })
         .catch(err => {
