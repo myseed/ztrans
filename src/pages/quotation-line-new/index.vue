@@ -267,8 +267,8 @@
           <el-form-item label="线路编号">
             <el-input v-model="addItem.routerNumber" placeholder="请输入"></el-input>
           </el-form-item>
-          <el-form-item label="线路别名">
-            <el-input v-model="addItem.routerAlia" placeholder="请输入" disabled></el-input>
+          <el-form-item label="线路名称">
+            <el-input v-model="addItem.routerAlia" placeholder="请输入"></el-input>
           </el-form-item>
           <el-form-item label="发货人名字">
             <el-input v-model="addItem.sendGoodsPersonName" placeholder="请输入"></el-input>
@@ -624,7 +624,19 @@ export default {
       customerNumId: this.customerNumId,
       saleId: '',
     });
-    this._initMyPage();
+      this._getAllPrv({
+          current: 1,
+          customerNumId: this.customerNumId,
+          pageSize: 200,
+      });
+      this._getCarTypeList({
+          customerNumId: this.customerNumId,
+      });
+      this._getCarSizeList({
+          customerNumId: this.customerNumId,
+      });
+
+      this._initMyPage();
   },
   watch: {
     'addItem.sourcePrv'() {
@@ -808,11 +820,7 @@ export default {
     },
     handleAdd() {
       this.addDialog = true;
-      this._getAllPrv({
-        current: 1,
-        customerNumId: this.customerNumId,
-        pageSize: 200,
-      });
+
       // 清空数据
       this.addItem = {
         children: [],
@@ -995,12 +1003,7 @@ export default {
     },
     onAddPrice() {
       this.innerAddVisible = true;
-      this._getCarTypeList({
-        customerNumId: this.customerNumId,
-      });
-      this._getCarSizeList({
-        customerNumId: this.customerNumId,
-      });
+
 
       // 清空数据
       this.carTypeName = '';
@@ -1145,11 +1148,6 @@ export default {
         });
     },
     onEditCustomerPrice(param) {
-      this._getAllPrv({
-        current: 1,
-        customerNumId: this.customerNumId,
-        pageSize: 200,
-      });
       this._getRouterPriceByRouterId({
         customerNumId: this.customerNumId,
         routerDetailSeries: param.routerDetailSeries,
@@ -1234,12 +1232,6 @@ export default {
     onEditPrice(index, row) {
       this.innerEditVisible = true;
       this.editPriceIndex = index;
-      this._getCarTypeList({
-        customerNumId: this.customerNumId,
-      });
-      this._getCarSizeList({
-        customerNumId: this.customerNumId,
-      });
 
       // 把待编辑数据写入以下字段
       this.carTypeName = `${row.carTypeName}-${row.carTypeRealName}`;

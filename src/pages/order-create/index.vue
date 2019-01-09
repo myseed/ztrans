@@ -53,14 +53,14 @@
         <el-form-item label="收货地(省/市/区/县/)">
           <el-input v-model="destinationLocalction" disabled style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="车型和车长">
-          <el-select v-model="carTypeAndSize" placeholder="请选择车型和车长">
-            <el-option
-                    v-for="item in carAndPriceModels"
-                    :key="item.typeName"
-                    :label="item.typeName"
-                    :value="item.typeName">
-            </el-option>
+        <el-form-item label="车型">
+        <el-select v-model="createOrder.carTypeSeries" placeholder="请选择车型">
+          <el-option v-for="(item, index) in carTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId"></el-option>
+        </el-select>
+        </el-form-item>
+        <el-form-item label="车长">
+          <el-select v-model="createOrder.carSizeSeries" placeholder="请选择车长">
+            <el-option v-for="(item, index) in carSizes" :key="item.sizeId" :label="item.sizeName" :value="item.sizeId"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="吨位">
@@ -111,6 +111,10 @@ import {
   createOrderByWeb,
 } from '@/api/createorder';
 
+import {getCarTypeList} from '@/api/order';
+import {
+    getCarSizeList,
+} from '@/api/dictionary';
 import util from '@/libs/util';
 export default {
   data() {
@@ -185,6 +189,8 @@ export default {
       customerMaster: [],
       routerDetails: [],
       customerDetail: {},
+      carTypes: [],
+      carSizes: [],
     };
   },
 
@@ -192,6 +198,12 @@ export default {
     this._getMasterCustomerListBySearchKey({
       customerNumId: this.customerNumId,
     });
+      this._getCarTypeList({
+          customerNumId: this.customerNumId,
+      });
+      this._getCarSizeList({
+          customerNumId: this.customerNumId,
+      });
     this.createOrder.appointmentDate=this.dateFormatter(new Date());
   },
   watch: {
@@ -218,12 +230,12 @@ export default {
      carWeight() {
       for (var i = 0; i < this.carDetailModels.length; i++) {
         if (this.carDetailModels[i].weightName == this.carWeight) {
-          this.createOrder.carTypeSeries = this.carDetailModels[
-            i
-          ].carTypeName;
-          this.createOrder.carSizeSeries = this.carDetailModels[
-            i
-          ].carSizeName;
+          // this.createOrder.carTypeSeries = this.carDetailModels[
+            //   i
+            // ].carTypeName;
+            // this.createOrder.carSizeSeries = this.carDetailModels[
+            //   i
+            // ].carSizeName;
           this.createOrder.carWeightSeries = this.carDetailModels[
              i
           ].carWeightName;
@@ -346,6 +358,28 @@ export default {
           console.log(err);
         });
     },
+      _getCarSizeList(params) {
+          getCarSizeList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.carSizes = res.carSizes;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      _getCarTypeList(params) {
+          getCarTypeList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.carTypes = res.carTypes;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     _getCustomerRouterDetail(params) {
       getCustomerRouterDetail(params)
         .then(res => {
@@ -417,11 +451,19 @@ export default {
       if (this.createOrder.carSizeSeries === '') {
         this.$message({
           type: 'error',
-          message: '车型车长不可以为空！',
+          message: '车长不可以为空！',
         });
         this.searching = false;
         return;
       }
+        if (this.createOrder.carTypeSeries === '') {
+            this.$message({
+                type: 'error',
+                message: '车型不可以为空！',
+            });
+            this.searching = false;
+            return;
+        }
         if (this.createOrder.carWeightSeries === '') {
             this.$message({
                 type: 'error',
@@ -503,7 +545,6 @@ export default {
           .then(res => {
             if (res.code === 0) {
               this.$message.success('创建手工单成功！');
-              this.cancelSign();
             }
           })
           .catch(err => {
