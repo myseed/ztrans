@@ -23,7 +23,7 @@
                 {{scope.row.carSizeRealName}}
               </template>
             </el-table-column>
-            <el-table-column label="载重" :show-overflow-tooltip="true">
+            <el-table-column label="吨位" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 {{scope.row.carWeightRealName}}
               </template>
