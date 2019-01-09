@@ -63,6 +63,16 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="吨位">
+          <el-select v-model="carWeight" placeholder="请选择车型和车长">
+            <el-option
+                    v-for="item in carDetailModels"
+                    :key="item.weightName"
+                    :label="item.weightName"
+                    :value="item.weightName">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="路径站点个数">
           <el-input v-model="createOrder.sendGoodsLocationNum" placeholder="路径站点个数" style="width: 500px;"></el-input>
         </el-form-item>
@@ -122,7 +132,9 @@ export default {
       },
       takeOver: [{text: '是', value: 'Y'}, {text: '否', value: 'N'}],
       carAndPriceModels: [],
+      carDetailModels:[],
       carTypeAndSize: '',
+      carWeight:'',
       priceAndInstance: '',
       overPrice: '',
       carAndPriceModel: {
@@ -140,6 +152,7 @@ export default {
       createOrder: {
         carTypeSeries: '',
         carSizeSeries: '',
+        carWeightSeries:'',
         customerNumId: util.cookies.get('__user__customernumid'),
         customerMasterId: '',
         wetherSpecialCustomerPrice: '',
@@ -202,31 +215,34 @@ export default {
       });
     },
 
-    carTypeAndSize() {
-      for (var i = 0; i < this.carAndPriceModels.length; i++) {
-        if (this.carAndPriceModels[i].typeName == this.carTypeAndSize) {
-          this.createOrder.carTypeSeries = this.carAndPriceModels[
+     carWeight() {
+      for (var i = 0; i < this.carDetailModels.length; i++) {
+        if (this.carDetailModels[i].weightName == this.carWeight) {
+          this.createOrder.carTypeSeries = this.carDetailModels[
             i
           ].carTypeName;
-          this.createOrder.carSizeSeries = this.carAndPriceModels[
+          this.createOrder.carSizeSeries = this.carDetailModels[
             i
           ].carSizeName;
-          this.createOrder.initPrice = this.carAndPriceModels[i].initPrice;
-          this.createOrder.initDistance = this.carAndPriceModels[
+          this.createOrder.carWeightSeries = this.carDetailModels[
+             i
+          ].carWeightName;
+          this.createOrder.initPrice = this.carDetailModels[i].initPrice;
+          this.createOrder.initDistance = this.carDetailModels[
             i
           ].initDistance;
-          this.createOrder.overstepPrice = this.carAndPriceModels[
+          this.createOrder.overstepPrice = this.carDetailModels[
             i
           ].overstepPrice;
-          this.createOrder.routerPriceSeries = this.carAndPriceModels[
+          this.createOrder.routerPriceSeries = this.carDetailModels[
             i
           ].routerPriceId;
           this.priceAndInstance =
-            this.carAndPriceModels[i].initPrice +
+            this.carDetailModels[i].initPrice +
             '元/' +
-            this.carAndPriceModels[i].initDistance +
+            this.carDetailModels[i].initDistance +
             '公里';
-          this.overPrice = this.carAndPriceModels[i].overstepPrice + '元/公里';
+          this.overPrice = this.carDetailModels[i].overstepPrice + '元/公里';
         }
       }
     },
@@ -372,6 +388,7 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.carAndPriceModels = res.carAndPriceModels;
+            this.carDetailModels = res.carAndPriceModels;
           }
         })
         .catch(err => {
@@ -405,6 +422,14 @@ export default {
         this.searching = false;
         return;
       }
+        if (this.createOrder.carWeightSeries === '') {
+            this.$message({
+                type: 'error',
+                message: '吨位不可以为空！',
+            });
+            this.searching = false;
+            return;
+        }
       if (this.createOrder.appointmentDate === '') {
         this.$message({
           type: 'error',
@@ -478,7 +503,7 @@ export default {
           .then(res => {
             if (res.code === 0) {
               this.$message.success('创建手工单成功！');
-              cancelSign();
+              this.cancelSign();
             }
           })
           .catch(err => {

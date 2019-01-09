@@ -60,7 +60,13 @@
           {{scope.row.carSizeName}}
         </template>
       </el-table-column>
-      
+
+      <el-table-column label="吨位" :show-overflow-tooltip="true" width="60">
+        <template slot-scope="scope">
+          {{scope.row.carWeightName}}
+        </template>
+      </el-table-column>
+
       <el-table-column label="用车时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.appointmentDate}}
