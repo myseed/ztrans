@@ -82,19 +82,19 @@ const frameIn = [
         path: '/quotation-line-new',
         name: 'quotation-line-new',
         component: () => import('@/pages/quotation-line-new'),
-        meta: { meta, title: '线路报价(新)' }
+        meta: { meta, title: '线路报价' }
       },
       {
         path: '/quotation-citywide-new',
         name: 'quotation-citywide-new',
         component: () => import('@/pages/quotation-citywide-new'),
-        meta: { meta, title: '同城报价(新)' }
+        meta: { meta, title: '同城报价' }
       },
       {
         path: '/quotation-customer-new',
         name: 'quotation-customer-new',
         component: () => import('@/pages/quotation-customer-new'),
-        meta: { meta, title: '客户报价（新）' }
+        meta: { meta, title: '客户报价' }
       },
       {
         path: '/cost-management/:status',

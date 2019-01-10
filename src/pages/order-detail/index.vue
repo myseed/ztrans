@@ -110,7 +110,7 @@
         <el-form-item label="司机车辆品牌" >
           <el-input v-model="order.driverCarBrandRealName"></el-input>
         </el-form-item>
-        <el-form-item label="司机车辆重量" >
+        <el-form-item label="司机车辆吨位" >
           <el-input v-model="order.driverCarWeightRealName"></el-input>
         </el-form-item>
           <el-form-item label="经停站点" >
