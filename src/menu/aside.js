@@ -30,6 +30,7 @@ if (superId == '1') {
             children: [
                 { path: '/scheduler', title: '调度人', icon: 'user' },
                 // { path: '/vehicle-schedule', title: '调度车辆', icon: 'truck' }
+                { path: '/scheduler-customer', title: '调度客户', icon: 'user' }
             ]
         },
         {

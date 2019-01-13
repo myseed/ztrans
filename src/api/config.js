@@ -6,6 +6,6 @@
 
 // 正式环境API
 export const CONFIG = {
-  HOST: 'http://47.97.168.223:8888/cx/webManage',
+  HOST: 'http://tms.mofter.com/cx/webManage',
   appsecret: 'ChuangXun@!!!'
 }
