@@ -24,6 +24,12 @@ const frameIn = [
         component: () => import('@/pages/scheduler'),
         meta: { meta, title: '调度人' }
       },
+      {
+        path: '/scheduler-customer',
+        name: 'scheduler-customer',
+        component: () => import('@/pages/scheduler-customer'),
+        meta: { meta, title: '调度客户' }
+      },
       // {
       //   path: '/vehicle-schedule',
       //   name: 'vehicle-schedule',
