@@ -66,3 +66,27 @@ export function createOrderByWeb (params) {
   }
   return httpGet(url, data)
 }
+
+export function getDriverPriceAndCarByCustomerIdAndRouterSeries (params) {
+  const url = `/getDriverPriceAndCarByCustomerIdAndRouterSeries`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+  return httpGet(url, data)
+}
+
+export function createAllMonthOrder (params) {
+  const url = `/createAllMonthOrder`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+  return httpGet(url, data)
+}

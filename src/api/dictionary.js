@@ -450,3 +450,16 @@ export function updateTown (params) {
 
     return httpGet(url, data)
 }
+
+export function getCommondStatus (params) {
+    const url = `getCommondStatus`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

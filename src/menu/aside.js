@@ -45,6 +45,13 @@ if (superId == '1') {
             ]
         },
         {
+            title: '整月派单',
+            icon: 'flag',
+            children: [
+                { path: '/vehicle-assign-month', title: '整月派单', icon: 'flag' }
+            ]
+        },
+        {
             title: '客户管理',
             icon: 'address-book',
             children: [

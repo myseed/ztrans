@@ -43,6 +43,12 @@ const frameIn = [
         meta: { meta, title: '指派车辆' }
       },
       {
+        path: '/vehicle-assign-month',
+        name: 'vehicle-assign-month',
+        component: () => import('@/pages/vehicle-assign-month'),
+        meta: { meta, title: '整月派单' }
+      },
+      {
         path: '/order-management/:status',
         name: 'order-management',
         component: () => import('@/pages/order-management'),
@@ -197,6 +203,12 @@ const frameIn = [
         name: '/router-city-detail',
         component: () => import('@/pages/router-city-detail'),
         meta: { meta, title: '线路明细' }
+      },
+      {
+        path: '/create-month-detail',
+        name: '/create-month-detail',
+        component: () => import('@/pages/create-month-detail'),
+        meta: { meta, title: '创建整月单' }
       }
 
     ]

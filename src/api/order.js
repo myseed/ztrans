@@ -2,7 +2,7 @@
  * 指派接口
  */
 
-import {httpGet} from './sys/http' 
+import { httpGet } from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
 
 export function getCarTypeList (params) {
@@ -120,9 +120,21 @@ export function deleteOrder (params) {
     return httpGet(url, data)
 }
 
-
 export function cancelOrderStatus (params) {
     const url = `/cancelOrderStatus`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+   return httpGet(url, data)
+}
+
+export function getAllMonthOrder (params) {
+    const url = `/getAllMonthOrder`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -134,6 +146,18 @@ export function cancelOrderStatus (params) {
     return httpGet(url, data)
 }
 
+export function deleteAllMonthOrder (params) {
+    const url = `/deleteAllMonthOrder`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
 
 export function exportOrder (params) {
     const url = `/exportOrder`

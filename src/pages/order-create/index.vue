@@ -214,6 +214,9 @@ export default {
       });
     },
     'createOrder.routerDetailSeries'() {
+        if(this.createOrder.routerDetailSeries===''){
+            return;
+        }
       this._getCustomerRouterDetail({
         customerNumId: this.customerNumId,
         routerDetailSeries: this.createOrder.routerDetailSeries,
@@ -300,9 +303,36 @@ export default {
       };
     },
     handleSelect(item) {
+        this.createOrder.carWeightSeries='';
+        this.createOrder.wetherSpecialCustomerPrice='';
+        this.createOrder.routerDetailSeries='';
+        this.createOrder.routerPriceSeries='';
+        this.createOrder.sendGoodsPersonName='';
+        this.createOrder.sendGoodsPersonMobile='';
+        this.createOrder.sendGoodsLocationNum='';
+        this.createOrder.appointmentNum='';
+        this.createOrder.deliverGoodsTime='';
+        this.createOrder.receiveGoodsPersonName='';
+        this.createOrder.receiveGoodsPersonMobile='';
+        this.createOrder.receiveGoodsLocationNum='';
+        this.createOrder.sendAddressDetail='';
+        this.createOrder.receiveAddressDetail='';
+        this.createOrder.remark='';
+        this.createOrder.wetherTakeover='N';
+        this.createOrder.appointmentDate=this.dateFormatter(new Date());;
+        this.createOrder.initPrice='';
+        this.createOrder.initDistance='';
+        this.createOrder.overstepPrice='';
+        this.createOrder.goodsRemark='';
+        this.routerAlial='';
+        this.carWeight='';
+        this.carDetailModels=[];
       this.createOrder.customerMasterId = item.customerMasterId;
     },
     querySearchAsyncRouter(qs, cb) {
+      if(qs=''){
+          return;
+      }
       let routerDetails = this.routerDetails;
       var results = qs
         ? routerDetails.filter(this.createStateFilterRouter(qs))
@@ -315,6 +345,29 @@ export default {
       };
     },
     handleSelectRouter(item) {
+        this.createOrder.carWeightSeries='';
+        this.createOrder.wetherSpecialCustomerPrice='';
+        this.createOrder.routerDetailSeries='';
+        this.createOrder.routerPriceSeries='';
+        this.createOrder.sendGoodsPersonName='';
+        this.createOrder.sendGoodsPersonMobile='';
+        this.createOrder.sendGoodsLocationNum='';
+        this.createOrder.appointmentNum='';
+        this.createOrder.deliverGoodsTime='';
+        this.createOrder.receiveGoodsPersonName='';
+        this.createOrder.receiveGoodsPersonMobile='';
+        this.createOrder.receiveGoodsLocationNum='';
+        this.createOrder.sendAddressDetail='';
+        this.createOrder.receiveAddressDetail='';
+        this.createOrder.remark='';
+        this.createOrder.wetherTakeover='N';
+        this.createOrder.appointmentDate=this.dateFormatter(new Date());;
+        this.createOrder.initPrice='';
+        this.createOrder.initDistance='';
+        this.createOrder.overstepPrice='';
+        this.createOrder.goodsRemark='';
+        this.carWeight='';
+        this.carDetailModels=[];
       this.createOrder.routerDetailSeries = item.series;
     },
 
@@ -363,6 +416,7 @@ export default {
               .then(res => {
                   if (res.code === 0) {
                       this.carSizes = res.carSizes;
+                      this.createOrder.carSizeSeries=this.carSizes[0].sizeId;
                   }
               })
               .catch(err => {
@@ -374,6 +428,7 @@ export default {
               .then(res => {
                   if (res.code === 0) {
                       this.carTypes = res.carTypes;
+                      this.createOrder.carTypeSeries=this.carTypes[0].typeId;
                   }
               })
               .catch(err => {
@@ -423,6 +478,7 @@ export default {
           if (res.code === 0) {
             this.carAndPriceModels = res.carAndPriceModels;
             this.carDetailModels = res.carAndPriceModels;
+            this.carWeight=this.carDetailModels[0].weightName;
           }
         })
         .catch(err => {

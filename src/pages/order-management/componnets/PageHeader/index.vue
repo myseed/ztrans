@@ -76,6 +76,15 @@
       </el-select>
     </el-form-item>
 
+    <el-form-item label="派单型式" prop="commondOrderStatus">
+      <el-select
+              v-model="form.commondOrderStatus"
+              placeholder="请选择"
+              style="width: 150px;">
+        <el-option v-for="(item, index) in commondOrderStatuses" :key="index" :label="item.orderCommondName" :value="item.orderCommondId"></el-option>
+      </el-select>
+    </el-form-item>
+
     <el-form-item label="约车日期">
       <el-date-picker
               size="mini"
@@ -120,7 +129,7 @@
 import util from '@/libs/util';
 import {getRouterAliaList,getRouterAliaSearchList} from '@/api/schedule';
 import {getCarTypeList} from '@/api/order';
-import {getOrderType} from '@/api/dictionary';
+import {getOrderType,getCommondStatus} from '@/api/dictionary';
 import {
     getMasterCustomerListBySearchKey
 } from '@/api/createorder';
@@ -130,6 +139,7 @@ export default {
       routerDetail: [],
       carTypes: [],
       orderTypes: [],
+      commondOrderStatuses:[],
       registerTime: '',
       customerMaster: [],
       masterCustomerSearchKey: {
@@ -147,6 +157,7 @@ export default {
         routerNumberSearchKey: '',
         driverSearchKey:'',
         platenumberSearchKey:'',
+        commondOrderStatus:'',
       },
       rules: {},
       pickerOptions: {
@@ -192,6 +203,9 @@ export default {
     this._getOrderTypeList({
       customerNumId: this.form.customerNumId,
     });
+    this._getOrderCommondList({
+      customerNumId: this.form.customerNumId,
+    });
   },
   methods: {
       _getRouterAliaSearchList(params) {
@@ -223,6 +237,17 @@ export default {
           console.log(err);
         });
     },
+      _getOrderCommondList(params) {
+          getCommondStatus(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.commondOrderStatuses = res.orderCommondModels;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     _getCarTypeList(params) {
       getCarTypeList(params)
         .then(res => {

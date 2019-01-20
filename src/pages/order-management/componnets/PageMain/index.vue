@@ -67,6 +67,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="派单方式" :show-overflow-tooltip="true" width="120">
+        <template slot-scope="scope">
+          {{scope.row.commondOrderStatus}}
+        </template>
+      </el-table-column>
+
       <el-table-column label="用车时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.appointmentDate}}

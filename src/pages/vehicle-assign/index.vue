@@ -16,7 +16,7 @@
             :size="page.size"
             :total="page.total"
             @change="handlePaginationChange"/>
-    <el-dialog title="修改车辆" :visible.sync="addDialog">
+    <el-dialog title="选择车辆" :visible.sync="addDialog">
       <el-form :inline="true" :model="searchItemPop" size="mini">
         <el-form-item>
           <el-input v-model="searchItemPop.carPlateNumberSearchKey" placeholder="车牌号" style="width: 100px;"></el-input>
