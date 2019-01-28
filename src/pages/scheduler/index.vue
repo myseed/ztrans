@@ -58,7 +58,7 @@
       </el-table>
       <el-dialog
               width="18%"
-              title="线路别名"
+              title="客户与线路"
               :visible.sync="innerVisible"
               append-to-body>
         <el-form :inline="true" :model="addItemParam" size="mini"style="margin-right: 0;">
@@ -70,10 +70,16 @@
                              @select="handleSelect">
             </el-autocomplete>
           </el-form-item>
-          <el-form-item style="margin-right: 0;" label="线路别名">
-            <el-select v-model="addItemParam.routerDetailSeries" placeholder="线路别名" clearable style="width: 191px;">
-              <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.series"></el-option>
-            </el-select>
+          <el-form-item style="margin-right: 0;" label="线路名称">
+            <!--<el-select v-model="addItemParam.routerDetailSeries" placeholder="线路别名" clearable style="width: 191px;">-->
+              <!--<el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.series"></el-option>-->
+            <!--</el-select>-->
+            <el-autocomplete v-model="routerName"
+                             placeholder="线路名称"
+                             clearable
+                             :fetch-suggestions="querySearchAsyncRouter"
+                             @select="handleSelectRouter">
+            </el-autocomplete>
           </el-form-item>
           <el-button type="primary" @click="onAddRouterToEmployeeComfirm" size="mini">确定</el-button>
         </el-form>
@@ -87,8 +93,12 @@ import {
   getAllRouterAndEmployee,
   getRouterAliaList,
   addRouterToEmployee,
+  getRouterAliaSearchList,
 } from '@/api/schedule';
 import {getAllEmployee} from '@/api/employee';
+import {
+    getAllRouterAlia
+} from '@/api/createorder';
 import util from '@/libs/util';
 import {
     getMasterCustomerListBySearchKey
@@ -112,6 +122,7 @@ export default {
       routerDetail: [],
       customerMaster: [],
       customerName:'',
+      routerName:'',
       customerNumId: util.cookies.get('__user__customernumid'),
       page: {
         current: 1,
@@ -131,14 +142,45 @@ export default {
   },
   created() {
     this._initMyPage();
-    this._getRouterAliaList({
-      customerNumId: this.customerNumId,
-    });
+      this._getRouterAliaSearchList({
+          customerNumId: this.customerNumId,
+          customerSeries: '',
+      });
   },
+    watch: {
+        'customerName'() {
+            if(this.customerName==''||this.customerName==null){
+                this.addItemParam.customerSeries='';
+            }
+            this._getRouterAliaSearchList({
+                customerNumId: this.customerNumId,
+                customerSeries: this.addItemParam.customerSeries,
+                routerSearchKey: ''
+            });
+        }
+    },
   methods: {
     _initMyPage() {
       this.handleSubmit();
     },
+      _getRouterAliaSearchList(item) {
+          getRouterAliaSearchList(item)
+              .then(res => {
+                  if (res.code === 0) {
+                      let routerDetails = [];
+                      res.routerDetailAliaModel.forEach(item => {
+                          routerDetails.push({
+                              value: item.routerAlia,
+                              ...item,
+                          });
+                      });
+                      this.routerDetail = routerDetails;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     handlePaginationChange(val) {
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
@@ -177,6 +219,24 @@ export default {
       },
       handleSelect(item) {
           this.addItemParam.customerSeries = item.customerMasterId;
+      },
+      querySearchAsyncRouter(qs, cb) {
+          if(qs=''){
+              return;
+          }
+          let routerDetails = this.routerDetail;
+          var results = qs
+              ? routerDetails.filter(this.createStateFilterRouter(qs))
+              : routerDetails;
+          cb(results);
+      },
+      createStateFilterRouter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
+      handleSelectRouter(item) {
+          this.addItemParam.routerDetailSeries = item.series;
       },
     handleSubmit(form) {
       this.loading = true;

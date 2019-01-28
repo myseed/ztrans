@@ -7,7 +7,7 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="客户名字">
+    <el-form-item label="客户名字" prop="customerName">
       <el-autocomplete v-model="form.customerName"
                        placeholder="客户名字"
                        clearable
@@ -16,7 +16,7 @@
       </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="线路名称">
+    <el-form-item label="线路名称" prop="routerAliaName">
       <el-autocomplete v-model="form.routerAliaName"
                        placeholder="线路名称"
                        clearable
@@ -26,11 +26,17 @@
     </el-form-item>
 
 
-    <el-form-item label="司机姓名">
-      <el-input
-              v-model="form.driverName"
-              placeholder="请输入"
-              style="width: 100px;"/>
+    <el-form-item label="司机姓名" prop="driverName">
+      <!--<el-input-->
+              <!--v-model="form.driverName"-->
+              <!--placeholder="请输入"-->
+              <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.driverName"
+                       placeholder="请输入"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncDriver"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="指派日期" prop="registerTime">
@@ -83,12 +89,15 @@ import util from '@/libs/util';
 import {getRouterAliaList,getRouterAliaSearchList} from '@/api/schedule';
 import {getCarTypeList} from '@/api/order';
 import {getOrderType} from '@/api/dictionary';
+import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
 import {
     getMasterCustomerListBySearchKey
 } from '@/api/createorder';
 export default {
   data() {
     return {
+      driverNames:[],
+      customerSeries:'',
       routerDetail: [],
       customerMaster: [],
       masterCustomerSearchKey: {
@@ -144,11 +153,50 @@ export default {
           customerSeries: '',
           routerSearchKey: '',
       });
+      this._getDriverNameList({
+          customerNumId: this.form.customerNumId,
+      });
   },
+    watch: {
+        'registerTime'() {
+            if(this.registerTime==''||this.registerTime==null){
+                this.form.startTime = '';
+                this.form.endTime = '';
+            }
+        },
+        'form.customerName'() {
+            if(this.form.customerName==''||this.form.customerName==null){
+                this.customerSeries='';
+            }
+            this._getRouterAliaSearchList({
+                customerNumId: this.customerNumId,
+                customerSeries: this.customerSeries,
+                routerSearchKey: ''
+            });
+        }
+    },
   methods: {
       onRegisterTimeChange(time) {
           this.form.startTime = time[0];
           this.form.endTime = time[1];
+      },
+      _getDriverNameList(params) {
+          getDriverBySearchKey(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let driverNames = [];
+                      res.customerDrivers.forEach(item => {
+                          driverNames.push({
+                              value: item.driverName,
+                              ...item,
+                          });
+                      });
+                      this.driverNames = driverNames;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
       },
       _getRouterAliaSearchList(params) {
           getRouterAliaSearchList(params)
@@ -214,6 +262,7 @@ export default {
 
       },
       handleSelect(item) {
+          this.customerSeries = item.customerMasterId;
       },
       querySearchAsync(qs, cb) {
           this.masterCustomerSearchKey.customerMasterSearchKey = qs;
@@ -243,6 +292,13 @@ export default {
           return state => {
               return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
           };
+      },
+      querySearchAsyncDriver(qs, cb) {
+          let driverNames = this.driverNames;
+          var results = qs
+              ? driverNames.filter(this.createStateFilter(qs))
+              : driverNames;
+          cb(results);
       },
     handleFormReset() {
       this.$refs.form.resetFields();

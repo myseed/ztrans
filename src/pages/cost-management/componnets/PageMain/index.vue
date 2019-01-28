@@ -66,6 +66,12 @@
           {{scope.row.orderMoney}}
         </template>
       </el-table-column>
+
+      <el-table-column label="司机结算状态" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
+        <template slot-scope="scope">
+          {{scope.row.orderBalanceStatusName}}
+        </template>
+      </el-table-column>
       
       <el-table-column label="司机应收" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
         <template slot-scope="scope">
@@ -121,7 +127,7 @@ export default {
       },
     tableData: {
       handler (val) {
-        this.currentTableData = val
+        this.currentTableData = val;
       },
       immediate: true
     },
@@ -149,7 +155,8 @@ export default {
       // 注意 这里并没有把修改后的数据传递出去 如果需要的话请自行修改
     },
     handleSelectionChange (val) {
-      this.multipleSelection = val
+      this.multipleSelection = val;
+      this.$emit("orderInfos",{orderInfos: this.multipleSelection});
     },
     downloadDataTranslate (data) {
       return data.map(row => ({

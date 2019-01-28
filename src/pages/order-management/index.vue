@@ -20,10 +20,22 @@
     <el-dialog title="变更车辆" :visible.sync="addDialog">
       <el-form :inline="true" :model="searchItemPop" size="mini">
         <el-form-item>
-          <el-input v-model="searchItemPop.carPlateNumberSearchKey" placeholder="车牌号" style="width: 100px;"></el-input>
+          <!--<el-input v-model="searchItemPop.carPlateNumberSearchKey" placeholder="车牌号" style="width: 100px;"></el-input>-->
+          <el-autocomplete v-model="searchItemPop.carPlateNumberSearchKey"
+                           placeholder="车牌号"
+                           clearable
+                           :fetch-suggestions="querySearchAsyncDriverPlate"
+                           @select="handleSelect">
+          </el-autocomplete>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="searchItemPop.driverNameSearchKey" placeholder="司机姓名" style="width: 100px;"></el-input>
+          <!--<el-input v-model="searchItemPop.driverNameSearchKey" placeholder="司机姓名" style="width: 100px;"></el-input>-->
+          <el-autocomplete v-model="searchItemPop.driverNameSearchKey"
+                           placeholder="司机姓名"
+                           clearable
+                           :fetch-suggestions="querySearchAsyncDriver"
+                           @select="handleSelect">
+          </el-autocomplete>
         </el-form-item>
         <el-form-item>
           <el-select v-model="searchItemPop.carTypeSeries" placeholder="车型" clearable style="width: 135px;">
@@ -158,6 +170,7 @@
 <script>
 import util from '@/libs/util';
 import {getRouterAliaList} from '@/api/schedule';
+import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
 import {
   getCarTypeList,
   getOrderByCustomerNumId,
@@ -182,6 +195,8 @@ export default {
     return {
       customerNumId: util.cookies.get('__user__customernumid'),
       deleteReason:'',
+      driverNames: [],
+      driverPlateNumber: [],
       deleteModel:{
           series: '',
           deleteReason: '',
@@ -229,6 +244,9 @@ export default {
     this._getOrderTypeList({
       customerNumId: this.customerNumId,
     });
+    this._getDriverNameList({
+      customerNumId: this.customerNumId,
+    });
     this._initMyPage();
   },
   computed: {
@@ -265,6 +283,54 @@ export default {
     _initMyPage() {
       this.handleSubmit();
     },
+      _getDriverNameList(params) {
+          getDriverBySearchKey(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let driverNames = [];
+                      res.customerDrivers.forEach(item => {
+                          driverNames.push({
+                              value: item.driverName,
+                              ...item,
+                          });
+                      });
+                      let driverPlatNames = [];
+                      res.customerDrivers.forEach(item => {
+                          driverPlatNames.push({
+                              value: item.carPlateNumber,
+                              ...item,
+                          });
+                      });
+                      this.driverNames = driverNames;
+                      this.driverPlateNumber = driverPlatNames;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      querySearchAsyncDriver(qs, cb) {
+          let driverNames = this.driverNames;
+          var results = qs
+              ? driverNames.filter(this.createStateFilterRouter(qs))
+              : driverNames;
+          cb(results);
+      },
+      querySearchAsyncDriverPlate(qs, cb) {
+          let driverPlateNumber = this.driverPlateNumber;
+          var results = qs
+              ? driverPlateNumber.filter(this.createStateFilterRouter(qs))
+              : driverPlateNumber;
+          cb(results);
+      },
+      createStateFilterRouter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
+      handleSelect(item) {
+
+      },
     _getCarTypeList(params) {
       getCarTypeList(params)
         .then(res => {
@@ -484,6 +550,7 @@ export default {
           this.loading = true;
           var url=exportOrder({
               customerNumId: util.cookies.get('__user__customernumid'),
+              deliverStatus: this.status,
               ...form,
           });
           window.location.href =url;

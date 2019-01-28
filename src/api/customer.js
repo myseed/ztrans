@@ -122,14 +122,27 @@ export function updateMasterCustomer (params) {
 }
 
 export function deleteOldCustomerContact (params) {
-    const url = `/deleteOldCustomerContact`
-    const ts = timestamp()
-    const data = {
-        sid: sid(),
-        timestamp: ts,
-        params: paramsify(params),
-        sign: signify(params, ts)
-    }
+  const url = `/deleteOldCustomerContact`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
 
-    return httpGet(url, data)
+  return httpGet(url, data)
+}
+
+export function getCustomerContact (params) {
+  const url = `/getCustomerContact`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+
+  return httpGet(url, data)
 }

@@ -8,30 +8,54 @@
     style="margin-bottom: -18px;">
 
     <el-form-item label="客户名称" prop="customerNameSearchKey">
-      <el-input
-        v-model="form.customerNameSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+      <!--<el-input-->
+        <!--v-model="form.customerNameSearchKey"-->
+        <!--placeholder="请输入"-->
+        <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.customerNameSearchKey"
+                       placeholder="客户名字"
+                       clearable
+                       :fetch-suggestions="querySearchAsync"
+                       @select="handleSelect">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="联系人" prop="contactNameSearchKey">
-      <el-input
-        v-model="form.contactNameSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+      <!--<el-input-->
+        <!--v-model="form.contactNameSearchKey"-->
+        <!--placeholder="请输入"-->
+        <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.contactNameSearchKey"
+                       placeholder="联系人"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncContactName"
+                       @select="handleSelectContactName">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="联系电话" prop="mobilePhoneSearchKey">
-      <el-input
-        v-model="form.mobilePhoneSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+      <!--<el-input-->
+        <!--v-model="form.mobilePhoneSearchKey"-->
+        <!--placeholder="请输入"-->
+        <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.mobilePhoneSearchKey"
+                       placeholder="联系电话"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncContactPhone"
+                       @select="handleSelectContactName">
+      </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="销售员" prop="saleId">
-      <el-select v-model="form.saleId" placeholder="请选择">
-        <el-option v-for="(item, index) in customerSales" :key="index" :label="item.salePersonName" :value="item.salePersonId"></el-option>
-      </el-select>
+    <el-form-item label="销售员" prop="saleName">
+      <!--<el-select v-model="form.saleId" placeholder="请选择">-->
+        <!--<el-option v-for="(item, index) in customerSales" :key="index" :label="item.salePersonName" :value="item.salePersonId"></el-option>-->
+      <!--</el-select>-->
+      <el-autocomplete v-model="form.saleName"
+                       placeholder="销售员"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncSaleName"
+                       @select="handleSelectSaleName">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="注册日期" prop="registerTime">
@@ -80,13 +104,24 @@
 
 <script>
 import util from '@/libs/util';
-import {getAllSaleList} from '@/api/customer';
-
+import {getAllSaleList,getCustomerContact} from '@/api/customer';
+import {
+    getMasterCustomerListBySearchKey
+} from '@/api/createorder';
 export default {
   data() {
     return {
+      customerSeries:'',
       customerSales: [],
       registerTime: '',
+      customerMaster: [],
+      contactName:[],
+      contactPhone:[],
+      saleNames:[],
+      masterCustomerSearchKey: {
+         customerMasterSearchKey: '',
+         customerNumId: '',
+      },
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         saleId: '',
@@ -95,6 +130,7 @@ export default {
         mobilePhoneSearchKey: '',
         registerEndTime: '',
         registerStartTime: '',
+        saleName:''
       },
       rules: {},
       pickerOptions: {
@@ -138,19 +174,127 @@ export default {
       customerNumId: this.form.customerNumId,
       franchiseeId: '',
     });
+    this._getContactNameList({
+      customerNumId: this.form.customerNumId,
+    });
   },
+    watch: {
+        'registerTime'() {
+            if(this.registerTime==''||this.registerTime==null){
+                this.form.registerStartTime = '';
+                this.form.registerEndTime = '';
+            }
+        },
+        'form.saleName'() {
+            if(this.form.saleName==''||this.form.saleName==null){
+                this.form.saleId='';
+            }
+        }
+    },
   methods: {
+      querySearchAsync(qs, cb) {
+          this.masterCustomerSearchKey.customerMasterSearchKey = qs;
+          this.masterCustomerSearchKey.customerNumId = this.customerNumId;
+          getMasterCustomerListBySearchKey(this.masterCustomerSearchKey).then(
+              res => {
+                  if (res.code === 0) {
+                      let customerMasters = [];
+                      // customerMasters= res.customerMasterList;
+                      res.customerMasterList.forEach(item => {
+                          customerMasters.push({
+                              value: item.customerName,
+                              ...item,
+                          });
+                      });
+                      this.customerMaster = customerMasters;
+                      let customerMaster = this.customerMaster;
+                      var results = qs
+                          ? customerMaster.filter(this.createStateFilter(qs))
+                          : customerMaster;
+                      cb(results);
+                  }
+              }
+          );
+      },
+      createStateFilter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
+      handleSelect(item) {
+          this.customerSeries = item.customerMasterId;
+      },
     _getAllSaleList(params) {
-      getAllSaleList(params)
+        getAllSaleList(params)
         .then(res => {
-          if (res.code === 0) {
-            this.customerSales = res.customerSales;
-          }
+            if (res.code === 0) {
+                let saleName = [];
+                res.customerSales.forEach(item => {
+                    saleName.push({
+                        value: item.salePersonName,
+                        ...item,
+                    });
+                });
+                this.saleNames = saleName;
+            }
         })
         .catch(err => {
           console.log(err);
         });
     },
+      _getContactNameList(params) {
+          getCustomerContact(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let contactName = [];
+                      res.customerContact.forEach(item => {
+                          contactName.push({
+                              value: item.contactName,
+                              ...item,
+                          });
+                      });
+                      let contactPhone=[];
+                      res.customerContact.forEach(item => {
+                          contactPhone.push({
+                              value: item.contactPhone,
+                              ...item,
+                          });
+                      });
+                      this.contactName = contactName;
+                      this.contactPhone = contactPhone;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      querySearchAsyncSaleName(qs, cb) {
+          let saleNames = this.saleNames;
+          var results = qs
+              ? saleNames.filter(this.createStateFilter(qs))
+              : saleNames;
+          cb(results);
+      },
+      querySearchAsyncContactName(qs, cb) {
+          let contactName = this.contactName;
+          var results = qs
+              ? contactName.filter(this.createStateFilter(qs))
+              : contactName;
+          cb(results);
+      },
+      querySearchAsyncContactPhone(qs, cb) {
+          let contactPhone = this.contactPhone;
+          var results = qs
+              ? contactPhone.filter(this.createStateFilter(qs))
+              : contactPhone;
+          cb(results);
+      },
+      handleSelectSaleName(item){
+          this.form.saleId=item.salePersonId;
+      },
+      handleSelectContactName(item) {
+
+      },
     onRegisterTimeChange(time) {
       this.form.registerStartTime = time[0];
       this.form.registerEndTime = time[1];

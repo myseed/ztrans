@@ -55,6 +55,30 @@ const frameIn = [
         meta: { meta, title: '订单管理' }
       },
       {
+        path: '/order-management1/:status',
+        name: 'order-management1',
+        component: () => import('@/pages/order-management'),
+        meta: { meta, title: '未接单订单' }
+      },
+      {
+        path: '/order-management2/:status',
+        name: 'order-management2',
+        component: () => import('@/pages/order-management'),
+        meta: { meta, title: '未完成订单' }
+      },
+      {
+        path: '/order-management3/:status',
+        name: 'order-management3',
+        component: () => import('@/pages/order-management'),
+        meta: { meta, title: '已完成订单' }
+      },
+      {
+        path: '/order-management4/:status',
+        name: 'order-management4',
+        component: () => import('@/pages/order-management'),
+        meta: { meta, title: '异常订单' }
+      },
+      {
         path: '/order-detail',
         name: 'order-detail',
         component: () => import('@/pages/order-detail'),
@@ -109,10 +133,22 @@ const frameIn = [
         meta: { meta, title: '客户报价' }
       },
       {
-        path: '/cost-management/:status',
-        name: 'cost-management',
+        path: '/cost-management1/:status',
+        name: 'cost-management1',
         component: () => import('@/pages/cost-management'),
-        meta: { meta, title: '订单费用' }
+        meta: { meta, title: '订单完整费用' }
+      },
+      {
+        path: '/cost-management2/:status',
+        name: 'cost-management2',
+        component: () => import('@/pages/cost-management'),
+        meta: { meta, title: '司机费用' }
+      },
+      {
+        path: '/cost-management3/:status',
+        name: 'cost-management3',
+        component: () => import('@/pages/cost-management'),
+        meta: { meta, title: '客户费用' }
       },
       {
         path: '/sale-management',

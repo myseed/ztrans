@@ -9,10 +9,16 @@
 
 
     <el-form-item label="销售员姓名" prop="salePersonNameSearchKey">
-      <el-input
-        v-model="form.salePersonNameSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+      <!--<el-input-->
+        <!--v-model="form.salePersonNameSearchKey"-->
+        <!--placeholder="请输入"-->
+        <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.salePersonNameSearchKey"
+                       placeholder="销售员"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncSaleName"
+                       @select="handleSelectSaleName">
+      </el-autocomplete>
     </el-form-item>
 
 
@@ -20,7 +26,7 @@
       <el-input
               v-model="form.salePersonPhoneSearchKey"
               placeholder="请输入"
-              style="width: 100px;"/>
+              style="width: 200px;"/>
     </el-form-item>
 
     <el-form-item>
@@ -54,6 +60,7 @@
 
 <script>
 import {getRouterAliaList} from '@/api/schedule';
+import {getAllSaleList} from '@/api/customer';
 import util from '@/libs/util';
 
 export default {
@@ -68,7 +75,12 @@ export default {
       rules: {},
     };
   },
-  created() {},
+  created() {
+      this._getAllSaleList({
+          customerNumId: this.form.customerNumId,
+          franchiseeId: '',
+      });
+  },
   methods: {
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
@@ -83,6 +95,34 @@ export default {
         }
       });
     },
+      querySearchAsyncSaleName(qs, cb) {
+          let saleNames = this.saleNames;
+          var results = qs
+              ? saleNames.filter(this.createStateFilter(qs))
+              : saleNames;
+          cb(results);
+      },
+      handleSelectSaleName(item){
+
+      },
+      _getAllSaleList(params) {
+          getAllSaleList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let saleName = [];
+                      res.customerSales.forEach(item => {
+                          saleName.push({
+                              value: item.salePersonName,
+                              ...item,
+                          });
+                      });
+                      this.saleNames = saleName;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     handleFormReset() {
       this.$refs.form.resetFields();
     },

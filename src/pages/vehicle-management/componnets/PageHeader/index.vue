@@ -7,30 +7,42 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="所属车队">
-      <el-select v-model="form.motorcadeId" placeholder="请选择" style="width: 150px;">
-        <el-option v-for="(item, index) in motorcadeNameList" :key="index" :label="item.motorcadeCar" :value="item.motorcadeId"></el-option>
-      </el-select>
-    </el-form-item>
+    <!--<el-form-item label="所属车队" prop="motorcadeId">-->
+      <!--<el-select v-model="form.motorcadeId" placeholder="请选择" style="width: 150px;">-->
+        <!--<el-option v-for="(item, index) in motorcadeNameList" :key="index" :label="item.motorcadeCar" :value="item.motorcadeId"></el-option>-->
+      <!--</el-select>-->
+    <!--</el-form-item>-->
 
-    <el-form-item label="审核状态">
+    <el-form-item label="审核状态" prop="checkStatus">
       <el-select v-model="form.checkStatus" placeholder="请选择" style="width: 150px;">
         <el-option v-for="(item, index) in checkIdAndCheckStatus" :key="index" :label="item.checkStatusName" :value="item.checkStatusId"></el-option>
       </el-select>
     </el-form-item>
 
     <el-form-item label="车牌号" prop="carPlateNumberSearchKey">
-      <el-input
-              v-model="form.carPlateNumberSearchKey"
-              placeholder="请输入"
-              style="width: 100px;"/>
+      <!--<el-input-->
+              <!--v-model="form.carPlateNumberSearchKey"-->
+              <!--placeholder="请输入"-->
+              <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.carPlateNumberSearchKey"
+                       placeholder="车牌号"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncDriverPlate"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="司机姓名" prop="driverNameSearchKey">
-      <el-input
-              v-model="form.driverNameSearchKey"
-              placeholder="请输入"
-              style="width: 100px;"/>
+      <!--<el-input-->
+              <!--v-model="form.driverNameSearchKey"-->
+              <!--placeholder="请输入"-->
+              <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.driverNameSearchKey"
+                       placeholder="司机姓名"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncDriver"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="司机手机号" prop="driverPhoneSearchKey">
@@ -79,11 +91,13 @@ import {
   getAllPrv,
   getAllTown,
 } from '@/api/dictionary';
-
+import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
 export default {
   data() {
     return {
       customerSales: [],
+      driverNames: [],
+      driverPlateNumber: [],
       registerTime: '',
       checkIdAndCheckStatus: [],
       motorcadeNameList: [],
@@ -136,6 +150,9 @@ export default {
     this._getCheckStatus({
       customerNumId: this.customerNumId,
     });
+      this._getDriverNameList({
+          customerNumId: this.form.customerNumId,
+      });
   },
   methods: {
     _getCheckStatus(params) {
@@ -153,6 +170,49 @@ export default {
       this.form.registerStartTime = time[0];
       this.form.registerEndTime = time[1];
     },
+      _getDriverNameList(params) {
+          getDriverBySearchKey(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let driverNames = [];
+                      res.customerDrivers.forEach(item => {
+                          driverNames.push({
+                              value: item.driverName,
+                              ...item,
+                          });
+                      });
+                      let driverPlatNames = [];
+                      res.customerDrivers.forEach(item => {
+                          driverPlatNames.push({
+                              value: item.carPlateNumber,
+                              ...item,
+                          });
+                      });
+                      this.driverNames = driverNames;
+                      this.driverPlateNumber = driverPlatNames;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      handleSelectRouter(item) {
+
+      },
+      querySearchAsyncDriver(qs, cb) {
+          let driverNames = this.driverNames;
+          var results = qs
+              ? driverNames.filter(this.createStateFilterRouter(qs))
+              : driverNames;
+          cb(results);
+      },
+      querySearchAsyncDriverPlate(qs, cb) {
+          let driverPlateNumber = this.driverPlateNumber;
+          var results = qs
+              ? driverPlateNumber.filter(this.createStateFilterRouter(qs))
+              : driverPlateNumber;
+          cb(results);
+      },
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {

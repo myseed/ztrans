@@ -7,7 +7,7 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="客户名字">
+    <el-form-item label="客户名字" prop="customerNameSearchKey">
       <el-autocomplete v-model="form.customerNameSearchKey"
                        placeholder="客户名字"
                        clearable
@@ -17,13 +17,19 @@
     </el-form-item>
 
     <el-form-item label="线路编号" prop="routerNumberSearchKey">
-      <el-input
-        v-model="form.routerNumberSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+      <!--<el-input-->
+        <!--v-model="form.routerNumberSearchKey"-->
+        <!--placeholder="请输入"-->
+        <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.routerNumberSearchKey"
+                       placeholder="线路编号"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncRouterNumber"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="线路名称">
+    <el-form-item label="线路名称" prop="routerAliaSearchKey">
       <el-autocomplete v-model="form.routerAliaSearchKey"
                        placeholder="线路名称"
                        clearable
@@ -95,7 +101,9 @@ import {
 export default {
   data() {
     return {
+      customerSeries:'',
       routerDetail: [],
+      routerNumber:[],
       carTypes: [],
       orderTypes: [],
       customerMaster: [],
@@ -160,6 +168,24 @@ export default {
       customerNumId: this.form.customerNumId,
     });
   },
+    watch: {
+        'registerTime'() {
+            if(this.registerTime==''||this.registerTime==null){
+                this.form.startTime = '';
+                this.form.endTime = '';
+            }
+        },
+        'form.customerNameSearchKey'() {
+            if(this.form.customerNameSearchKey==''||this.form.customerNameSearchKey==null){
+                this.customerSeries='';
+            }
+            this._getRouterAliaSearchList({
+                customerNumId: this.customerNumId,
+                customerSeries: this.customerSeries,
+                routerSearchKey: ''
+            });
+        }
+    },
   methods: {
       _getRouterAliaSearchList(params) {
           getRouterAliaSearchList(params)
@@ -172,12 +198,27 @@ export default {
                               ...item,
                           });
                       });
+                      let routerNumber=[];
+                      res.routerDetailAliaModel.forEach(item => {
+                          routerNumber.push({
+                              value: item.routerNumber,
+                              ...item,
+                          });
+                      });
                       this.routerDetail = routerDetail;
+                      this.routerNumber = routerNumber;
                   }
               })
               .catch(err => {
                   console.log(err);
               });
+      },
+      querySearchAsyncRouterNumber(qs, cb) {
+          let routerNumber = this.routerNumber;
+          var results = qs
+              ? routerNumber.filter(this.createStateFilterRouter(qs))
+              : routerNumber;
+          cb(results);
       },
       onTimeChange(time) {
           this.form.startTime = time[0];
@@ -258,6 +299,7 @@ export default {
 
       },
       handleSelect(item) {
+          this.customerSeries = item.customerMasterId;
       },
       querySearchAsync(qs, cb) {
           this.masterCustomerSearchKey.customerMasterSearchKey = qs;

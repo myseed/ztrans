@@ -7,23 +7,37 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="客户编号">
-      <el-select v-model="form.customerSeries" placeholder="请选择" style="width: 150px;">
-        <el-option v-for="(item, index) in customerMasterList" :key="index" :label="item.customerName" :value="item.customerMasterId"></el-option>
-      </el-select>
+    <el-form-item label="客户编号" prop="customerName">
+      <!--<el-select v-model="form.customerSeries" placeholder="请选择" style="width: 150px;">-->
+        <!--<el-option v-for="(item, index) in customerMasterList" :key="index" :label="item.customerName" :value="item.customerMasterId"></el-option>-->
+      <!--</el-select>-->
+
+      <el-autocomplete v-model="customerName"
+                       placeholder="客户名字"
+                       clearable
+                       :fetch-suggestions="querySearchAsync"
+                       @select="handleSelect">
+      </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="线路编号">
-      <el-input v-model="form.routerNumberSearchKey" placeholder="请输入" style="width: 100px;"></el-input>
+    <el-form-item label="线路编号" prop="routerNumberSearchKey">
+      <!--<el-input v-model="form.routerNumberSearchKey" placeholder="请输入" style="width: 100px;"></el-input>-->
+      <el-autocomplete v-model="form.routerNumberSearchKey"
+                       style="width: 150px;"
+                       placeholder="请输入"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncRouterNumber"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="线路名称">
+    <el-form-item label="线路名称" prop="routerDetailAliaSearchKey">
       <el-autocomplete v-model="form.routerDetailAliaSearchKey"
                        style="width: 150px;"
                        placeholder="线路名称"
                        clearable
-                       :fetch-suggestions="querySearchAsync"
-                       @select="handleSelect">
+                       :fetch-suggestions="querySearchAsyncRouter"
+                       @select="handleSelectRouter">
       </el-autocomplete>
       </el-form-item>
     <el-form-item>
@@ -58,18 +72,28 @@
 <script>
 import {getMasterCustomerList} from '@/api/price';
 import {getRouterAliaSearchList} from '@/api/schedule';
+import {
+    getMasterCustomerListBySearchKey
+} from '@/api/createorder';
 import util from '@/libs/util';
 
 export default {
   data() {
     return {
       routerDetail: [],
+      routerNumber: [],
       customerMasterList: [],
+      customerMaster: [],
+      customerName:'',
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         customerSeries: '',
         routerNumberSearchKey: '',
         routerDetailAliaSearchKey: '',
+      },
+      masterCustomerSearchKey: {
+       customerMasterSearchKey: '',
+       customerNumId: '',
       },
       rules: {},
     };
@@ -84,13 +108,29 @@ export default {
       customerSeries: '',
       routerSearchKey: '',
     });
-    this._getRouterAliaList({
-      customerNumId: this.form.customerNumId,
-    });
   },
+    watch: {
+        'customerName'() {
+            if(this.customerName==''||this.customerName==null){
+                this.form.customerSeries='';
+            }
+            this._getRouterAliaSearchList({
+                customerNumId: this.customerNumId,
+                customerSeries: this.form.customerSeries,
+                routerSearchKey: ''
+            });
+        }
+    },
   methods: {
-    querySearchAsync(qs, cb) {
+    querySearchAsyncRouter(qs, cb) {
       let routerDetail = this.routerDetail;
+      var results = qs
+        ? routerDetail.filter(this.createStateFilter(qs))
+        : routerDetail;
+      cb(results);
+    },
+      querySearchAsyncRouterNumber(qs, cb) {
+      let routerDetail = this.routerNumber;
       var results = qs
         ? routerDetail.filter(this.createStateFilter(qs))
         : routerDetail;
@@ -101,7 +141,7 @@ export default {
         return state.value.toLowerCase().indexOf(qs.toLowerCase()) === 0;
       };
     },
-    handleSelect(item) {
+    handleSelectRouter(item) {
       console.log(item);
     },
     _getRouterAliaSearchList(params) {
@@ -115,24 +155,48 @@ export default {
                 ...item,
               });
             });
+              let routerNumber=[];
+              res.routerDetailAliaModel.forEach(item => {
+                  routerNumber.push({
+                      value: item.routerNumber,
+                      ...item,
+                  });
+              });
             this.routerDetail = routerDetail;
+            this.routerNumber = routerNumber;
           }
         })
         .catch(err => {
           console.log(err);
         });
     },
-    _getRouterAliaList(params) {
-      getRouterAliaList(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.routerDetail = res.routerDetail;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+      handleSelect(item) {
+          this.form.customerSeries = item.customerMasterId;
+      },
+      querySearchAsync(qs, cb) {
+          this.masterCustomerSearchKey.customerMasterSearchKey = qs;
+          this.masterCustomerSearchKey.customerNumId = this.customerNumId;
+          getMasterCustomerListBySearchKey(this.masterCustomerSearchKey).then(
+              res => {
+                  if (res.code === 0) {
+                      let customerMasters = [];
+                      // customerMasters= res.customerMasterList;
+                      res.customerMasterList.forEach(item => {
+                          customerMasters.push({
+                              value: item.customerName,
+                              ...item,
+                          });
+                      });
+                      this.customerMaster = customerMasters;
+                      let customerMaster = this.customerMaster;
+                      var results = qs
+                          ? customerMaster.filter(this.createStateFilter(qs))
+                          : customerMaster;
+                      cb(results);
+                  }
+              }
+          );
+      },
     _getMasterCustomerList(params) {
       getMasterCustomerList(params)
         .then(res => {

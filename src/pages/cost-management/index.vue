@@ -4,10 +4,12 @@
       slot="header"
       @submit="handleSubmit"
       @downLoadExcel="downLoadExcel"
+      @calculate="calculate"
       ref="header"/>
     <page-main
       :table-data="table"
-      :loading="loading"/>
+      :loading="loading"
+      @orderInfos="orderInfoss"/>
     <page-footer
       slot="footer"
       :current="page.current"
@@ -19,7 +21,7 @@
 
 <script>
 import util from '@/libs/util';
-import {getOrderPriceList,exportOrderPrice} from '@/api/orderprice';
+import {getOrderPriceList,exportOrderPrice,updateOrderFeeByHasCalculate} from '@/api/orderprice';
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
@@ -32,6 +34,7 @@ export default {
   data() {
     return {
       table: [],
+      orderInfos: [],
       loading: false,
       page: {
         current: 1,
@@ -53,10 +56,6 @@ export default {
       this.handleSubmit();
     },
     handlePaginationChange(val) {
-      this.$notify({
-        title: '分页变化',
-        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`,
-      });
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
       this.$nextTick(() => {
@@ -84,6 +83,34 @@ export default {
               .catch(err => {
                   this.loading = false;
               });
+      },
+      orderInfoss(param) {
+          this.orderInfos=param.orderInfos;
+      },
+      calculate(param){
+          this.$confirm("此操作将更改订单结算状态, 是否继续?", "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+          })
+              .then(() => {
+          updateOrderFeeByHasCalculate({
+              customerNumId: util.cookies.get('__user__customernumid'),
+              orderInfos:this.orderInfos
+          })
+              .then(res => {
+                  this.$message({
+                      type: 'success',
+                      message: '修改结算状态成功！'
+                  });
+                  this.handleSubmit();
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      }) .catch(() => {
+              console.log("更改结算状态失败！");
+          });
       },
      downLoadExcel(form) {
       this.loading = true;

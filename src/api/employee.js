@@ -57,3 +57,16 @@ export function updatePassword (params) {
 
     return httpGet(url, data)
 }
+
+export function getEmployeeList (params) {
+    const url = `/getEmployeeList`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

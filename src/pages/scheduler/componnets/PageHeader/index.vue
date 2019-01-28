@@ -7,20 +7,26 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="线路别名" prop="routerDetailAliaSearchKey">
-      <el-select
-        v-model="form.routerDetailAliaSearchKey"
-        placeholder="请选择"
-        style="width: 150px;">
-        <el-option v-for="(item, index) in routerDetail" :key="index" :label="item.routerAlia" :value="item.routerAlia"></el-option>
-      </el-select>
+    <el-form-item label="线路名称" prop="routerDetailAliaSearchKey">
+      <el-autocomplete v-model="form.routerDetailAliaSearchKey"
+                       placeholder="线路名称"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncRouter"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item label="调度人" prop="employeeNameSearchKey">
-      <el-input
-        v-model="form.employeeNameSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+      <!--<el-input-->
+        <!--v-model="form.employeeNameSearchKey"-->
+        <!--placeholder="请输入"-->
+        <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.employeeNameSearchKey"
+                       placeholder="调度人"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncEmployee"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
     </el-form-item>
 
     <el-form-item>
@@ -53,13 +59,15 @@
 </template>
 
 <script>
-import {getRouterAliaList} from '@/api/schedule';
+    import {getRouterAliaList,getRouterAliaSearchList} from '@/api/schedule';
+    import {getEmployeeList} from '@/api/employee';
 import util from '@/libs/util';
 
 export default {
   data() {
     return {
       routerDetail: [],
+      baseCustomers:[],
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         routerDetailAliaSearchKey: '',
@@ -69,22 +77,76 @@ export default {
     };
   },
   created() {
-    this._getRouterAliaList({
-      customerNumId: this.form.customerNumId,
-    });
+      this._getRouterAliaSearchList({
+          customerNumId: this.customerNumId,
+          customerSeries: '',
+          routerSearchKey: '',
+      });
+      this._getEmployeeList({
+          customerNumId: this.customerNumId,
+          jobId: '0',
+          employeeNameSearchKey: '',
+      });
   },
   methods: {
-    _getRouterAliaList(params) {
-      getRouterAliaList(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.routerDetail = res.routerDetail;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+      _getRouterAliaSearchList(params) {
+          getRouterAliaSearchList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let routerDetail = [];
+                      res.routerDetailAliaModel.forEach(item => {
+                          routerDetail.push({
+                              value: item.routerAlia,
+                              ...item,
+                          });
+                      });
+                      this.routerDetail = routerDetail;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      _getEmployeeList(params) {
+          getEmployeeList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let baseCustomers = [];
+                      res.baseCustomers.forEach(item => {
+                          baseCustomers.push({
+                              value: item.customerName,
+                              ...item,
+                          });
+                      });
+                      this.baseCustomers = baseCustomers;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      querySearchAsyncEmployee(qs, cb) {
+          let baseCustomers = this.baseCustomers;
+          var results = qs
+              ? baseCustomers.filter(this.createStateFilterRouter(qs))
+              : baseCustomers;
+          cb(results);
+      },
+      querySearchAsyncRouter(qs, cb) {
+          let routerDetails = this.routerDetail;
+          var results = qs
+              ? routerDetails.filter(this.createStateFilterRouter(qs))
+              : routerDetails;
+          cb(results);
+      },
+      createStateFilterRouter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
+      handleSelectRouter(item) {
+
+      },
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {

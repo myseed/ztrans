@@ -9,18 +9,31 @@
 
 
     <el-form-item label="员工名字" prop="employeeNameSearchKey">
-      <el-input
-        v-model="form.employeeNameSearchKey"
-        placeholder="请输入"
-        style="width: 100px;"/>
+      <!--<el-input-->
+        <!--v-model="form.employeeNameSearchKey"-->
+        <!--placeholder="请输入"-->
+        <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.employeeNameSearchKey"
+                       placeholder="员工名字"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncEmployee"
+                       @select="handleSelect">
+      </el-autocomplete>
     </el-form-item>
 
 
     <el-form-item label="员工工号" prop="employeeJobNumSearchKey">
-      <el-input
-              v-model="form.employeeJobNumSearchKey"
-              placeholder="请输入"
-              style="width: 100px;"/>
+      <!--<el-input-->
+              <!--v-model="form.employeeJobNumSearchKey"-->
+              <!--placeholder="请输入"-->
+              <!--style="width: 100px;"/>-->
+      <el-autocomplete v-model="form.employeeJobNumSearchKey"
+                       placeholder="员工工号"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncEmployeeJobNum"
+                       @select="handleSelect">
+      </el-autocomplete>
+
     </el-form-item>
 
     <el-form-item label="职位" prop="jobId">
@@ -63,12 +76,15 @@
 
 <script>
 import {getCustomerJob} from '@/api/dictionary';
+import {getEmployeeList} from '@/api/employee';
 import util from '@/libs/util';
 
 export default {
   data() {
     return {
         customerJobModels: [],
+        baseCustomers:[],
+        baseCustomersJobNum:[],
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         employeeNameSearchKey: '',
@@ -81,6 +97,11 @@ export default {
   created() {
       this._getCustomerJob({
           customerNumId: this.form.customerNumId,
+      });
+      this._getEmployeeList({
+          customerNumId: this.customerNumId,
+          jobId: '',
+          employeeNameSearchKey: '',
       });
   },
   methods: {
@@ -95,6 +116,54 @@ export default {
                   console.log(err);
               });
      },
+      _getEmployeeList(params) {
+          getEmployeeList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      let baseCustomers = [];
+                      res.baseCustomers.forEach(item => {
+                          baseCustomers.push({
+                              value: item.customerName,
+                              ...item,
+                          });
+                      });
+                      this.baseCustomers = baseCustomers;
+                      let baseCustomersJobNum = [];
+                      res.baseCustomers.forEach(item => {
+                          baseCustomersJobNum.push({
+                              value: item.jobNum,
+                              ...item,
+                          });
+                      });
+                      this.baseCustomersJobNum = baseCustomersJobNum;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      querySearchAsyncEmployeeJobNum(qs, cb) {
+          let baseCustomersJobNum = this.baseCustomersJobNum;
+          var results = qs
+              ? baseCustomersJobNum.filter(this.createStateFilterRouter(qs))
+              : baseCustomersJobNum;
+          cb(results);
+      },
+      querySearchAsyncEmployee(qs, cb) {
+          let baseCustomers = this.baseCustomers;
+          var results = qs
+              ? baseCustomers.filter(this.createStateFilterRouter(qs))
+              : baseCustomers;
+          cb(results);
+      },
+      createStateFilterRouter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
+      handleSelect(item) {
+
+      },
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {

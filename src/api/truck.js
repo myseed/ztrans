@@ -160,3 +160,16 @@ export function getDriverBySearchKey (params) {
 
   return httpGet(url, data)
 }
+
+export function getDriverByPlateNumberSearchKey (params) {
+  const url = `/getDriverByPlateNumberSearchKey`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+
+  return httpGet(url, data)
+}

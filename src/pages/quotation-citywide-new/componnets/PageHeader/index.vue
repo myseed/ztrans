@@ -7,11 +7,18 @@
           size="mini"
           style="margin-bottom: -18px;">
 
-    <el-form-item label="线路编号">
-      <el-input v-model="form.routerNumberSearchKey" placeholder="请输入" style="width: 100px;"></el-input>
+    <el-form-item label="线路编号" prop="routerNumberSearchKey">
+      <!--<el-input v-model="form.routerNumberSearchKey" placeholder="请输入" style="width: 100px;"></el-input>-->
+      <el-autocomplete v-model="form.routerNumberSearchKey"
+                       style="width: 150px;"
+                       placeholder="请输入"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncRouterNumber"
+                       @select="handleSelect">
+      </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="线路名称">
+    <el-form-item label="线路名称" prop="routerDetailAliaSearchKey">
       <el-autocomplete v-model="form.routerDetailAliaSearchKey"
                        style="width: 150px;"
                        placeholder="请输入"
@@ -58,6 +65,7 @@ export default {
   data() {
     return {
       routerDetail: [],
+      routerNumber: [],
       customerMasterList: [],
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
@@ -69,17 +77,10 @@ export default {
     };
   },
   created() {
-    this._getMasterCustomerList({
-      customerNumId: this.customerNumId,
-      saleId: '',
-    });
     this._getRouterAliaSearchList({
       customerNumId: this.customerNumId,
-      customerSeries: '',
+      customerSeries: '0',
       routerSearchKey: '',
-    });
-    this._getRouterAliaList({
-      customerNumId: this.form.customerNumId,
     });
   },
   methods: {
@@ -90,6 +91,13 @@ export default {
         : routerDetail;
       cb(results);
     },
+      querySearchAsyncRouterNumber(qs, cb) {
+          let routerDetail = this.routerNumber;
+          var results = qs
+              ? routerDetail.filter(this.createStateFilter(qs))
+              : routerDetail;
+          cb(results);
+      },
     createStateFilter(qs) {
       return state => {
         return state.value.toLowerCase().indexOf(qs.toLowerCase()) === 0;
@@ -109,29 +117,15 @@ export default {
                 ...item,
               });
             });
+              let routerNumber=[];
+              res.routerDetailAliaModel.forEach(item => {
+                  routerNumber.push({
+                      value: item.routerNumber,
+                      ...item,
+                  });
+              });
             this.routerDetail = routerDetail;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    _getRouterAliaList(params) {
-      getRouterAliaList(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.routerDetail = res.routerDetail;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    _getMasterCustomerList(params) {
-      getMasterCustomerList(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.customerMasterList = res.customerMasterList;
+            this.routerNumber = routerNumber;
           }
         })
         .catch(err => {
