@@ -306,9 +306,6 @@ export default {
       this.createOrder.customerMasterId = item.customerMasterId;
     },
     querySearchAsyncRouter(qs, cb) {
-      if(qs=''){
-          return;
-      }
       let routerDetails = this.routerDetails;
       var results = qs
         ? routerDetails.filter(this.createStateFilterRouter(qs))

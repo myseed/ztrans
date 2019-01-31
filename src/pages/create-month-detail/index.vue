@@ -18,7 +18,50 @@
                            @select="handleSelectRouter">
           </el-autocomplete>
         </el-form-item>
-
+        <el-form-item label="是否需要搬卸">
+        <el-select v-model="createOrder.wetherTakeover">
+          <el-option
+                  v-for="item in takeOver"
+                  :key="item.text"
+                  :label="item.text"
+                  :value="item.value">
+          </el-option>
+        </el-select>
+        </el-form-item>
+        <el-form-item label="发货人名字" >
+          <el-input v-model="createOrder.sendGoodsPersonName" placeholder="发货人名字" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="发货人电话">
+          <el-input v-model="createOrder.sendGoodsPersonMobile" placeholder="发货人电话" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="发货人地址">
+          <el-input v-model="createOrder.sendAddressDetail" placeholder="发货人地址" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="发货地(省/市/区/县/)">
+          <el-input v-model="sourceLocalction" disabled style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="收货人名字" >
+          <el-input v-model="createOrder.receiveGoodsPersonName" placeholder="收货人名字" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="收货人电话">
+          <el-input v-model="createOrder.receiveGoodsPersonMobile" placeholder="收货人电话" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="收货人地址">
+          <el-input v-model="createOrder.receiveAddressDetail" placeholder="收货人地址" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="收货地(省/市/区/县/)">
+          <el-input v-model="destinationLocalction" disabled style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="车型">
+          <el-select v-model="createOrder.carTypeSeries" placeholder="请选择车型">
+            <el-option v-for="(item, index) in carTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="车长">
+          <el-select v-model="createOrder.carSizeSeries" placeholder="请选择车长">
+            <el-option v-for="(item, index) in carSizes" :key="item.sizeId" :label="item.sizeName" :value="item.sizeId"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="吨位">
           <el-select v-model="carWeight" placeholder="请选择车型和车长">
             <el-option
@@ -28,6 +71,15 @@
                     :value="item.weightName">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="路径站点个数">
+          <el-input v-model="createOrder.sendGoodsLocationNum" placeholder="路径站点个数" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="补充信息">
+          <el-input  type="textarea" v-model="createOrder.remark" :rows="7" placeholder="补充信息" style="width: 500px;"></el-input>
+        </el-form-item>
+        <el-form-item label="货物信息">
+          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="货物信息"  style="width: 500px;"></el-input>
         </el-form-item>
 
         <el-form-item label="司机名字">
@@ -46,8 +98,26 @@
         <el-form-item label="司机真实报价" >
           <el-input v-model="driverRealPrice" placeholder="司机真实报价" style="width: 500px;"></el-input>
         </el-form-item>
+        <el-form-item label="派车时间(时/分)">
+          <el-time-picker
+                  v-model="createOrder.appointmentDate"
+                  type="datetime"
+                  value-format="HH:mm:ss"
+                  placeholder="任意时间点">
+          </el-time-picker>
+          <!--<el-date-picker-->
+          <!--style="width: 500px;"-->
+          <!--v-model="createOrder.appointmentDate"-->
+          <!--type="datetime"-->
+          <!--placeholder="请选择约车时间"-->
+          <!--align="right"-->
+          <!--value-format="HH:mm:ss"-->
+          <!--format="HH:mm:ss"-->
+          <!--:picker-options="pickerOptions">-->
+          <!--</el-date-picker>-->
+        </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="dialogFormVisibleTask=true" :loading="searching">请选择派车日期</el-button>
+          <el-button type="primary" @click="dialogFormVisibleTask=true" :loading="searching">派车时间(年/月/日)</el-button>
         </el-form-item>
         <!--<div class="btn-groups">-->
         <!--<div v-for="(item,index) in btn_group" :class="{'btn-active':item.show}" @click="chooeseBtn(index)">{{item.name}}</div>-->
@@ -92,6 +162,7 @@
     export default {
         data() {
             return {
+                takeOver: [{text: '是', value: 'Y'}, {text: '否', value: 'N'}],
                 dialogFormVisibleTask:false,
                 searching: false,
                 customerNumId: util.cookies.get('__user__customernumid'),
@@ -112,7 +183,9 @@
                 routerAlial: '',
                 driverName:'',
                 createOrder: {
-                    weightName:'',
+                    carTypeSeries: '',
+                    carSizeSeries: '',
+                    carWeightSeries:'',
                     customerNumId: util.cookies.get('__user__customernumid'),
                     customerSeries: '',
                     routerDetailSeries: '',
@@ -120,6 +193,23 @@
                     appointmentDates:[],
                     driverSeries:'',
                     carRealMoney:'',
+                    sendGoodsPersonName: '',
+                    sendGoodsPersonMobile: '',
+                    sendGoodsLocationNum: '',
+                    appointmentNum: '',
+                    deliverGoodsTime: '',
+                    receiveGoodsPersonName: '',
+                    receiveGoodsPersonMobile: '',
+                    receiveGoodsLocationNum: '',
+                    sendAddressDetail: '',
+                    receiveAddressDetail: '',
+                    wetherTakeover: 'N',
+                    remark: '',
+                    appointmentDate: '',
+                    initPrice: '',
+                    initDistance: '',
+                    overstepPrice: '',
+                    goodsRemark: '',
                 },
                 masterCustomerSearchKey: {
                     customerMasterSearchKey: '',
@@ -144,6 +234,12 @@
             this._getMasterCustomerListBySearchKey({
                 customerNumId: this.customerNumId,
             });
+            this._getCarTypeList({
+                customerNumId: this.customerNumId,
+            });
+            this._getCarSizeList({
+                customerNumId: this.customerNumId,
+            });
             this.dateFormatter(new Date());
         },
         watch: {
@@ -154,6 +250,10 @@
                 });
             },
             'createOrder.routerDetailSeries'() {
+                this._getCustomerRouterDetail({
+                    customerNumId: this.customerNumId,
+                    routerDetailSeries: this.createOrder.routerDetailSeries,
+                });
                 this._getDriverPriceAndCarByCustomerIdAndRouterSeries({
                     customerNumId: this.customerNumId,
                     routerDetailSeries: this.createOrder.routerDetailSeries,
@@ -165,7 +265,7 @@
             carWeight() {
                 for (var i = 0; i < this.carDetailModels.length; i++) {
                     if (this.carDetailModels[i].weightName == this.carWeight) {
-                        this.createOrder.weightName = this.carDetailModels[
+                        this.createOrder.carWeightSeries = this.carDetailModels[
                             i
                             ].carWeightName;
                         this.createOrder.routerPriceSeries = this.carDetailModels[
@@ -279,6 +379,71 @@
             handleSelectDriver(item) {
                 this.createOrder.driverSeries = item.driverId;
             },
+            _getCarSizeList(params) {
+                getCarSizeList(params)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.carSizes = res.carSizes;
+                            if(this.createOrder.carSizeSeries==null||this.createOrder.carSizeSeries==''){
+                                this.createOrder.carSizeSeries=this.carSizes[0].sizeId;
+                            }
+
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
+            _getCarTypeList(params) {
+                getCarTypeList(params)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.carTypes = res.carTypes;
+                            if(this.createOrder.carTypeSeries==null||this.createOrder.carTypeSeries==''){
+                                this.createOrder.carTypeSeries=this.carTypes[0].typeId;
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
+            _getCustomerRouterDetail(params) {
+                getCustomerRouterDetail(params)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.createOrder.sendGoodsPersonName = res.sendGoodsPersonName;
+                            this.createOrder.sendGoodsPersonMobile = res.sendGoodsPersonMobile;
+                            this.createOrder.sendAddressDetail = res.sendAddressDetail;
+                            this.createOrder.receiveGoodsPersonName =
+                                res.receiveGoodsPersonName;
+                            this.createOrder.receiveGoodsPersonMobile =
+                                res.receiveGoodsPersonMobile;
+                            this.createOrder.receiveAddressDetail = res.receiveAddressDetail;
+                            this.createOrder.sendGoodsLocationNum = res.sendGoodsLocationNum;
+                            this.createOrder.sendGoodsLocationNum = res.sendGoodsLocationNum;
+                            this.sourceLocalction =
+                                res.sourcePrvName +
+                                '/' +
+                                res.sourceCityName +
+                                '/' +
+                                res.sourceCityAreaName +
+                                '/' +
+                                res.sourceTownName;
+                            this.destinationLocalction =
+                                res.destinationPrvName +
+                                '/' +
+                                res.destinationCityName +
+                                '/' +
+                                res.destinationCityAreaName +
+                                '/' +
+                                res.destinationTownName;
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
             _getAllRouterAlia(item) {
                 getAllRouterAlia(item)
                     .then(res => {
@@ -352,6 +517,7 @@
 
             _createOrderByWeb() {
                 this.searching = true;
+                this.createOrder.appointmentDates=[];
                 this.btn_group.forEach(item=>{
                     if(item.show){
                        this.createOrder.appointmentDates.push((item.value));
