@@ -179,6 +179,15 @@ export default {
           this.dialogFormVisibleTask=true;
       },
       _deleteAllMonthOrder(params) {
+          this.$confirm(
+              '是否删除当前记录？',
+              '提示',
+              {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  type: 'warning',
+              }
+          ).then(() => {
           deleteAllMonthOrder(params)
               .then(res => {
                   if (res.code === 0) {
@@ -189,6 +198,7 @@ export default {
               .catch(err => {
                   console.log(err);
               });
+          });
       },
     selectCar(param) {
       this.addDialog = true;

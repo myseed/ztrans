@@ -87,7 +87,7 @@
               type="primary"
               size="mini"
               @click="calculate" v-if='showDriver'>
-        已结算
+        已对账
       </el-button>
     </el-form-item>
 

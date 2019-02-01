@@ -91,6 +91,15 @@
           </el-autocomplete>
         </el-form-item>
 
+        <el-form-item label="车牌号">
+          <el-autocomplete v-model="carPlateNumber"
+                           placeholder="车牌号"
+                           clearable
+                           :fetch-suggestions="querySearchAsyncPlateNum"
+                           @select="handleSelectCarPlate">
+          </el-autocomplete>
+        </el-form-item>
+
         <el-form-item label="司机报价" >
           <el-input v-model="driverPrice" placeholder="司机报价" style="width: 500px;" disabled></el-input>
         </el-form-item>
@@ -153,7 +162,7 @@
         getDriverPriceAndCarByCustomerIdAndRouterSeries,
         createAllMonthOrder
     } from '@/api/createorder';
-    import {getDriverBySearchKey} from '@/api/truck';
+    import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
     import {getCarTypeList} from '@/api/order';
     import {
         getCarSizeList,
@@ -182,6 +191,7 @@
                 customerName: '',
                 routerAlial: '',
                 driverName:'',
+                carPlateNumber:'',
                 createOrder: {
                     carTypeSeries: '',
                     carSizeSeries: '',
@@ -220,10 +230,15 @@
                     driverSearchName: '',
                     customerNumId: '',
                 },
+                plateNumSearchKey: {
+                    plateNumberSearchKey: '',
+                    customerNumId: '',
+                },
                 tableData: [],
                 customerSales: [],
                 customerMaster: [],
                 drivers:[],
+                carPlateNumbers:[],
                 routerDetails: [],
                 customerDetail: {},
                 carTypes: [],
@@ -376,13 +391,42 @@
                     }
                 );
             },
+            querySearchAsyncPlateNum(qs, cb) {
+                this.plateNumSearchKey.plateNumberSearchKey = qs;
+                this.plateNumSearchKey.customerNumId = this.customerNumId;
+                getDriverByPlateNumberSearchKey(this.plateNumSearchKey).then(
+                    res => {
+                        if (res.code === 0) {
+                            let carPlateNumberssss = [];
+                            // customerMasters= res.customerMasterList;
+                            res.customerDrivers.forEach(item => {
+                                carPlateNumberssss.push({
+                                    value: item.carPlateNumber,
+                                    ...item,
+                                });
+                            });
+                            this.carPlateNumbers = carPlateNumberssss;
+                            let carPlateNumber = this.carPlateNumbers;
+                            var results = qs
+                                ? carPlateNumber.filter(this.createStateFilterDriver(qs))
+                                : carPlateNumber;
+                            cb(results);
+                        }
+                    }
+                );
+            },
             createStateFilterDriver(qs) {
                 return state => {
                     return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
                 };
             },
+            handleSelectCarPlate(item) {
+                this.createOrder.driverSeries = item.driverId;
+                this.driverName=item.driverName;
+            },
             handleSelectDriver(item) {
                 this.createOrder.driverSeries = item.driverId;
+                this.carPlateNumber=item.carPlateNumber;
             },
             _getCarSizeList(params) {
                 getCarSizeList(params)
@@ -531,7 +575,15 @@
                 if(this.createOrder.appointmentDates.length==0){
                     this.$message({
                         type: 'error',
-                        message: '请选择用车时间！',
+                        message: '请选择用车年月日！',
+                    });
+                    this.searching = false;
+                    return;
+                }
+                if (this.createOrder.appointmentDate === '') {
+                    this.$message({
+                        type: 'error',
+                        message: '请选择用车年时分！',
                     });
                     this.searching = false;
                     return;

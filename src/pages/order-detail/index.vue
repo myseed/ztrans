@@ -21,7 +21,7 @@
         <el-form-item label="订单状态" >
           <el-input v-model="order.deliverStatus"></el-input>
         </el-form-item>
-        <el-form-item label="订单结算状态" >
+        <el-form-item label="订单对账状态" >
           <el-input v-model="order.orderBalanceStatus"></el-input>
         </el-form-item>
         <el-form-item label="订单类型" >

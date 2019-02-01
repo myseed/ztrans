@@ -69,7 +69,7 @@
 
       <el-table-column label="派单方式" :show-overflow-tooltip="true" width="120">
         <template slot-scope="scope">
-          {{scope.row.commondOrderStatus}}
+          {{scope.row.commondOrderStatusName}}
         </template>
       </el-table-column>
 
@@ -127,7 +127,7 @@
         </template>
       </el-table-column>
       
-      <el-table-column label="操作" align="center" width="300" fixed="right">
+      <el-table-column label="操作" align="center" width="400" fixed="right">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -140,6 +140,9 @@
             size="mini"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)">废弃订单</el-button>
+          <el-button
+            size="mini"
+            @click="getAllMonthDetail(scope.$index, scope.row)">查看整月任务</el-button>
         </template>
       </el-table-column>
 
@@ -211,6 +214,13 @@ export default {
     },
     getOrderDetail(index, row) {
       this.$emit('getOrderDetail', {orderId: row.series});
+    },
+    getAllMonthDetail(index, row) {
+        if(row.commondOrderStatus=='0'){
+            this.$message.error('只有整月指派的订单可以查看明细！');
+            return;
+        }
+      this.$emit('getAllMonthDetail', {series: row.allmonthOrderTaskSeries});
     },
     handleDelete(index, row) {
       this.$emit('deleteOrder', {orderId: row.series});

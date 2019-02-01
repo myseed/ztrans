@@ -45,13 +45,6 @@ if (superId == '1') {
             ]
         },
         {
-            title: '整月派单',
-            icon: 'flag',
-            children: [
-                { path: '/vehicle-assign-month', title: '整月派单', icon: 'flag' }
-            ]
-        },
-        {
             title: '客户管理',
             icon: 'address-book',
             children: [
@@ -104,7 +97,8 @@ if (superId == '1') {
             title: '手动下单',
             icon: 'ticket',
             children: [
-                { path: '/order-create', title: '手动下单', icon: 'ticket' }
+                { path: '/order-create', title: '手动下单', icon: 'ticket' },
+                { path: '/vehicle-assign-month', title: '整月下单', icon: 'flag' }
             ]
         },
         {

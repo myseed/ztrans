@@ -10,6 +10,7 @@
       @getOrderDetail="getOrderDetail"
       @deleteOrder="deleteOrder"
       @selectCar="selectCar"
+      @getAllMonthDetail="getAllMonthDetail"
       :loading="loading"/>
     <page-footer
       slot="footer"
@@ -409,6 +410,12 @@ export default {
       this.$router.push({
         path: '/order-detail',
         query: {orderId: param.orderId},
+      });
+    },
+    getAllMonthDetail(param) {
+      this.$router.push({
+        path: '/order-month-detail',
+        query: {series: param.series},
       });
     },
     deleteOrder(param) {
