@@ -39,6 +39,12 @@
       </el-autocomplete>
     </el-form-item>
 
+    <el-form-item label="任务状态" prop="taskType">
+      <el-select v-model="form.taskType" placeholder="请选择">
+      <el-option v-for="(item, index) in taskTypeModels" :key="index" :label="item.taskTypeName" :value="item.taskTypeId"></el-option>
+      </el-select>
+    </el-form-item>
+
     <el-form-item label="指派日期" prop="registerTime">
       <el-date-picker
               size="mini"
@@ -88,7 +94,7 @@
 import util from '@/libs/util';
 import {getRouterAliaList,getRouterAliaSearchList} from '@/api/schedule';
 import {getCarTypeList} from '@/api/order';
-import {getOrderType} from '@/api/dictionary';
+import {getOrderType,getTaskType} from '@/api/dictionary';
 import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
 import {
     getMasterCustomerListBySearchKey
@@ -100,6 +106,7 @@ export default {
       customerSeries:'',
       routerDetail: [],
       customerMaster: [],
+      taskTypeModels:[],
       masterCustomerSearchKey: {
             customerMasterSearchKey: '',
             customerNumId: '',
@@ -112,6 +119,7 @@ export default {
         driverName: '',
         startTime: '',
         endTime: '',
+        taskType: '',
       },
       rules: {},
         pickerOptions: {
@@ -156,6 +164,9 @@ export default {
       this._getDriverNameList({
           customerNumId: this.form.customerNumId,
       });
+      this._getTaskType({
+          customerNumId: this.form.customerNumId,
+      });
   },
     watch: {
         'registerTime'() {
@@ -176,6 +187,17 @@ export default {
         }
     },
   methods: {
+      _getTaskType(params) {
+          getTaskType(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.taskTypeModels = res.taskTypeModels;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
       onRegisterTimeChange(time) {
           this.form.startTime = time[0];
           this.form.endTime = time[1];

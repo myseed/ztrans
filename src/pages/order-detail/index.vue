@@ -6,7 +6,7 @@
         <el-form-item label="订单号" >
           <el-input v-model="order.series"></el-input>
         </el-form-item>
-        <el-form-item label="线路别名" >
+        <el-form-item label="线路名称" >
           <el-input v-model="order.routerAlisa"></el-input>
         </el-form-item>
         <el-form-item label="需要搬卸" >

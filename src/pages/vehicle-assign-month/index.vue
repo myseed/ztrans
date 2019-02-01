@@ -9,6 +9,7 @@
             :table-data="table"
             @deleteOrder="deleteOrder"
             @timeDetail="timeDetail"
+            @getTaskDetail="getTaskDetail"
             :loading="loading"/>
     <page-footer
             slot="footer"
@@ -158,6 +159,12 @@ export default {
         customerNumId: this.customerNumId,
         series: param.series,
       });
+    },
+      getTaskDetail(param) {
+          this.$router.push({
+              path: '/order-month-detail',
+              query: {series: param.series},
+          });
     },
       timeDetail(param){
         this.btn_group=[];

@@ -13,9 +13,15 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="客户名字" :show-overflow-tooltip="true" >
+      <el-table-column label="客户名字" :show-overflow-tooltip="true" width="190">
         <template slot-scope="scope">
           {{scope.row.customerName}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="线路名称" :show-overflow-tooltip="true" width="190">
+        <template slot-scope="scope">
+          {{scope.row.routerAliaName}}
         </template>
       </el-table-column>
 
@@ -25,11 +31,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="线路名称" :show-overflow-tooltip="true" >
-        <template slot-scope="scope">
-          {{scope.row.routerAliaName}}
-        </template>
-      </el-table-column>
+
 
 
       <el-table-column label="线路载重" :show-overflow-tooltip="true">
@@ -38,24 +40,36 @@
         </template>
       </el-table-column>
       
-      <el-table-column label="用车时间列表" :show-overflow-tooltip="true">
+      <el-table-column label="用车时间列表" :show-overflow-tooltip="true" width="190">
         <template slot-scope="scope">
           {{scope.row.appointmentDates}}
         </template>
       </el-table-column>
       
-      <el-table-column label="司机真实报价" :show-overflow-tooltip="true">
+      <el-table-column label="司机真实报价" :show-overflow-tooltip="true" width="100">
         <template slot-scope="scope">
           {{scope.row.carRealMoney}}
         </template>
       </el-table-column>
+
+      <el-table-column label="任务过期时间" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.appointmentFinalDate}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="任务状态" :show-overflow-tooltip="true" width="100">
+        <template slot-scope="scope">
+          {{scope.row.taskTypeName}}
+        </template>
+      </el-table-column>
       
-      <el-table-column label="操作" align="center" fixed="right">
+      <el-table-column label="操作" align="center" fixed="right" width="200">
         <template slot-scope="scope">
           <el-button
                   size="mini"
                   type="primary"
-                  @click="timeDetail(scope.$index, scope.row)">时间明细</el-button>
+                  @click="taskDetail(scope.$index, scope.row)">任务明细</el-button>
           <el-button
             size="mini"
             type="danger"
@@ -97,6 +111,9 @@ export default {
     },
       handleDelete(index, row) {
           this.$emit('deleteOrder', {series: row.series});
+      },
+      taskDetail(index, row) {
+          this.$emit('getTaskDetail', {series: row.series});
       },
     handleSwitchChange(val, index) {
       const oldValue = this.currentTableData[index];

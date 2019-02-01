@@ -210,6 +210,7 @@
                     initDistance: '',
                     overstepPrice: '',
                     goodsRemark: '',
+                    endDate: '',
                 },
                 masterCustomerSearchKey: {
                     customerMasterSearchKey: '',
@@ -296,8 +297,12 @@
                         value:year+"-"+month + "-" + day,
                         show:false
                     });
+                    if(endDate.getTime()-startDate.getTime()==0){
+                        this.createOrder.endDate=year+"-"+month + "-" + day+" "+"23:59:59";
+                    }
                     startDate.setDate(startDate.getDate() + 1);
                 }
+
             },
             querySearchAsync(qs, cb) {
                 this.masterCustomerSearchKey.customerMasterSearchKey = qs;

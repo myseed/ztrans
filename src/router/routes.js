@@ -245,6 +245,12 @@ const frameIn = [
         name: '/create-month-detail',
         component: () => import('@/pages/create-month-detail'),
         meta: { meta, title: '创建整月单' }
+      },
+      {
+        path: '/order-month-detail',
+        name: '/order-month-detail',
+        component: () => import('@/pages/order-month-detail'),
+        meta: { meta, title: '整月下单明细' }
       }
 
     ]

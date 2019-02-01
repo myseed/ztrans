@@ -159,6 +159,19 @@ export function deleteAllMonthOrder (params) {
     return httpGet(url, data)
 }
 
+export function getAllMonthOrderDetail (params) {
+    const url = `/getAllMonthOrderDetail`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+
 export function exportOrder (params) {
     const url = `/exportOrder`
     const ts = timestamp()
