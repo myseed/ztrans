@@ -1,5 +1,7 @@
 import {httpGet} from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
+import axios from 'axios'
+import { CONFIG } from './config'
 
 export function uploadPicture (params, file) {
   const url = `/uploadPicture`
@@ -13,7 +15,7 @@ export function uploadPicture (params, file) {
   const config = {
     headers: {'Content-Type': 'multipart/form-data'}
   }
-  return axios.post(url, data, config)
+  return axios.post(process.env.VUE_APP_API +url, data, config)
 }
 
 export function getPicture (params) {

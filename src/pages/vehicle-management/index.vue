@@ -443,7 +443,37 @@ export default {
   },
   data() {
     return {
+        pickerOptions: {
+            disabledDate(time) {
+                return time.getTime() > Date.now();
+            },
+            shortcuts: [
+                {
+                    text: "今天",
+                    onClick(picker) {
+                        picker.$emit("pick", new Date());
+                    }
+                },
+                {
+                    text: "昨天",
+                    onClick(picker) {
+                        const date = new Date();
+                        date.setTime(date.getTime() - 3600 * 1000 * 24);
+                        picker.$emit("pick", date);
+                    }
+                },
+                {
+                    text: "一周前",
+                    onClick(picker) {
+                        const date = new Date();
+                        date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit("pick", date);
+                    }
+                }
+            ]
+        },
       table: [],
+      motorcadeNameList: [],
       loading: false,
       routerDetail: [],
       addCarItem: {
@@ -491,6 +521,7 @@ export default {
       dialogImageUrl: '',
       customerNumId: util.cookies.get('__user__customernumid'),
       carDetail: {},
+      dialogVisible:false,
       page: {
         current: 1,
         size: 10,
@@ -563,10 +594,6 @@ export default {
       this.handleSubmit();
     },
     handlePaginationChange(val) {
-      this.$notify({
-        title: '分页变化',
-        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`,
-      });
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
       this.$nextTick(() => {
@@ -898,6 +925,81 @@ export default {
     handleAdd() {
       this.addCarPopDialog = true;
     },
+      onReaderComplete({ file, filename }) {
+          let pictureCode = "";
+          switch (filename) {
+              case "drivingLicense":
+                  pictureCode = "0";
+                  break;
+              case "drivingPicture":
+                  pictureCode = "1";
+                  break;
+              case "persomCarPicture":
+                  pictureCode = "2";
+                  break;
+              case "identityCard":
+                  pictureCode = "3";
+                  break;
+              default:
+                  pictureCode = "";
+                  break;
+          }
+          let customerNumId = this.customerNumId;
+          // 把图片上传到服务器
+          const params = { customerNumId, pictureCode };
+          this._uploadPicture(params, file, filename);
+      },
+      _uploadPicture(params, file, filename) {
+          uploadPicture(params, file)
+              .then(res => {
+                  if (res.data.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "上传成功!"
+                      });
+                      this.addCarItem[filename] = res.data.url;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      onReaderSelect(file) {
+          const larger = file.size > 5 * 1024 * 1024;
+          if (larger) {
+              this.$message({
+                  type: "error",
+                  message: "文件不能大于5M"
+              });
+          }
+          return !larger;
+      },
+      onReaderPreview(file) {
+          this.dialogImageUrl = file.url;
+          this.dialogVisible = true;
+      },
+      onReaderRemove(file, fileList) {
+          console.log(file, fileList);
+          this._deletePicture({
+              customerNumId: this.customerNumId,
+              url: this.addCarItem[""]
+          });
+      },
+      _deletePicture(params) {
+          deletePicture(params)
+              .then(res => {
+                  console.log(res);
+                  if (res.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "删除成功!"
+                      });
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
   },
 };
 </script>

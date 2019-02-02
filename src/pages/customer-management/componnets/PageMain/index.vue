@@ -13,19 +13,19 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="客户名称" :show-overflow-tooltip="true">
+      <el-table-column label="客户名称" :show-overflow-tooltip="true"  width="200">
         <template slot-scope="scope">
           {{scope.row.customerName}}
         </template>
       </el-table-column>
 
-      <el-table-column label="客户代码" :show-overflow-tooltip="true">
+      <el-table-column label="客户代码" :show-overflow-tooltip="true"  width="150">
         <template slot-scope="scope">
           {{scope.row.customerSimpleCode}}
         </template>
       </el-table-column>
 
-      <el-table-column label="所在地区" :show-overflow-tooltip="true">
+      <el-table-column label="所在地区" :show-overflow-tooltip="true"  width="150">
         <template slot-scope="scope">
           {{scope.row.prvCityArea}}
         </template>

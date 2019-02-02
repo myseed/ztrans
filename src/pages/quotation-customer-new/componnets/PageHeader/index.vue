@@ -66,11 +66,22 @@
       </el-button>
     </el-form-item>
 
+    <div class="d2-mb">
+      <el-form-item>
+      <el-upload :before-upload="handleUpload">
+        <el-button type="primary">
+          <d2-icon name="file-o"/>
+          导入报价excel
+        </el-button>
+      </el-upload>
+      </el-form-item>
+    </div>
+
   </el-form>
 </template>
 
 <script>
-import {getMasterCustomerList} from '@/api/price';
+import {getMasterCustomerList,uploadRouterPriceExcel} from '@/api/price';
 import {getRouterAliaSearchList} from '@/api/schedule';
 import {
     getMasterCustomerListBySearchKey
@@ -122,6 +133,25 @@ export default {
         }
     },
   methods: {
+    handleUpload(param){
+        this._uploadRouterPriceExcel({
+            uploadruleExcel: param
+        });
+    },
+      _uploadRouterPriceExcel(params) {
+          uploadRouterPriceExcel(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.$message({
+                          type: 'success',
+                          message: 'excel导入报价成功!',
+                      });
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     querySearchAsyncRouter(qs, cb) {
       let routerDetail = this.routerDetail;
       var results = qs
@@ -213,10 +243,6 @@ export default {
         if (valid) {
           this.$emit('submit', this.form);
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '表单校验失败',
-          });
           return false;
         }
       });
