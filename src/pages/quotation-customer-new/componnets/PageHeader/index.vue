@@ -68,7 +68,8 @@
 
     <div class="d2-mb">
       <el-form-item>
-      <el-upload :before-upload="handleUpload">
+      <el-upload
+      :http-request="onReaderComplete">
         <el-button type="primary">
           <d2-icon name="file-o"/>
           导入报价excel
@@ -133,18 +134,24 @@ export default {
         }
     },
   methods: {
-    handleUpload(param){
-        this._uploadRouterPriceExcel({
-            uploadruleExcel: param
-        });
-    },
-      _uploadRouterPriceExcel(params) {
-          uploadRouterPriceExcel(params)
+      onReaderComplete({ file, filename }) {
+          let customerNumId = this.form.customerNumId;
+          // 把图片上传到服务器
+          const params = { customerNumId};
+          this._uploadRouterPriceExcel(params, file, filename);
+      },
+      _uploadRouterPriceExcel(params, file, filename) {
+          uploadRouterPriceExcel(params, file)
               .then(res => {
-                  if (res.code === 0) {
+                  if (res.data.code === 0) {
                       this.$message({
-                          type: 'success',
-                          message: 'excel导入报价成功!',
+                          type: "success",
+                          message: "上传成功!"
+                      });
+                  }else{
+                      this.$message({
+                          message: res.data.message,
+                          type: 'error',
                       });
                   }
               })

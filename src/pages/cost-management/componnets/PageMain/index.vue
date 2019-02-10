@@ -67,7 +67,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="司机结算状态" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
+      <el-table-column label="司机对账状态" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
         <template slot-scope="scope">
           {{scope.row.orderBalanceStatusName}}
         </template>

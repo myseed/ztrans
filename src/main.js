@@ -12,7 +12,6 @@ import i18n from './i18n'
 // 核心插件
 import d2Admin from '@/plugin/d2admin'
 
-
 // [ 可选插件组件 ]D2-Crud
 import D2Crud from '@d2-projects/d2-crud'
 
@@ -21,12 +20,9 @@ import router from './router'
 // import menuHeader from '@/menu/header'
 import menuAside from '@/menu/aside'
 import { frameInRoutes } from '@/router/routes'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 // 核心插件
 Vue.use(d2Admin)
 
-Vue.use(VueAxios,axios);
 // 可选插件组件
 // https://github.com/d2-projects/d2-crud
 Vue.use(D2Crud)
