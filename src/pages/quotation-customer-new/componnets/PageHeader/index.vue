@@ -13,7 +13,7 @@
       <!--</el-select>-->
 
       <el-autocomplete v-model="customerName"
-                       placeholder="客户名字"
+                       placeholder="请输入"
                        clearable
                        :fetch-suggestions="querySearchAsync"
                        @select="handleSelect">
@@ -34,7 +34,7 @@
     <el-form-item label="线路名称" prop="routerDetailAliaSearchKey">
       <el-autocomplete v-model="form.routerDetailAliaSearchKey"
                        style="width: 150px;"
-                       placeholder="线路名称"
+                       placeholder="请输入"
                        clearable
                        :fetch-suggestions="querySearchAsyncRouter"
                        @select="handleSelectRouter">

@@ -53,18 +53,8 @@
         <el-form-item label="收货地(省/市/区/县/)">
           <el-input v-model="destinationLocalction" disabled style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="车型">
-        <el-select v-model="createOrder.carTypeSeries" placeholder="请选择车型">
-          <el-option v-for="(item, index) in carTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId"></el-option>
-        </el-select>
-        </el-form-item>
-        <el-form-item label="车长">
-          <el-select v-model="createOrder.carSizeSeries" placeholder="请选择车长">
-            <el-option v-for="(item, index) in carSizes" :key="item.sizeId" :label="item.sizeName" :value="item.sizeId"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="吨位">
-          <el-select v-model="carWeight" placeholder="请选择车型和车长">
+          <el-select v-model="carWeight" placeholder="请选择吨位">
             <el-option
                     v-for="item in carDetailModels"
                     :key="item.weightName"
@@ -73,6 +63,17 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="车型">
+        <el-select v-model="createOrder.carTypeSeries" disabled placeholder="">
+          <el-option v-for="(item, index) in carTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId"></el-option>
+        </el-select>
+        </el-form-item>
+        <el-form-item label="车长">
+          <el-select v-model="createOrder.carSizeSeries" disabled placeholder="">
+            <el-option v-for="(item, index) in carSizes" :key="item.sizeId" :label="item.sizeName" :value="item.sizeId"></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="路径站点个数">
           <el-input v-model="createOrder.sendGoodsLocationNum" placeholder="路径站点个数" style="width: 500px;"></el-input>
         </el-form-item>
@@ -258,6 +259,8 @@ export default {
             this.carDetailModels[i].initDistance +
             '公里';
           this.overPrice = this.carDetailModels[i].overstepPrice + '元/公里';
+          this.createOrder.carTypeSeries=this.carDetailModels[i].carTypeName;
+          this.createOrder.carSizeSeries=this.carDetailModels[i].carSizeName;
         }
       }
     },
@@ -366,10 +369,6 @@ export default {
               .then(res => {
                   if (res.code === 0) {
                       this.carSizes = res.carSizes;
-                      if(this.createOrder.carSizeSeries==null||this.createOrder.carSizeSeries==''){
-                          this.createOrder.carSizeSeries=this.carSizes[0].sizeId;
-                      }
-
                   }
               })
               .catch(err => {
@@ -381,9 +380,6 @@ export default {
               .then(res => {
                   if (res.code === 0) {
                       this.carTypes = res.carTypes;
-                      if(this.createOrder.carTypeSeries==null||this.createOrder.carTypeSeries==''){
-                          this.createOrder.carTypeSeries=this.carTypes[0].typeId;
-                      }
                   }
               })
               .catch(err => {
