@@ -7,13 +7,13 @@
     size="mini"
     style="margin-bottom: -18px;">
 
-    <el-form-item label="客户编号" prop="customerName">
+    <el-form-item label="客户名称" prop="customerName">
       <!--<el-select v-model="form.customerSeries" placeholder="请选择" style="width: 150px;">-->
         <!--<el-option v-for="(item, index) in customerMasterList" :key="index" :label="item.customerName" :value="item.customerMasterId"></el-option>-->
       <!--</el-select>-->
 
       <el-autocomplete v-model="customerName"
-                       placeholder="客户名字"
+                       placeholder="请输入"
                        clearable
                        :fetch-suggestions="querySearchAsync"
                        @select="handleSelect">
@@ -34,7 +34,7 @@
     <el-form-item label="线路名称" prop="routerDetailAliaSearchKey">
       <el-autocomplete v-model="form.routerDetailAliaSearchKey"
                        style="width: 150px;"
-                       placeholder="线路名称"
+                       placeholder="请输入"
                        clearable
                        :fetch-suggestions="querySearchAsyncRouter"
                        @select="handleSelectRouter">
