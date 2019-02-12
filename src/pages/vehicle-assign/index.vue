@@ -208,6 +208,7 @@ export default {
         size: 10,
         total: 0,
       },
+      form:{},
     };
   },
   created() {
@@ -358,6 +359,7 @@ export default {
     },
     handleSubmit(form) {
       this.loading = true;
+      this.form=form;
       getOrderByCustomerNumId({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -397,7 +399,7 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.$message.success('作废订单成功！');
-            this.handleSubmit();
+            this.handleSubmit(this.form);
           }
         })
         .catch(err => {

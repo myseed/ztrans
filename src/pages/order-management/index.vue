@@ -157,7 +157,7 @@
     <el-dialog title="废弃理由" :visible.sync="deleteOrderPopDialog">
       <el-form :inline="true" :model="deleteModel" label-position="left" size="mini">
         <el-form-item>
-          <el-input type="textarea" v-model="deleteModel.deleteReason" style="width: 900px;" :rows="7" placeholder="请输入订单废弃理由"></el-input>
+          <el-input type="textarea" v-model="deleteModel.deleteReason" style="width: 600px;" :rows="7" placeholder="请输入订单废弃理由"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -229,6 +229,7 @@ export default {
         size: 10,
         total: 0,
       },
+     form: {},
      status:'',
     };
   },
@@ -386,6 +387,7 @@ export default {
     handleSubmit(form) {
       this.status=this.$route.params.status;
       this.loading = true;
+      this.form=form;
       getOrderByCustomerNumId({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -465,7 +467,7 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.$message.success('作废订单成功！');
-            this.handleSubmit();
+            this.handleSubmit(this.form);
           }
         })
         .catch(err => {
