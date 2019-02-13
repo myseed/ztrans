@@ -61,7 +61,7 @@
         </template>
       </el-table-column>
       
-      <el-table-column label="客户名称" :show-overflow-tooltip="true">
+      <el-table-column label="客户名称" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.masterCustomerName}}
         </template>

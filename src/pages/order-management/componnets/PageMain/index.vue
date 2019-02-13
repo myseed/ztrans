@@ -84,6 +84,12 @@
           {{scope.row.masterCustomerName}}
         </template>
       </el-table-column>
+
+      <el-table-column label="订单备注" :show-overflow-tooltip="true" width="200">
+        <template slot-scope="scope">
+          {{scope.row.remark}}
+        </template>
+      </el-table-column>
       
       <el-table-column label="下单人" :show-overflow-tooltip="true">
         <template slot-scope="scope">
@@ -97,31 +103,31 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="司机接单时间" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="司机接单时间" :show-overflow-tooltip="true" width="150" v-if='showColumn'>
         <template slot-scope="scope">
           {{scope.row.driverReceiveTime}}
         </template>
       </el-table-column>
 
-      <el-table-column label="司机靠车时间" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="司机靠车时间" :show-overflow-tooltip="true" width="150" v-if='showColumn'>
         <template slot-scope="scope">
           {{scope.row.driverGetgoodsTime}}
         </template>
       </el-table-column>
 
-      <el-table-column label="司机发车时间" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="司机发车时间" :show-overflow-tooltip="true" width="150" v-if='showColumn'>
         <template slot-scope="scope">
           {{scope.row.driverStartTime}}
         </template>
       </el-table-column>
 
-      <el-table-column label="司机到达时间" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="司机到达时间" :show-overflow-tooltip="true" width="150" v-if='showColumn'>
         <template slot-scope="scope">
           {{scope.row.driverArrTime}}
         </template>
       </el-table-column>
 
-      <el-table-column label="司机完成时间" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="司机完成时间" :show-overflow-tooltip="true" width="150" v-if='showColumn'>
         <template slot-scope="scope">
           {{scope.row.driverEndTime}}
         </template>
@@ -169,9 +175,14 @@ export default {
       default: false,
     },
   },
+  created() {
+    this.getTrueColumn();
+  },
   data() {
     return {
+      showColumn:true,
       currentTableData: [],
+      status:'',
       multipleSelection: [],
       downloadColumns: [
         {label: '卡密', prop: 'key'},
@@ -186,6 +197,9 @@ export default {
     };
   },
   watch: {
+      $route(to, from) {
+          this.getTrueColumn();
+      },
     tableData: {
       handler(val) {
         this.currentTableData = val;
@@ -194,6 +208,14 @@ export default {
     },
   },
   methods: {
+      getTrueColumn () {
+          this.status=this.$route.params.status;
+          if(this.status=='1'){
+              this.showColumn=false;
+          }else{
+              this.showColumn=true;
+          }
+      },
     handleSwitchChange(val, index) {
       const oldValue = this.currentTableData[index];
       this.$set(this.currentTableData, index, {
