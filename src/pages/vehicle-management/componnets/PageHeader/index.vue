@@ -210,6 +210,11 @@ export default {
               : driverPlateNumber;
           cb(results);
       },
+      createStateFilterRouter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) === 0;
+          };
+      },
     handleFormSubmit() {
       this.$refs.form.validate(valid => {
         if (valid) {
