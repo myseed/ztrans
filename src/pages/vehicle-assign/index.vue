@@ -430,7 +430,7 @@ export default {
       this.searchItemPop.routerDetailSeries = param.routerDetailSeries;
       this.searchItemPop.series = param.series;
       // 加载全部数据
-      this.handleSubmit();
+      this.handleSubmit(this.form);
     },
     onSearchPop() {
       this._selectDriver({
@@ -486,7 +486,7 @@ export default {
             });
             this.addDialog = false;
             this.orderDetailDialog = false;
-            this.handleSubmit();
+            this.handleSubmit(this.form);
           }
         })
         .catch(err => {

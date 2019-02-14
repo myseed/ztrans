@@ -125,9 +125,6 @@ export default {
       },
       rules: {},
       pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
         shortcuts: [
           {
             text: '今天',

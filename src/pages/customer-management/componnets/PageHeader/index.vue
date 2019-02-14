@@ -134,9 +134,6 @@ export default {
       },
       rules: {},
       pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
         shortcuts: [
           {
             text: '最近一周',
