@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <d2-container>
     <page-header
       slot="header"
@@ -84,7 +84,7 @@
         </el-table-column>
         <el-table-column
                 prop="cityName"
-                label="起始地->目的地">
+                label="起始地->目的地" width="200">
         </el-table-column>
         <el-table-column
                 fixed="right"
@@ -97,27 +97,43 @@
       </el-table>
     </el-dialog>
 
-    <el-dialog title="已接单明细" :visible.sync="orderDetailDialog">
-      <div class="block" style="text-align: left">
-        <el-row>
-          <el-col :span="24">
-            <ul class="i-list">
-              <li>车牌号：{{orderDetail.carPlateNumber}}</li>
-              <li>车辆报价：{{orderDetail.carMoney}}元</li>
-              <li>
-                <el-form :inline="true" :model="orderDetail" size="mini">
-                  <el-form-item label="接单价" class="order-price">
-                    <el-input v-model="orderDetail.carRealMoney" placeholder="请输入"></el-input>
-                  </el-form-item>
-                </el-form>
-              </li>
-            </ul>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="block" style="text-align: left; padding: 15px">
-        已接单任务
-      </div>
+
+    <el-dialog  :visible.sync="orderDetailDialog">
+      <template>
+      <div class="header">已接单明细</div>
+        <el-form :inline="true" size="mini" label-width="110px">
+          <el-form-item label="车牌号">
+            <el-input v-model="orderDetail.carPlateNumber" disabled></el-input>
+          </el-form-item>
+          <el-form-item label="车辆报价" >
+            <el-input v-model="orderDetail.carMoney" disabled></el-input>
+          </el-form-item>
+        </el-form>
+        <el-form :inline="true" size="mini" label-width="110px">
+          <el-form-item label="接单价">
+            <el-input v-model="orderDetail.carRealMoney" placeholder="请输入"></el-input>
+          </el-form-item>
+        </el-form>
+        <!--<el-row>-->
+          <!--<el-col :span="24">-->
+            <!--<ul class="i-list">-->
+              <!--<li>车牌号：{{orderDetail.carPlateNumber}}</li>-->
+              <!--<li>车辆报价：{{orderDetail.carMoney}}元</li>-->
+              <!--<li>-->
+                <!--<el-form :inline="true" :model="orderDetail" size="mini">-->
+                  <!--<el-form-item label="接单价" class="order-price">-->
+                    <!--<el-input v-model="orderDetail.carRealMoney" placeholder="请输入"></el-input>-->
+                  <!--</el-form-item>-->
+                <!--</el-form>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</el-col>-->
+        <!--</el-row>-->
+
+      <!--<div class="block" style="text-align: left; padding: 15px">-->
+        <!--已接单任务-->
+      <!--</div>-->
+      <div class="header"> 已接单任务</div>
       <div class="block" style="text-align: left; padding: 15px">
         <el-table
                 size="mini"
@@ -152,12 +168,13 @@
         <el-button @click="orderDetailDialog = false" size="mini">取 消</el-button>
         <el-button type="primary" @click="onAssignConfirm" size="mini">确认车辆</el-button>
       </div>
+    </template>
     </el-dialog>
 
     <el-dialog title="废弃理由" :visible.sync="deleteOrderPopDialog">
       <el-form :inline="true" :model="deleteModel" label-position="left" size="mini">
         <el-form-item>
-          <el-input type="textarea" v-model="deleteModel.deleteReason" style="width: 900px;" :rows="7" placeholder="请输入订单废弃理由"></el-input>
+          <el-input type="textarea" v-model="deleteModel.deleteReason" style="width: 600px;" :rows="7" placeholder="请输入订单废弃理由"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -229,6 +246,7 @@ export default {
         size: 10,
         total: 0,
       },
+     form: {},
      status:'',
     };
   },
@@ -386,6 +404,7 @@ export default {
     handleSubmit(form) {
       this.status=this.$route.params.status;
       this.loading = true;
+      this.form=form;
       getOrderByCustomerNumId({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -465,7 +484,7 @@ export default {
         .then(res => {
           if (res.code === 0) {
             this.$message.success('作废订单成功！');
-            this.handleSubmit();
+            this.handleSubmit(this.form);
           }
         })
         .catch(err => {
@@ -566,3 +585,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+  .header {
+    padding: 0 10px;
+    margin-bottom: 20px;
+    border-left: #2f74ff 2px solid;
+    background: #f6f6f6;
+    font-size: 16px;
+  }
+</style>

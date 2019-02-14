@@ -52,16 +52,6 @@
         <el-form-item label="收货地(省/市/区/县/)">
           <el-input v-model="destinationLocalction" disabled style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="车型">
-          <el-select v-model="createOrder.carTypeSeries" placeholder="请选择车型">
-            <el-option v-for="(item, index) in carTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="车长">
-          <el-select v-model="createOrder.carSizeSeries" placeholder="请选择车长">
-            <el-option v-for="(item, index) in carSizes" :key="item.sizeId" :label="item.sizeName" :value="item.sizeId"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="吨位">
           <el-select v-model="carWeight" placeholder="请选择车型和车长">
             <el-option
@@ -70,6 +60,16 @@
                     :label="item.weightName"
                     :value="item.weightName">
             </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="车型">
+          <el-select v-model="createOrder.carTypeSeries" disabled placeholder="">
+            <el-option v-for="(item, index) in carTypes" :key="item.typeId" :label="item.typeName" :value="item.typeId"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="车长">
+          <el-select v-model="createOrder.carSizeSeries"  disabled placeholder="">
+            <el-option v-for="(item, index) in carSizes" :key="item.sizeId" :label="item.sizeName" :value="item.sizeId"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="路径站点个数">
@@ -146,7 +146,8 @@
      </span>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button size="mini" type="primary" @click="dialogFormVisibleTask = false">确 定</el-button>
+        <el-button size="mini" type="primary" @click="dialogFormVisibleTask = false">确定</el-button>
+        <el-button size="mini" type="primary" @click="clickALl()">全选</el-button>
       </div>
     </el-dialog>
   </d2-container>
@@ -288,6 +289,8 @@
                             i
                             ].routerPriceId;
                         this.driverPrice=this.carDetailModels[i].initPrice;
+                        this.createOrder.carTypeSeries=this.carDetailModels[i].carTypeName;
+                        this.createOrder.carSizeSeries=this.carDetailModels[i].carSizeName;
                     }
                 }
             },
@@ -295,6 +298,11 @@
         methods: {
             chooeseBtn(index){
                     this.btn_group[index].show=!this.btn_group[index].show;
+            },
+            clickALl(){
+                this.btn_group.forEach(item=>{
+                    item.show=!item.show;
+                })
             },
             dateFormatter(str){
                 var startDate = new Date();
@@ -309,7 +317,7 @@
                     var week = weeks[startDate.getDay()];
                     dataArr.push(year+"-"+month + "-" + day);
                     this.btn_group.push({
-                        value:year+"-"+month + "-" + day,
+                        value:year+"-"+month + "-" + day+"*星期"+week,
                         show:false
                     });
                     if(endDate.getTime()-startDate.getTime()==0){
@@ -433,10 +441,6 @@
                     .then(res => {
                         if (res.code === 0) {
                             this.carSizes = res.carSizes;
-                            if(this.createOrder.carSizeSeries==null||this.createOrder.carSizeSeries==''){
-                                this.createOrder.carSizeSeries=this.carSizes[0].sizeId;
-                            }
-
                         }
                     })
                     .catch(err => {
@@ -448,9 +452,6 @@
                     .then(res => {
                         if (res.code === 0) {
                             this.carTypes = res.carTypes;
-                            if(this.createOrder.carTypeSeries==null||this.createOrder.carTypeSeries==''){
-                                this.createOrder.carTypeSeries=this.carTypes[0].typeId;
-                            }
                         }
                     })
                     .catch(err => {
@@ -557,6 +558,9 @@
                     .then(res => {
                         if (res.code === 0) {
                             this.carDetailModels = res.carAndPriceModels;
+                            if(this.carWeight==null||this.carWeight==''){
+                                this.carWeight=this.carDetailModels[0].weightName;
+                            }
                         }
                     })
                     .catch(err => {
@@ -569,7 +573,9 @@
                 this.createOrder.appointmentDates=[];
                 this.btn_group.forEach(item=>{
                     if(item.show){
-                       this.createOrder.appointmentDates.push((item.value));
+                        var time=item.value;
+                        var realTime=item.value.substring(0,item.value.indexOf("*"))
+                       this.createOrder.appointmentDates.push(realTime);
                     }
                 })
                 if(this.createOrder.appointmentDates.length==0){

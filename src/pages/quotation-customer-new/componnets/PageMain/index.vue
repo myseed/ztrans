@@ -78,6 +78,12 @@
       </template>
     </el-table-column>
 
+      <el-table-column label="客户名称" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.customerName}}
+        </template>
+      </el-table-column>
+
       <el-table-column label="线路编号" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.routerNumber}}

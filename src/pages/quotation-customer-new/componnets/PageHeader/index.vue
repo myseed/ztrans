@@ -135,9 +135,8 @@ export default {
     },
   methods: {
       onReaderComplete({ file, filename }) {
-          let customerNumId = this.form.customerNumId;
           // 把图片上传到服务器
-          const params = { customerNumId};
+          const params = { "customerNumId":this.form.customerNumId};
           this._uploadRouterPriceExcel(params, file, filename);
       },
       _uploadRouterPriceExcel(params, file, filename) {

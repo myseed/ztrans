@@ -39,6 +39,19 @@
       </el-autocomplete>
     </el-form-item>
 
+    <el-form-item label="车牌号" prop="carPlateNumber">
+      <!--<el-input-->
+      <!--v-model="form.platenumberSearchKey"-->
+      <!--placeholder="请输入"-->
+      <!--style="width: 150px;"/>-->
+      <el-autocomplete v-model="form.carPlateNumber"
+                       placeholder="车牌号"
+                       clearable
+                       :fetch-suggestions="querySearchAsyncDriverPlate"
+                       @select="handleSelectRouter">
+      </el-autocomplete>
+    </el-form-item>
+
     <el-form-item label="任务状态" prop="taskType">
       <el-select v-model="form.taskType" placeholder="请选择">
       <el-option v-for="(item, index) in taskTypeModels" :key="index" :label="item.taskTypeName" :value="item.taskTypeId"></el-option>
@@ -103,6 +116,7 @@ export default {
   data() {
     return {
       driverNames:[],
+      driverPlateNumber: [],
       customerSeries:'',
       routerDetail: [],
       customerMaster: [],
@@ -117,6 +131,7 @@ export default {
         customerName: '',
         routerAliaName: '',
         driverName: '',
+        carPlateNumber:'',
         startTime: '',
         endTime: '',
         taskType: '',
@@ -213,7 +228,15 @@ export default {
                               ...item,
                           });
                       });
+                      let driverPlatNames = [];
+                      res.customerDrivers.forEach(item => {
+                          driverPlatNames.push({
+                              value: item.carPlateNumber,
+                              ...item,
+                          });
+                      });
                       this.driverNames = driverNames;
+                      this.driverPlateNumber = driverPlatNames;
                   }
               })
               .catch(err => {
@@ -320,6 +343,13 @@ export default {
           var results = qs
               ? driverNames.filter(this.createStateFilter(qs))
               : driverNames;
+          cb(results);
+      },
+      querySearchAsyncDriverPlate(qs, cb) {
+          let driverPlateNumber = this.driverPlateNumber;
+          var results = qs
+              ? driverPlateNumber.filter(this.createStateFilterRouter(qs))
+              : driverPlateNumber;
           cb(results);
       },
     handleFormReset() {

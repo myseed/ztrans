@@ -31,6 +31,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="司机车牌" :show-overflow-tooltip="true" >
+        <template slot-scope="scope">
+          {{scope.row.carPlateNumber}}
+        </template>
+      </el-table-column>
+
 
 
 
