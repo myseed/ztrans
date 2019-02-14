@@ -4,6 +4,7 @@
       slot="header"
       @submit="handleSubmit"
       @add="handleAdd"
+      @downLoadExcel="downLoadExcel"
       ref="header"/>
     <page-main
       :table-data="table"
@@ -521,7 +522,8 @@
         deleteRouterCustomerPrice,
         updateBatchRouterPrice,
         updateRouterCustomerPrice,
-        getConsumerRouterPriceByRouterId
+        getConsumerRouterPriceByRouterId,
+        downloadRouterPriceExcel
     } from "@/api/price";
     import {
         getAllPrv,
@@ -1272,6 +1274,14 @@ export default {
           this.priceSetAddItem0 = this.priceSetAddList[index - 1];
           this.priceSetAddItem1 = this.priceSetAddList[index];
           // .log(this.addItem.children)
+      },
+      downLoadExcel(form) {
+          this.loading = true;
+          var url=downloadRouterPriceExcel({
+              customerNumId: util.cookies.get('__user__customernumid'),
+          });
+          window.location.href =url;
+          this.loading = false;
       },
       onEditPriceConfirm(index) {
           this.innerEditVisible = false;

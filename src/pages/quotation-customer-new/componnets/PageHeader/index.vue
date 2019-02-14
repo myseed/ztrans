@@ -66,7 +66,16 @@
       </el-button>
     </el-form-item>
 
-    <div class="d2-mb">
+    <el-form-item>
+      <el-button
+              type="primary"
+              size="mini"
+              @click="handleDownloadXlsx">
+        <d2-icon name="file-o"/>
+        下载报价excel模板
+      </el-button>
+    </el-form-item>
+
       <el-form-item>
       <el-upload
       :http-request="onReaderComplete">
@@ -75,8 +84,9 @@
           导入报价excel
         </el-button>
       </el-upload>
+
       </el-form-item>
-    </div>
+
 
   </el-form>
 </template>
@@ -134,6 +144,15 @@ export default {
         }
     },
   methods: {
+      handleDownloadXlsx (data) {
+          this.$refs.form.validate(valid => {
+              if (valid) {
+                  this.$emit('downLoadExcel', this.form);
+              } else {
+                  return false;
+              }
+          });
+      },
       onReaderComplete({ file, filename }) {
           // 把图片上传到服务器
           const params = { "customerNumId":this.form.customerNumId};

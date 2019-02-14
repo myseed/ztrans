@@ -227,3 +227,9 @@ export function uploadRouterPriceExcel (params, file) {
   }
   return axios.post(process.env.VUE_APP_API + url, data, config)
 }
+
+export function downloadRouterPriceExcel (params) {
+  const url = `/downloadRouterPriceExcel`
+  const ts = timestamp()
+  return '' + process.env.VUE_APP_API + url + '?params=' + paramsify(params) + '&sid=' + sid() + '&sign=' + signify(params, ts) + '&timestamp=' + ts
+}
