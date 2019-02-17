@@ -90,3 +90,15 @@ export function createAllMonthOrder (params) {
   }
   return httpGet(url, data)
 }
+
+export function getOrderByRouterAndDate (params) {
+  const url = `/getOrderByRouterAndDate`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+  return httpGet(url, data)
+}

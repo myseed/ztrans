@@ -198,6 +198,7 @@ import {
   getCarSizeList,
   cancelOrderStatus,
   exportOrder,
+  getOrderByDriverSeries
 } from '@/api/order';
 import {getOrderType} from '@/api/dictionary';
 
@@ -534,16 +535,56 @@ export default {
     },
     onAssignConfirm() {
       if (this.orderDetail.carRealMoney <= this.orderDetail.carMoney) {
-        this._confirmDriver({
-          carRealMoney: this.orderDetail.carRealMoney,
-          customerNumId: this.customerNumId,
-          driverSeries: this.driverSeries,
-          orderSeries: this.searchItemPop.series,
-        });
+          this._getOrderByDriverSeries({
+              customerNumId: this.customerNumId,
+              driverSeries: this.driverSeries,
+              appointmentDate: this.searchItemPop.appointmentDate,
+          });
+        // this._confirmDriver({
+        //   carRealMoney: this.orderDetail.carRealMoney,
+        //   customerNumId: this.customerNumId,
+        //   driverSeries: this.driverSeries,
+        //   orderSeries: this.searchItemPop.series,
+        // });
       } else {
         this.$message.error('接单价必须不高于车辆报价！');
       }
     },
+      _getOrderByDriverSeries(params) {
+          getOrderByDriverSeries(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      if(res.orderCount>0){
+                          this.$confirm('当前司机已经在线路'+res.routerAlia+'拥有订单,订单用车时间为'+res.appointmentDate+'是否继续派单?', '提示', {
+                              confirmButtonText: '确定',
+                              cancelButtonText: '取消',
+                              type: 'warning',
+                          }).then(() => {
+                              this._confirmDriver({
+                                  carRealMoney: this.orderDetail.carRealMoney,
+                                  customerNumId: this.customerNumId,
+                                  driverSeries: this.driverSeries,
+                                  orderSeries: this.searchItemPop.series,
+                                  appointmentDate: this.searchItemPop.appointmentDate,
+                                  routerDetailSeries: this.searchItemPop.routerDetailSeries,
+                              });
+                          });
+                      }else{
+                          this._confirmDriver({
+                              carRealMoney: this.orderDetail.carRealMoney,
+                              customerNumId: this.customerNumId,
+                              driverSeries: this.driverSeries,
+                              orderSeries: this.searchItemPop.series,
+                              appointmentDate: this.searchItemPop.appointmentDate,
+                              routerDetailSeries: this.searchItemPop.routerDetailSeries,
+                          });
+                      }
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     _confirmDriver(params) {
       confirmDriver(params)
         .then(res => {

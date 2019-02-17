@@ -13,13 +13,13 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="订单号" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="订单号" :show-overflow-tooltip="true" width="150" fixed="left">
         <template slot-scope="scope">
           {{scope.row.series}}
         </template>
       </el-table-column>
 
-      <el-table-column label="线路名称（编号）" :show-overflow-tooltip="true" width="200">
+      <el-table-column label="线路名称（编号）" :show-overflow-tooltip="true" width="200" fixed="left">
         <template slot-scope="scope">
           {{scope.row.routerAlisa}}
         </template>

@@ -14,7 +14,7 @@
     <!--</el-form-item>-->
 
     <el-form-item label="审核状态" prop="checkStatus">
-      <el-select v-model="form.checkStatus" placeholder="请选择" style="width: 150px;">
+      <el-select v-model="form.checkStatus" placeholder="请选择" style="width: 150px;" clearable>
         <el-option v-for="(item, index) in checkIdAndCheckStatus" :key="index" :label="item.checkStatusName" :value="item.checkStatusId"></el-option>
       </el-select>
     </el-form-item>

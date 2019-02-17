@@ -37,10 +37,11 @@
       </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="结算类型" prop="orderBalanceStatus">
+    <el-form-item label="对账状态" prop="orderBalanceStatus">
       <el-select
               v-model="form.orderBalanceStatus"
               placeholder="请选择"
+              clearable
               style="width: 150px;">
         <el-option v-for="(item, index) in orderBalanceStatusList" :key="index" :label="item.orderBalanceStatusName" :value="item.orderBalanceStatus"></el-option>
       </el-select>
@@ -303,14 +304,14 @@ export default {
 
       },
       handleDownloadXlsx (data) {
+          if(this.form.startTime==''||this.form.endTime==''){
+              this.$message.error('订单费用导出必须选择约车时间！');
+              return;
+          }
           this.$refs.form.validate(valid => {
               if (valid) {
                   this.$emit('downLoadExcel', this.form);
               } else {
-                  this.$notify.error({
-                      title: '错误',
-                      message: '表单校验失败',
-                  });
                   return false;
               }
           });
@@ -334,10 +335,6 @@ export default {
         if (valid) {
           this.$emit('submit', this.form);
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '表单校验失败',
-          });
           return false;
         }
       });

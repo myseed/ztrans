@@ -40,6 +40,7 @@
       <el-select
               v-model="form.jobId"
               placeholder="请选择"
+              clearable
               style="width: 150px;">
         <el-option v-for="(item, index) in customerJobModels" :key="index" :label="item.customerJobName" :value="item.customerJobCode"></el-option>
       </el-select>

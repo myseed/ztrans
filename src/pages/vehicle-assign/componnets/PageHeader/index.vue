@@ -42,6 +42,7 @@
       <el-select
         v-model="form.carType"
         placeholder="请选择"
+        clearable
         style="width: 150px;">
         <el-option v-for="(item, index) in carTypes" :key="index" :label="item.typeName" :value="item.typeId"></el-option>
       </el-select>
@@ -51,6 +52,7 @@
       <el-select
         v-model="form.orderType"
         placeholder="请选择"
+        clearable
         style="width: 150px;">
         <el-option v-for="(item, index) in orderTypes" :key="index" :label="item.orderTypeName" :value="item.orderTypeId"></el-option>
       </el-select>

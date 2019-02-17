@@ -53,7 +53,7 @@
     </el-form-item>
 
     <el-form-item label="任务状态" prop="taskType">
-      <el-select v-model="form.taskType" placeholder="请选择">
+      <el-select v-model="form.taskType" placeholder="请选择" clearable>
       <el-option v-for="(item, index) in taskTypeModels" :key="index" :label="item.taskTypeName" :value="item.taskTypeId"></el-option>
       </el-select>
     </el-form-item>

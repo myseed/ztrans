@@ -177,3 +177,16 @@ export function exportOrder (params) {
     const ts = timestamp()
     return '' + process.env.VUE_APP_API + url + '?params=' + paramsify(params) + '&sid=' + sid() + '&sign=' + signify(params, ts) + '&timestamp=' + ts
 }
+
+export function getOrderByDriverSeries (params) {
+    const url = `/getOrderByDriverSeries`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

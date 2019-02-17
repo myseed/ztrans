@@ -39,6 +39,7 @@
       <el-select
               v-model="form.franchiseeType"
               placeholder="请选择"
+              clearable
               style="width: 150px;">
         <el-option v-for="(item, index) in franchiseeNameTypeModels" :key="index" :label="item.franchiseeNameTypeName" :value="item.franchiseeNameTypeId"></el-option>
       </el-select>

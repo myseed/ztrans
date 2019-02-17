@@ -80,6 +80,7 @@
       <el-select
         v-model="form.carType"
         placeholder="请选择"
+        clearable
         style="width: 150px;">
         <el-option v-for="(item, index) in carTypes" :key="index" :label="item.typeName" :value="item.typeId"></el-option>
       </el-select>
@@ -89,6 +90,7 @@
       <el-select
         v-model="form.orderType"
         placeholder="请选择"
+        clearable
         style="width: 150px;">
         <el-option v-for="(item, index) in orderTypes" :key="index" :label="item.orderTypeName" :value="item.orderTypeId"></el-option>
       </el-select>
@@ -98,6 +100,7 @@
       <el-select
               v-model="form.commondOrderStatus"
               placeholder="请选择"
+              clearable
               style="width: 150px;">
         <el-option v-for="(item, index) in commondOrderStatuses" :key="index" :label="item.orderCommondName" :value="item.orderCommondId"></el-option>
       </el-select>
@@ -365,14 +368,14 @@ export default {
         });
     },
       handleDownloadXlsx (data) {
+          if(this.form.startTime==''||this.form.endTime==''){
+              this.$message.error('订单导出必须选择约车时间！');
+              return;
+          }
           this.$refs.form.validate(valid => {
               if (valid) {
                   this.$emit('downLoadExcel', this.form);
               } else {
-                  this.$notify.error({
-                      title: '错误',
-                      message: '表单校验失败',
-                  });
                   return false;
               }
           });
@@ -386,10 +389,6 @@ export default {
         if (valid) {
           this.$emit('submit', this.form);
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '表单校验失败',
-          });
           return false;
         }
       });

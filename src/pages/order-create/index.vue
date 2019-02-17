@@ -110,6 +110,7 @@ import {
   getCustomerRouterDetail,
   getPriceAndCarByCustomerIdAndRouterSeries,
   createOrderByWeb,
+  getOrderByRouterAndDate
 } from '@/api/createorder';
 
 import {getCarTypeList} from '@/api/order';
@@ -546,24 +547,72 @@ export default {
         this.searching = false;
         return;
       }
-      this.$confirm('是否确定下单?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(() => {
-        createOrderByWeb(this.createOrder)
-          .then(res => {
-            if (res.code === 0) {
-              this.$message.success('创建手工单成功！');
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      });
+        this._getOrderByRouterAndDate({
+            customerNumId: this.customerNumId,
+            customerMasterId: this.createOrder.customerMasterId,
+            routerDetailSeries: this.createOrder.routerDetailSeries,
+            appointmentDate: this.createOrder.appointmentDate,
+        });
+      // this.$confirm('是否确定下单?', '提示', {
+      //   confirmButtonText: '确定',
+      //   cancelButtonText: '取消',
+      //   type: 'warning',
+      // }).then(() => {
+      //   createOrderByWeb(this.createOrder)
+      //     .then(res => {
+      //       if (res.code === 0) {
+      //         this.$message.success('创建手工单成功！');
+      //       }
+      //     })
+      //     .catch(err => {
+      //       console.log(err);
+      //     });
+      // });
       this.searching = false;
     },
-
+      _getOrderByRouterAndDate(params) {
+          getOrderByRouterAndDate(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      if(res.orderCount>0){
+                          this.$confirm(res.createOrderName+'已经下过当前线路订单,订单用车时间为'+res.date+',订单号为'+res.series+',是否继续下单?', '提示', {
+                              confirmButtonText: '确定',
+                              cancelButtonText: '取消',
+                              type: 'warning',
+                          }).then(() => {
+                              createOrderByWeb(this.createOrder)
+                                  .then(res => {
+                                      if (res.code === 0) {
+                                          this.$message.success('创建手工单成功！');
+                                      }
+                                  })
+                                  .catch(err => {
+                                      console.log(err);
+                                  });
+                          });
+                      }else{
+                          this.$confirm('是否确定下单?', '提示', {
+                              confirmButtonText: '确定',
+                              cancelButtonText: '取消',
+                              type: 'warning',
+                          }).then(() => {
+                              createOrderByWeb(this.createOrder)
+                                  .then(res => {
+                                      if (res.code === 0) {
+                                          this.$message.success('创建手工单成功！');
+                                      }
+                                  })
+                                  .catch(err => {
+                                      console.log(err);
+                                  });
+                          });
+                      }
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     cancelSign() {
       this.$confirm('是否清除此页下单数据?', '提示', {
         confirmButtonText: '确定',

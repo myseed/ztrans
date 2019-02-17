@@ -8,7 +8,7 @@
     style="margin-bottom: -18px;">
 
     <el-form-item>
-      <el-select v-model="form.prvId" placeholder="请选择省">
+      <el-select v-model="form.prvId" placeholder="请选择省" clearable>
         <el-option
                 v-for="item in allPrv"
                 :key="item.prvId"

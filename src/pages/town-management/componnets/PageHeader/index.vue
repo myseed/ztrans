@@ -8,7 +8,7 @@
     style="margin-bottom: -18px;">
 
     <el-form-item>
-      <el-select v-model="form.prvId" placeholder="请选择省">
+      <el-select v-model="form.prvId" placeholder="请选择省" clearable>
         <el-option
                 v-for="item in allPrv"
                 :key="item.prvId"
@@ -17,7 +17,7 @@
         </el-option>
       </el-select>
 
-      <el-select v-model="form.cityId" placeholder="请选择市">
+      <el-select v-model="form.cityId" placeholder="请选择市" clearable>
         <el-option
                 v-for="item in allCity"
                 :key="item.cityId"
@@ -26,7 +26,7 @@
         </el-option>
       </el-select>
 
-      <el-select v-model="form.cityAreaId" placeholder="请选择区">
+      <el-select v-model="form.cityAreaId" placeholder="请选择区" clearable>
         <el-option
                 v-for="item in allCityArea"
                 :key="item.cityAreaId"
