@@ -206,7 +206,6 @@ export default {
       this._getCarSizeList({
           customerNumId: this.customerNumId,
       });
-    this.createOrder.appointmentDate=this.dateFormatter(new Date());
   },
   watch: {
     'createOrder.customerMasterId'() {
@@ -265,6 +264,23 @@ export default {
         }
       }
     },
+      'routerAlial' (){
+      var re = /^[0-9]+.?[0-9]*$/;
+          var time="";
+          if(this.routerAlial.length>4){
+              //截取后四位
+              if(re.test(this.routerAlial.substring(this.routerAlial.length-4,this.routerAlial.length))){
+                  time=this.routerAlial.substring(this.routerAlial.length-4,this.routerAlial.length);
+              }else if(this.routerAlial.indexOf("（") != -1&&re.test(this.routerAlial.substring(this.routerAlial.indexOf("（")-4,this.routerAlial.indexOf("（")))){
+                  time=this.routerAlial.substring(this.routerAlial.indexOf("（")-4,this.routerAlial.indexOf("（"));
+              }
+          }
+          if(time!=""){
+              this.createOrder.appointmentDate=this.dateFormatterNewHourAndMinute(new Date(),time);
+          }else{
+              this.createOrder.appointmentDate=this.dateFormatter(new Date());
+          }
+    },
   },
   methods: {
     dateFormatter(str){
@@ -277,6 +293,16 @@ export default {
     var second = d.getSeconds()<10 ? '0'+d.getSeconds() : d.getSeconds();
     return [year, month, day].join('-') + " " + [hour, minute, second].join(':');
 },
+      dateFormatterNewHourAndMinute(str,time){
+          var d = new Date(str);
+          var year = d.getFullYear();
+          var month = (d.getMonth()+1)<10 ? '0'+(d.getMonth()+1) : (d.getMonth()+1);
+          var day = d.getDate()<10 ? '0'+d.getDate() : d.getDate();
+          var hour = time.substring(0,2);
+          var minute = time.substring(2,4);
+          var second = d.getSeconds()<10 ? '0'+d.getSeconds() : d.getSeconds();
+          return [year, month, day].join('-') + " " + [hour, minute, second].join(':');
+      },
     querySearchAsync(qs, cb) {
       this.masterCustomerSearchKey.customerMasterSearchKey = qs;
       this.masterCustomerSearchKey.customerNumId = this.customerNumId;

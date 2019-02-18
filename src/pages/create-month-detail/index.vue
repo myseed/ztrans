@@ -278,7 +278,23 @@
                     wetherSpecialCustomerPrice: this.createOrder.wetherSpecialCustomerPrice,
                 });
             },
-
+            'routerAlial' (){
+                var re = /^[0-9]+.?[0-9]*$/;
+                var time="";
+                if(this.routerAlial.length>4){
+                    //截取后四位
+                    if(re.test(this.routerAlial.substring(this.routerAlial.length-4,this.routerAlial.length))){
+                        time=this.routerAlial.substring(this.routerAlial.length-4,this.routerAlial.length);
+                    }else if(this.routerAlial.indexOf("（") != -1&&re.test(this.routerAlial.substring(this.routerAlial.indexOf("（")-4,this.routerAlial.indexOf("（")))){
+                        time=this.routerAlial.substring(this.routerAlial.indexOf("（")-4,this.routerAlial.indexOf("（"));
+                    }
+                }
+                if(time!=""){
+                    this.createOrder.appointmentDate=this.dateFormatterNewHourAndMinute(new Date(),time);
+                }else{
+                    this.createOrder.appointmentDate="";
+                }
+            },
             carWeight() {
                 for (var i = 0; i < this.carDetailModels.length; i++) {
                     if (this.carDetailModels[i].weightName == this.carWeight) {
@@ -296,6 +312,13 @@
             },
         },
         methods: {
+            dateFormatterNewHourAndMinute(str,time){
+                var d = new Date(str);
+                var hour = time.substring(0,2);
+                var minute = time.substring(2,4);
+                var second = d.getSeconds()<10 ? '0'+d.getSeconds() : d.getSeconds();
+                return [hour, minute, second].join(':');
+            },
             chooeseBtn(index){
                     this.btn_group[index].show=!this.btn_group[index].show;
             },
@@ -696,7 +719,7 @@
     justify-content: space-around;
   }
   .btn-groups>div{
-    width: 15%;
+    width: 10%;
     flex-grow: 0;
     flex-shrink: 0;
     padding: 10px;
