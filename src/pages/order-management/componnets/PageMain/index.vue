@@ -133,7 +133,7 @@
         </template>
       </el-table-column>
       
-      <el-table-column label="操作" align="center" width="400" fixed="right">
+      <el-table-column label="操作" align="center" width="300" fixed="right">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -146,9 +146,9 @@
             size="mini"
             type="danger"
             @click="handleDelete(scope.$index, scope.row)">废弃订单</el-button>
-          <el-button
-            size="mini"
-            @click="getAllMonthDetail(scope.$index, scope.row)">查看整月任务</el-button>
+          <!--<el-button-->
+            <!--size="mini"-->
+            <!--@click="getAllMonthDetail(scope.$index, scope.row)">查看整月任务</el-button>-->
         </template>
       </el-table-column>
 
@@ -235,7 +235,7 @@ export default {
       }));
     },
     getOrderDetail(index, row) {
-      this.$emit('getOrderDetail', {orderId: row.series});
+      this.$emit('getOrderDetail', {orderId: row.series,commondOrderStatus: row.commondOrderStatus,allmonthOrderTaskSeries: row.allmonthOrderTaskSeries});
     },
     getAllMonthDetail(index, row) {
         if(row.commondOrderStatus=='0'){

@@ -406,6 +406,9 @@ export default {
       this.status=this.$route.params.status;
       this.loading = true;
       this.form=form;
+      if(this.status==null||this.status==''){
+          return;
+      }
       getOrderByCustomerNumId({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -429,7 +432,7 @@ export default {
     getOrderDetail(param) {
       this.$router.push({
         path: '/order-detail',
-        query: {orderId: param.orderId},
+        query: {orderId: param.orderId,commondOrderStatus: param.commondOrderStatus,allmonthOrderTaskSeries: param.allmonthOrderTaskSeries},
       });
     },
     getAllMonthDetail(param) {

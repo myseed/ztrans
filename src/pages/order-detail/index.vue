@@ -36,6 +36,13 @@
         <el-form-item label="订单车辆吨位" >
           <el-input v-model="order.carWeightName"></el-input>
         </el-form-item>
+        <el-form-item  v-if='showCustomer'>
+          <el-button
+                  type="primary"
+                  @click="getAllMonthDetail">
+            查看整月任务明细
+          </el-button>
+        </el-form-item>
 
       </el-form>
       <div class="header">客户和销售信息</div>
@@ -168,6 +175,9 @@ export default {
       customerNumId: util.cookies.get('__user__customernumid'),
       ao:'',
       orderId: '',
+      commondOrderStatus: '',
+      allmonthOrderTaskSeries: '',
+      showCustomer:true,
       order: {
         series: '',
         routerAlisa: '',
@@ -218,6 +228,11 @@ export default {
 
   created() {
     this.orderId = this.$route.query.orderId;
+    this.commondOrderStatus=this.$route.query.commondOrderStatus;
+    this.allmonthOrderTaskSeries=this.$route.query.allmonthOrderTaskSeries;
+    if(this.commondOrderStatus=='0'){
+        this.showCustomer=false;
+    }
     if (!this.orderId == '') {
       this.getOrder();
       this._getOrderDetailBySeries({
@@ -228,6 +243,12 @@ export default {
   },
   watch: {},
   methods: {
+    getAllMonthDetail(){
+        this.$router.push({
+            path: '/order-month-detail',
+            query: {series: this.allmonthOrderTaskSeries},
+        });
+    },
     getOrder() {
       this._getOrderDetailBySeries({
         customerNumId: this.customerNumId,
