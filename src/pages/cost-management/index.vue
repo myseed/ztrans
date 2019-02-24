@@ -36,6 +36,7 @@ export default {
       table: [],
       orderInfos: [],
       loading: false,
+      form: { },
       page: {
         current: 1,
         size: 10,
@@ -64,6 +65,7 @@ export default {
     },
       handleSubmit(form) {
           this.loading = true;
+          this.form=form;
           getOrderPriceList({
               customerNumId: util.cookies.get('__user__customernumid'),
               current: this.page.current,
@@ -103,7 +105,7 @@ export default {
                       type: 'success',
                       message: '修改结算状态成功！'
                   });
-                  this.handleSubmit();
+                  this.handleSubmit(this.form);
               })
               .catch(err => {
                   console.log(err);
