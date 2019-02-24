@@ -102,6 +102,8 @@ import util from '@/libs/util';
 export default {
   data() {
     return {
+      customerNumId: util.cookies.get('__user__customernumid'),
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       routerDetail: [],
       routerNumber: [],
       customerMasterList: [],
@@ -231,6 +233,7 @@ export default {
       querySearchAsync(qs, cb) {
           this.masterCustomerSearchKey.customerMasterSearchKey = qs;
           this.masterCustomerSearchKey.customerNumId = this.customerNumId;
+          this.masterCustomerSearchKey.franchiseeSeries = this.franchiseeSeries;
           getMasterCustomerListBySearchKey(this.masterCustomerSearchKey).then(
               res => {
                   if (res.code === 0) {

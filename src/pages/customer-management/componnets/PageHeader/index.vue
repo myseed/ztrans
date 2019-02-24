@@ -118,12 +118,16 @@ export default {
       contactName:[],
       contactPhone:[],
       saleNames:[],
+      customerNumId: util.cookies.get('__user__customernumid'),
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       masterCustomerSearchKey: {
          customerMasterSearchKey: '',
          customerNumId: '',
+         franchiseeSeries:'',
       },
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
+        franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
         saleId: '',
         contactNameSearchKey: '',
         customerNameSearchKey: '',
@@ -168,11 +172,12 @@ export default {
   },
   created() {
     this._getAllSaleList({
-      customerNumId: this.form.customerNumId,
-      franchiseeId: '',
+      customerNumId: this.customerNumId,
+      franchiseeId: this.franchiseeSeries,
     });
     this._getContactNameList({
-      customerNumId: this.form.customerNumId,
+      customerNumId: this.customerNumId,
+      franchiseeSeries:this.franchiseeSeries,
     });
   },
     watch: {
@@ -192,6 +197,7 @@ export default {
       querySearchAsync(qs, cb) {
           this.masterCustomerSearchKey.customerMasterSearchKey = qs;
           this.masterCustomerSearchKey.customerNumId = this.customerNumId;
+          this.masterCustomerSearchKey.franchiseeSeries = this.franchiseeSeries;
           getMasterCustomerListBySearchKey(this.masterCustomerSearchKey).then(
               res => {
                   if (res.code === 0) {

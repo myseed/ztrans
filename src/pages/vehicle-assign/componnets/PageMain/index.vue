@@ -66,6 +66,12 @@
           {{scope.row.masterCustomerName}}
         </template>
       </el-table-column>
+
+      <el-table-column label="加盟商" :show-overflow-tooltip="true" width="200">
+        <template slot-scope="scope">
+          {{scope.row.franchiseeName}}
+        </template>
+      </el-table-column>
       
       <el-table-column label="下单人" :show-overflow-tooltip="true" width="90">
         <template slot-scope="scope">

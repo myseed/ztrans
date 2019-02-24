@@ -162,7 +162,8 @@ export default {
           contactPhone: '',
           customerContactId: '',
           customerMasterId: '',
-          customerNumId: '',
+          customerNumId: util.cookies.get('__user__customernumid'),
+          franchiseeSeries:util.cookies.get('__user__franchiseeSeries')
        },
        editContactItem: {
           activeDtme: '',

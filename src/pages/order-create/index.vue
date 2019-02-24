@@ -124,6 +124,7 @@ export default {
       searching: false,
       value5: '',
       customerNumId: util.cookies.get('__user__customernumid'),
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       franchiseeId: '',
       currentPage: 1,
       pageSize: 200,
@@ -160,6 +161,7 @@ export default {
         carSizeSeries: '',
         carWeightSeries:'',
         customerNumId: util.cookies.get('__user__customernumid'),
+        franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
         customerMasterId: '',
         wetherSpecialCustomerPrice: '',
         routerDetailSeries: '',
@@ -185,6 +187,7 @@ export default {
       masterCustomerSearchKey: {
         customerMasterSearchKey: '',
         customerNumId: '',
+        franchiseeSeries:'',
       },
       tableData: [],
       customerSales: [],
@@ -199,6 +202,7 @@ export default {
   created() {
     this._getMasterCustomerListBySearchKey({
       customerNumId: this.customerNumId,
+      franchiseeSeries: this.franchiseeSeries
     });
       this._getCarTypeList({
           customerNumId: this.customerNumId,
@@ -275,10 +279,14 @@ export default {
                   time=this.routerAlial.substring(this.routerAlial.indexOf("（")-4,this.routerAlial.indexOf("（"));
               }
           }
+          var  thisTime=new Date();
+          if(this.createOrder.appointmentDate!=null&&this.createOrder.appointmentDate!=''){
+              thisTime=this.createOrder.appointmentDate;
+          }
           if(time!=""){
-              this.createOrder.appointmentDate=this.dateFormatterNewHourAndMinute(new Date(),time);
+              this.createOrder.appointmentDate=this.dateFormatterNewHourAndMinute(thisTime,time);
           }else{
-              this.createOrder.appointmentDate=this.dateFormatter(new Date());
+              this.createOrder.appointmentDate=this.dateFormatter(thisTime);
           }
     },
   },
@@ -306,6 +314,7 @@ export default {
     querySearchAsync(qs, cb) {
       this.masterCustomerSearchKey.customerMasterSearchKey = qs;
       this.masterCustomerSearchKey.customerNumId = this.customerNumId;
+      this.masterCustomerSearchKey.franchiseeSeries = this.franchiseeSeries;
       getMasterCustomerListBySearchKey(this.masterCustomerSearchKey).then(
         res => {
           if (res.code === 0) {

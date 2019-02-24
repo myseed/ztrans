@@ -8,6 +8,14 @@
     size="mini"
     style="margin-bottom: -18px;">
 
+    <el-form-item label="订单号" prop="series">
+      <el-input
+              v-model="form.series"
+              placeholder="请输入"
+              clearable
+              style="width: 200px;"/>
+    </el-form-item>
+
     <el-form-item label="车牌号" prop="carPlateNumberSearchKey">
       <!--<el-input v-model="form.carPlateNumberSearchKey" placeholder="请输入" style="width: 100px;"></el-input>-->
       <el-autocomplete v-model="form.carPlateNumberSearchKey"
@@ -109,6 +117,8 @@ export default {
   data() {
     return {
       customerSeries:'',
+      customerNumId: util.cookies.get('__user__customernumid'),
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       showDriver:true,
       currentTableData: [],
       driverPlateNumber: [],
@@ -125,6 +135,7 @@ export default {
         startTime: '',
         endTime: '',
         orderBalanceStatus: '',
+        series:'',
       },
       masterCustomerSearchKey: {
             customerMasterSearchKey: '',
@@ -237,6 +248,7 @@ export default {
       querySearchAsync(qs, cb) {
           this.masterCustomerSearchKey.customerMasterSearchKey = qs;
           this.masterCustomerSearchKey.customerNumId = this.customerNumId;
+          this.masterCustomerSearchKey.franchiseeSeries = this.franchiseeSeries;
           getMasterCustomerListBySearchKey(this.masterCustomerSearchKey).then(
               res => {
                   if (res.code === 0) {

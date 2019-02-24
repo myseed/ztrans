@@ -67,6 +67,7 @@ export default {
   data() {
     return {
       routerDetail: [],
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         salePersonNameSearchKey: '',
@@ -78,7 +79,7 @@ export default {
   created() {
       this._getAllSaleList({
           customerNumId: this.form.customerNumId,
-          franchiseeId: '',
+          franchiseeId: this.franchiseeSeries,
       });
   },
   methods: {

@@ -85,6 +85,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="加盟商" :show-overflow-tooltip="true" width="200">
+        <template slot-scope="scope">
+          {{scope.row.franchiseeName}}
+        </template>
+      </el-table-column>
+
       <el-table-column label="订单备注" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.remark}}

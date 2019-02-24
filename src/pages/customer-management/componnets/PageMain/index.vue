@@ -19,33 +19,39 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="客户代码" :show-overflow-tooltip="true"  width="150">
+      <el-table-column label="客户代码" :show-overflow-tooltip="true"  width="200">
         <template slot-scope="scope">
           {{scope.row.customerSimpleCode}}
         </template>
       </el-table-column>
 
-      <el-table-column label="所在地区" :show-overflow-tooltip="true"  width="150">
+      <el-table-column label="所在地区" :show-overflow-tooltip="true"  width="200">
         <template slot-scope="scope">
           {{scope.row.prvCityArea}}
         </template>
       </el-table-column>
 
-      <el-table-column label="联系人" :show-overflow-tooltip="true">
+      <el-table-column label="联系人" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.contactName}}
         </template>
       </el-table-column>
 
-      <el-table-column label="联系电话" :show-overflow-tooltip="true">
+      <el-table-column label="联系电话" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.contactPhone}}
         </template>
       </el-table-column>
 
-      <el-table-column label="销售员" :show-overflow-tooltip="true">
+      <el-table-column label="销售员" :show-overflow-tooltip="true" width="200">
         <template slot-scope="scope">
           {{scope.row.saleName}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="加盟商" :show-overflow-tooltip="true" width="200">
+        <template slot-scope="scope">
+          {{scope.row.franchiseeName}}
         </template>
       </el-table-column>
 

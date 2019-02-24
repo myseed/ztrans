@@ -79,6 +79,11 @@
             <el-option v-for="(item, index) in customerOrderLevelModels" :key="index" :label="item.customerOrderLevelName" :value="item.customerOrderLevelId"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="销售加盟商">
+          <el-select v-model="addCustomerItem.franchiseeSeries">
+            <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="销售">
           <el-select v-model="addCustomerItem.saleId" clearable>
             <el-option v-for="(item, index) in customerSales" :key="index" :label="item.salePersonName" :value="item.salePersonId"></el-option>
@@ -174,6 +179,11 @@
         <el-form-item label="下单级别">
           <el-select v-model="editCustomerItem.orderLevel" clearable>
             <el-option v-for="(item, index) in customerOrderLevelModels" :key="index" :label="item.customerOrderLevelName" :value="item.customerOrderLevelId"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="销售加盟商">
+          <el-select v-model="editCustomerItem.franchiseeSeries" disabled>
+            <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="销售">
@@ -349,6 +359,9 @@ import {
   getAllTown,
   getServiceType,
 } from '@/api/dictionary';
+import {
+    getFranchiseeNameList
+} from "@/api/franchisee";
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
@@ -363,6 +376,7 @@ export default {
       table: [],
       loading: false,
       customerNumId: util.cookies.get('__user__customernumid'),
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       editCustomerItem: {
         caculateType: '',
         checkRemark: '',
@@ -373,6 +387,7 @@ export default {
         customerName: '',
         customerNumId: '',
         customerSimpleCode: '',
+        franchiseeSeries:'',
         customerSource: '',
         customerType: '',
         detailAddress: '',
@@ -383,6 +398,7 @@ export default {
         series: '',
         serviceType: '',
       },
+      franchiseeNameList:[],
       customerDetail: {},
       constantDetail: [],
       popDialog: false,
@@ -411,6 +427,7 @@ export default {
         customerName: '',
         customerNumId: '',
         customerSimpleCode: '',
+        franchiseeSeries:'',
         customerSource: '',
         customerType: '',
         detailAddress: '',
@@ -434,6 +451,7 @@ export default {
       activeStatusModels: [],
       customerCaclulateTypeModels: [],
       customerJobModels: [],
+      customerSales:[],
       customerLevelModels: [],
       customerOrderLevelModels: [],
       customerSexModels: [],
@@ -455,10 +473,10 @@ export default {
   },
   created() {
     this._initMyPage();
-    this._getAllSaleList({
-      customerNumId: this.customerNumId,
-      franchiseeId: this.franchiseeId,
-    });
+      this._getAllSaleList({
+          customerNumId: this.customerNumId,
+          franchiseeId: this.franchiseeSeries,
+      });
     // 获取字典接口数据
     this._getCheckStatus({
       customerNumId: this.customerNumId,
@@ -496,6 +514,10 @@ export default {
     this._getServiceType({
       customerNumId: this.customerNumId,
     });
+      this._getFranchiseeNameList({
+          customerNumId: this.customerNumId,
+          franchiseeType:0
+      });
     // 省市区联动数据
     this._getAllPrv({
       current: 1,
@@ -544,6 +566,16 @@ export default {
         cityId: this.addCustomerItem.cityName,
       });
     },
+      'addCustomerItem.franchiseeSeries'() {
+         if(this.addCustomerItem.franchiseeSeries!=0&&(this.addCustomerItem.franchiseeSeries==null||this.addCustomerItem.franchiseeSeries=='')){
+             return;
+         }
+         this.addCustomerItem.saleId='';
+          this._getAllSaleList({
+              customerNumId: this.customerNumId,
+              franchiseeId: this.addCustomerItem.franchiseeSeries,
+          });
+      },
   },
   methods: {
     _getAllSaleList(params) {
@@ -722,6 +754,17 @@ export default {
           console.log(err);
         });
     },
+      _getFranchiseeNameList(params) {
+          getFranchiseeNameList(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.franchiseeNameList = res.franchiseeNameList;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
     _getAllMasterCustomer(params) {
       this.loading = true;
       getAllMasterCustomer(params)
@@ -786,10 +829,6 @@ export default {
       this.handleSubmit();
     },
     handlePaginationChange(val) {
-      this.$notify({
-        title: '分页变化',
-        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`,
-      });
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
       this.$nextTick(() => {
@@ -802,6 +841,7 @@ export default {
         customerNumId: this.customerNumId,
         current: this.page.current,
         pageSize: this.page.size,
+        franchiseeSeries:this.franchiseeSeries,
         ...form,
       })
         .then(res => {
@@ -908,6 +948,20 @@ export default {
         });
         return;
       }
+        if (params.saleId === '') {
+            this.$message({
+                type: 'error',
+                message: '销售不可以为空！',
+            });
+            return;
+        }
+        if (params.franchiseeSeries === '') {
+            this.$message({
+                type: 'error',
+                message: '加盟商不可以为空！',
+            });
+            return;
+        }
       addMasterCustomer(params)
         .then(res => {
           if (res.code === 0) {

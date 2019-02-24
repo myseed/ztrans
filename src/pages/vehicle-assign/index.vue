@@ -380,6 +380,7 @@ export default {
       this.form=form;
       getOrderByCustomerNumId({
         customerNumId: util.cookies.get('__user__customernumid'),
+        franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
         current: this.page.current,
         pageSize: this.page.size,
         deliverStatus: 0,

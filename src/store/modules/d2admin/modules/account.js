@@ -38,6 +38,7 @@ export default {
           util.cookies.set('token', res.sid)
           util.cookies.set('uuid', res.customerNumId)
           util.cookies.set('__user__customernumid', res.customerNumId)
+          util.cookies.set('__user__franchiseeSeries', res.franchiseeSeries)
           util.cookies.set('__user__sid', res.sid)
           util.cookies.set('__user__name', customerAccount)
           util.cookies.set('__user__routes', res.routerMenuJson)
