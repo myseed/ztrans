@@ -67,6 +67,8 @@ export default {
       routerDetail: [],
       routerNumber: [],
       customerMasterList: [],
+      customerNumId: util.cookies.get('__user__customernumid'),
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         customerSeries: '',
@@ -81,6 +83,7 @@ export default {
       customerNumId: this.customerNumId,
       customerSeries: '0',
       routerSearchKey: '',
+      franchiseeSeries: this.franchiseeSeries,
     });
   },
   methods: {

@@ -171,6 +171,7 @@ export default {
           customerNumId: this.customerNumId,
           customerSeries: '',
           routerSearchKey: '',
+          franchiseeSeries:this.franchiseeSeries
       });
     this._getCarTypeList({
       customerNumId: this.form.customerNumId,

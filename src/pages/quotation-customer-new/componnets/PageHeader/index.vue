@@ -123,14 +123,11 @@ export default {
     };
   },
   created() {
-    this._getMasterCustomerList({
-      customerNumId: this.customerNumId,
-      saleId: '',
-    });
     this._getRouterAliaSearchList({
       customerNumId: this.customerNumId,
       customerSeries: '',
       routerSearchKey: '',
+      franchiseeSeries: this.franchiseeSeries,
     });
   },
     watch: {
@@ -141,7 +138,8 @@ export default {
             this._getRouterAliaSearchList({
                 customerNumId: this.customerNumId,
                 customerSeries: this.form.customerSeries,
-                routerSearchKey: ''
+                routerSearchKey: '',
+                franchiseeSeries: this.franchiseeSeries,
             });
         }
     },

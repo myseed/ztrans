@@ -68,6 +68,8 @@ export default {
     return {
       routerDetail: [],
       baseCustomers:[],
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
+      customerNumId: util.cookies.get('__user__customernumid'),
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         routerDetailAliaSearchKey: '',
@@ -81,6 +83,7 @@ export default {
           customerNumId: this.customerNumId,
           customerSeries: '',
           routerSearchKey: '',
+          franchiseeSeries:this.franchiseeSeries
       });
       this._getEmployeeList({
           customerNumId: this.customerNumId,

@@ -21,15 +21,23 @@
       @change="handlePaginationChange"/>
 
     <el-dialog title="新增客户报价" :visible.sync="addDialog">
-      <div class="block" style="text-align: left">
-        线路设置
-      </div>
+      <!--<div class="block" style="text-align: left">-->
+        <!--线路设置-->
+      <!--</div>-->
       <div class="block" style="text-align: left; padding: 0 15px">
         <el-form label-width="120px" :model="addItem" size="mini" >
-          <el-form-item label="客户">
-            <el-select v-model="addItem.customerSeries" placeholder="请选择" clearable>
-              <el-option v-for="(item, index) in customerMasterList" :key="index" :label="item.customerName" :value="item.customerMasterId"></el-option>
-            </el-select>
+          <!--<el-form-item label="客户">-->
+            <!--<el-select v-model="addItem.customerSeries" placeholder="请选择" clearable>-->
+              <!--<el-option v-for="(item, index) in customerMasterList" :key="index" :label="item.customerName" :value="item.customerMasterId"></el-option>-->
+            <!--</el-select>-->
+          <!--</el-form-item>-->
+          <el-form-item label="大客户名字">
+            <el-autocomplete v-model="customerName"
+                             placeholder="大客户名字"
+                             clearable
+                             :fetch-suggestions="querySearchAsync"
+                             @select="handleSelect">
+            </el-autocomplete>
           </el-form-item>
           <el-form-item label="线路编号">
             <el-input v-model="addItem.routerNumber" placeholder="请输入"></el-input>
@@ -265,15 +273,13 @@
         </span>
     </el-dialog>
     <el-dialog title="编辑客户报价" :visible.sync="editDialog">
-      <div class="block" style="text-align: left">
-        线路设置
-      </div>
+      <!--<div class="block" style="text-align: left">-->
+        <!--线路设置-->
+      <!--</div>-->
       <div class="block" style="text-align: left; padding: 0 15px">
         <el-form label-width="120px" :model="addItem" size="mini">
-          <el-form-item label="客户">
-            <el-select v-model="addItem.customerSeries" placeholder="请选择" clearable>
-              <el-option v-for="(item, index) in customerMasterList" :key="index" :label="item.customerName" :value="item.customerMasterId"></el-option>
-            </el-select>
+          <el-form-item label="客户名字">
+            <el-input v-model="addItem.customerName" placeholder="请输入" disabled></el-input>
           </el-form-item>
           <el-form-item label="线路编号">
             <el-input v-model="addItem.routerNumber" placeholder="请输入"></el-input>
@@ -532,6 +538,9 @@
         getAllTown,
         getCarSizeList
     } from "@/api/dictionary";
+    import {
+        getMasterCustomerListBySearchKey
+    } from '@/api/createorder';
 import util from "@/libs/util";
 
 export default {
@@ -576,6 +585,7 @@ export default {
             children: [],
             customerNumId: "",
             customerSeries: "",
+            customerName:"",
             destinationCity: "",
             destinationCityArea: "",
             destinationPrv: "",
@@ -594,13 +604,20 @@ export default {
             receiveGoodsPersonName: "",
             receiveGoodsPersonMobile: "",
             receiveAddressDetail: "",
-            routerStations: []
+            routerStations: [],
+            franchiseeSeries:""
        },
         routerDetail: [],
         priceSetAddList: [],
       table: [],
       addDialog: false,
+      masterCustomerSearchKey: {
+          customerMasterSearchKey: '',
+          customerNumId: '',
+          franchiseeSeries:'',
+      },
       customerNumId: util.cookies.get('__user__customernumid'),
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       loading: false,
         tableData: [],
         searching: false,
@@ -710,10 +727,45 @@ export default {
         this.$refs.header.handleFormSubmit();
       });
     },
+      querySearchAsync(qs, cb) {
+          this.masterCustomerSearchKey.customerMasterSearchKey = qs;
+          this.masterCustomerSearchKey.customerNumId = this.customerNumId;
+          this.masterCustomerSearchKey.franchiseeSeries = this.franchiseeSeries;
+          getMasterCustomerListBySearchKey(this.masterCustomerSearchKey).then(
+              res => {
+                  if (res.code === 0) {
+                      let customerMasters = [];
+                      // customerMasters= res.customerMasterList;
+                      res.customerMasterList.forEach(item => {
+                          customerMasters.push({
+                              value: item.customerName,
+                              ...item,
+                          });
+                      });
+                      this.customerMaster = customerMasters;
+                      let customerMaster = this.customerMaster;
+                      var results = qs
+                          ? customerMaster.filter(this.createStateFilter(qs))
+                          : customerMaster;
+                      cb(results);
+                  }
+              }
+          );
+      },
+      createStateFilter(qs) {
+          return state => {
+              return state.value.toLowerCase().indexOf(qs.toLowerCase()) != -1;
+          };
+      },
+      handleSelect(item) {
+          this.addItem.customerSeries = item.customerMasterId;
+          this.addItem.franchiseeSeries = item.franchiseeSeries;
+      },
     handleSubmit(form) {
         this.loading = true;
         this._getAllRouterCustomerPrice({
             customerNumId: util.cookies.get("__user__customernumid"),
+            franchiseeSeries: util.cookies.get("__user__franchiseeSeries"),
             current: this.page.current,
             pageSize: this.page.size,
             ...form
@@ -1231,6 +1283,8 @@ export default {
                           res.allRouterPriceGetModel.receiveAddressDetail;
                       this.addItem.routerStations =
                           res.allRouterPriceGetModel.routerStations;
+                      this.addItem.customerName =
+                          res.allRouterPriceGetModel.customerName;
                       res.allRouterPriceGetModel.routerPriceList.forEach(item => {
                           this.addItem.children.push({
                               carTypeName: item.carTypeName,

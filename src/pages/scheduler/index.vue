@@ -115,6 +115,7 @@ export default {
   data() {
     return {
       table: [],
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       baseCustomers: [],
       loading: false,
       addDialog: false,
@@ -145,6 +146,8 @@ export default {
       this._getRouterAliaSearchList({
           customerNumId: this.customerNumId,
           customerSeries: '',
+          routerSearchKey: '',
+          franchiseeSeries:this.franchiseeSeries,
       });
   },
     watch: {
@@ -155,7 +158,8 @@ export default {
             this._getRouterAliaSearchList({
                 customerNumId: this.customerNumId,
                 customerSeries: this.addItemParam.customerSeries,
-                routerSearchKey: ''
+                routerSearchKey: '',
+                franchiseeSeries:this.franchiseeSeries,
             });
         }
     },

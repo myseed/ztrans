@@ -671,6 +671,7 @@
                         .then(res => {
                             if (res.code === 0) {
                                 this.$message.success('整月派单成功！');
+                                location.reload();
                             }
                         })
                         .catch(err => {

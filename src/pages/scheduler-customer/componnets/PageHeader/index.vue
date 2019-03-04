@@ -80,9 +80,6 @@ export default {
     };
   },
   created() {
-      this._getMasterCustomerListBySearchKey({
-          customerNumId: this.customerNumId,
-      });
       this._getEmployeeList({
           customerNumId: this.customerNumId,
           jobId: '0',

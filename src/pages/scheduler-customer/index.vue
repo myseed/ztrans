@@ -56,9 +56,6 @@ export default {
   },
   created() {
     this._initMyPage();
-    this._getRouterAliaList({
-      customerNumId: this.customerNumId,
-    });
   },
   methods: {
     _initMyPage() {
