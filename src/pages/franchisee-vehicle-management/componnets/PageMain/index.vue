@@ -68,10 +68,10 @@
           <el-button
             size="mini"
             @click="handleCheckDetail(scope.$index, scope.row)">查看</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="onDeleteCar(scope.$index, scope.row)">删除</el-button>
+          <!--<el-button-->
+            <!--size="mini"-->
+            <!--type="danger"-->
+            <!--@click="onDeleteCar(scope.$index, scope.row)">删除</el-button>-->
         </template>
       </el-table-column>
 

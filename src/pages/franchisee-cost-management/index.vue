@@ -90,7 +90,9 @@ export default {
               });
       },
       orderInfoss(param) {
-          this.orderInfos=param.orderInfos;
+          for(var i of param.orderInfos) {
+              this.orderInfos.push(i.series);
+          };
       },
       calculate(param){
           this.$confirm("此操作将更改订单结算状态, 是否继续?", "提示", {

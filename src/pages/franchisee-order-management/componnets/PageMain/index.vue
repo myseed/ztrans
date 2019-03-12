@@ -144,10 +144,10 @@
           <el-button
             size="mini"
             @click="getOrderDetail(scope.$index, scope.row)">订单详情</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">废弃订单</el-button>
+          <!--<el-button-->
+            <!--size="mini"-->
+            <!--type="danger"-->
+            <!--@click="handleDelete(scope.$index, scope.row)">废弃订单</el-button>-->
           <!--<el-button-->
             <!--size="mini"-->
             <!--@click="getAllMonthDetail(scope.$index, scope.row)">查看整月任务</el-button>-->
