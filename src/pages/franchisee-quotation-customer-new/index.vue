@@ -607,8 +607,6 @@ export default {
             routerStations: [],
             franchiseeSeries:""
        },
-        customerMaster: [],
-        customerName:"",
         routerDetail: [],
         priceSetAddList: [],
       table: [],
@@ -1229,7 +1227,7 @@ export default {
       },
       getCustomerPrice(param){
           this.$router.push({
-              path: '/customer-router-detail',
+              path: '/franchisee-customer-router-detail',
               query: {consumerSeries:param.customerSeries,routerDetailSeries: param.routerDetailSeries,routerType: 0},
           });
       },

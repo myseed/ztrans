@@ -30,12 +30,6 @@ const frameIn = [
         component: () => import('@/pages/scheduler-customer'),
         meta: { meta, title: '调度客户' }
       },
-      // {
-      //   path: '/vehicle-schedule',
-      //   name: 'vehicle-schedule',
-      //   component: () => import('@/pages/vehicle-schedule'),
-      //   meta: { meta, title: '调度车辆' }
-      // },
       {
         path: '/vehicle-assign',
         name: 'vehicle-assign',
@@ -251,8 +245,73 @@ const frameIn = [
         name: '/order-month-detail',
         component: () => import('@/pages/order-month-detail'),
         meta: { meta, title: '整月下单明细' }
+      },
+      {
+        path: '/franchisee-vehicle-management',
+        name: 'franchisee-vehicle-management',
+        component: () => import('@/pages/franchisee-vehicle-management'),
+        meta: { meta, title: '加盟商车辆管理' }
+      },
+      {
+        path: '/franchisee-customer-management',
+        name: 'franchisee-customer-management',
+        component: () => import('@/pages/franchisee-customer-management'),
+        meta: { meta, title: '加盟商客户列表' }
+      },
+      {
+        path: '/franchisee-employee-management',
+        name: 'franchisee-employee-management',
+        component: () => import('@/pages/franchisee-employee-management'),
+        meta: { meta, title: '员工管理' }
+      },
+      {
+        path: '/franchisee-cost-management1/:status',
+        name: 'franchisee-cost-management1',
+        component: () => import('@/pages/franchisee-cost-management'),
+        meta: { meta, title: '订单完整费用' }
+      },
+      {
+        path: '/franchisee-quotation-customer-new',
+        name: 'franchisee-quotation-customer-new',
+        component: () => import('@/pages/franchisee-quotation-customer-new'),
+        meta: { meta, title: '客户报价' }
+      },
+      {
+        path: '/franchisee-order-management1/:status',
+        name: 'franchisee-order-management1',
+        component: () => import('@/pages/franchisee-order-management'),
+        meta: { meta, title: '未接单订单' }
+      },
+      {
+        path: '/franchisee-order-management2/:status',
+        name: 'franchisee-order-management2',
+        component: () => import('@/pages/franchisee-order-management'),
+        meta: { meta, title: '未完成订单' }
+      },
+      {
+        path: '/franchisee-order-management3/:status',
+        name: 'franchisee-order-management3',
+        component: () => import('@/pages/franchisee-order-management'),
+        meta: { meta, title: '已完成订单' }
+      },
+      {
+        path: '/franchisee-order-management4/:status',
+        name: 'franchisee-order-management4',
+        component: () => import('@/pages/franchisee-order-management'),
+        meta: { meta, title: '异常订单' }
+      },
+      {
+        path: '/franchisee-customer-detail',
+        name: '/franchisee-customer-detail',
+        component: () => import('@/pages/franchisee-customer-detail'),
+        meta: { meta, title: '加盟商客户明细' }
+      },
+      {
+        path: '/franchisee-customer-router-detail',
+        name: '/franchisee-customer-router-detail',
+        component: () => import('@/pages/franchisee-customer-router-detail'),
+        meta: { meta, title: '加盟商客户线路明细' }
       }
-
     ]
   }
 ]

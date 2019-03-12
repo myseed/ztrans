@@ -242,9 +242,6 @@ export default {
     this._getOrderTypeList({
       customerNumId: this.customerNumId,
     });
-    this._getDriverNameList({
-      customerNumId: this.customerNumId,
-    });
     this._initMyPage();
   },
   computed: {

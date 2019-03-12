@@ -243,6 +243,7 @@ export default {
     });
     this._getDriverNameList({
       customerNumId: this.form.customerNumId,
+      franchiseeSeries:this.franchiseeSeries
     });
 
   },

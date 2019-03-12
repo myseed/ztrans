@@ -63,15 +63,6 @@
       </el-button>
     </el-form-item>
 
-    <el-form-item>
-      <el-button
-        type="primary"
-        @click="handleAdd">
-        <d2-icon name="plus"/>
-        新增员工
-      </el-button>
-    </el-form-item>
-
   </el-form>
 </template>
 

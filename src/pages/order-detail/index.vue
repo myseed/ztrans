@@ -173,6 +173,7 @@ export default {
   data() {
     return {
       customerNumId: util.cookies.get('__user__customernumid'),
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       ao:'',
       orderId: '',
       commondOrderStatus: '',
@@ -235,10 +236,10 @@ export default {
     }
     if (!this.orderId == '') {
       this.getOrder();
-      this._getOrderDetailBySeries({
-        customerNumId: this.customerNumId,
-        series: this.orderId,
-      });
+      // this._getOrderDetailBySeries({
+      //   customerNumId: this.customerNumId,
+      //   series: this.orderId,
+      // });
     }
   },
   watch: {},
@@ -253,6 +254,7 @@ export default {
       this._getOrderDetailBySeries({
         customerNumId: this.customerNumId,
         series: this.orderId,
+        franchiseeSeries:this.franchiseeSeries
       });
     },
     _getOrderDetailBySeries(params) {

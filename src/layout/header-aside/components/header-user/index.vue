@@ -19,6 +19,7 @@ export default {
   data () {
     return {
       customerNumId: util.cookies.get('__user__customernumid'),
+      franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       timr: null
     }
   },
@@ -30,7 +31,8 @@ export default {
   created () {
     this.timr = setInterval(() => {
       this._getUnDealOrderCount({
-        customerNumId: this.customerNumId
+        customerNumId: this.customerNumId,
+        franchiseeSeries: this.franchiseeSeries
       })
     }, 1000 * 60 * 5)
   },

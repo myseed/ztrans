@@ -151,15 +151,6 @@ export default {
       this._getCustomerJob({
           customerNumId: this.customerNumId,
       });
-      this._getCustomerSex({
-          customerNumId: this.customerNumId,
-      });
-      this._getFranchiseeNameList({
-          customerNumId: this.customerNumId
-      });
-      this._getAuthorityRoleList({
-          customerNumId: this.customerNumId
-      });
     this._initMyPage();
 
   },

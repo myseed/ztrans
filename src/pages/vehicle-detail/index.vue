@@ -15,6 +15,9 @@
         <el-form-item label="车队" >
           <el-input v-model="addCarItem.motorcadeCar"></el-input>
         </el-form-item>
+        <el-form-item label="车队加盟商" >
+          <el-input v-model="addCarItem.franchiseeName"></el-input>
+        </el-form-item>
       </el-form>
       <div class="header">车辆信息</div>
       <el-form :inline="true" size="mini" label-width="110px">
@@ -126,6 +129,7 @@ export default {
             motorcadeId: '',
             persomCarPicture: '',
             prvName: '',
+            franchiseeName:''
         },
     };
   },

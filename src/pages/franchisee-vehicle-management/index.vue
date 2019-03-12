@@ -550,42 +550,10 @@ export default {
     this._getRouterAliaList({
       customerNumId: this.customerNumId,
     });
-    this._getCarTypeList({
-      customerNumId: this.customerNumId,
-    });
     // 获取字典接口数据
     this._getCheckStatus({
       customerNumId: this.customerNumId,
     });
-    this._getActiveStatus({
-      customerNumId: this.customerNumId,
-    });
-    this._getAllCarBand({
-      current: 1,
-      pageSize: 200,
-      customerNumId: this.customerNumId,
-    });
-    this._getCarWeightList({
-      customerNumId: this.customerNumId,
-    });
-    this._getAllCarColour({
-      current: 1,
-      pageSize: 200,
-      customerNumId: this.customerNumId,
-    });
-    this._getCarSizeList({
-      customerNumId: this.customerNumId,
-    });
-    // 省市区联动数据
-    this._getAllPrv({
-      current: 1,
-      customerNumId: this.customerNumId,
-      pageSize: 200,
-    });
-      this._getFranchiseeNameList({
-          customerNumId: this.customerNumId,
-          franchiseeType:1
-      });
   },
   watch: {
     'addCarItem.prvName'() {
