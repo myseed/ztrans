@@ -139,7 +139,7 @@
         </template>
       </el-table-column>
       
-      <el-table-column label="操作" align="center" width="300" fixed="right">
+      <el-table-column label="操作" align="center" width="150" fixed="right">
         <template slot-scope="scope">
           <el-button
             size="mini"

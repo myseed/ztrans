@@ -57,26 +57,26 @@
       </el-button>
     </el-form-item>
 
-    <el-form-item>
-      <el-button
-              type="primary"
-              size="mini"
-              @click="handleDownloadXlsx">
-        <d2-icon name="file-o"/>
-        下载报价excel模板
-      </el-button>
-    </el-form-item>
+    <!--<el-form-item>-->
+      <!--<el-button-->
+              <!--type="primary"-->
+              <!--size="mini"-->
+              <!--@click="handleDownloadXlsx">-->
+        <!--<d2-icon name="file-o"/>-->
+        <!--下载报价excel模板-->
+      <!--</el-button>-->
+    <!--</el-form-item>-->
 
-      <el-form-item>
-      <el-upload
-      :http-request="onReaderComplete">
-        <el-button type="primary">
-          <d2-icon name="file-o"/>
-          导入报价excel
-        </el-button>
-      </el-upload>
+      <!--<el-form-item>-->
+      <!--<el-upload-->
+      <!--:http-request="onReaderComplete">-->
+        <!--<el-button type="primary">-->
+          <!--<d2-icon name="file-o"/>-->
+          <!--导入报价excel-->
+        <!--</el-button>-->
+      <!--</el-upload>-->
 
-      </el-form-item>
+      <!--</el-form-item>-->
 
 
   </el-form>
@@ -157,6 +157,7 @@ export default {
                           type: "success",
                           message: "上传成功!"
                       });
+                      this.handleFormSubmit();
                   }else{
                       this.$message({
                           message: res.data.message,

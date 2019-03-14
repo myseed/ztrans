@@ -91,6 +91,7 @@ export default {
               });
       },
       orderInfoss(param) {
+          this.orderInfos=[];
           for(var i of param.orderInfos) {
               this.orderInfos.push(i.series);
           };

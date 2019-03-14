@@ -8,10 +8,6 @@
     style="margin-bottom: -18px;">
 
     <el-form-item label="客户名称" prop="customerNameSearchKey">
-      <!--<el-input-->
-        <!--v-model="form.customerNameSearchKey"-->
-        <!--placeholder="请输入"-->
-        <!--style="width: 100px;"/>-->
       <el-autocomplete v-model="form.customerNameSearchKey"
                        placeholder="客户名字"
                        clearable
@@ -21,10 +17,6 @@
     </el-form-item>
 
     <el-form-item label="联系人" prop="contactNameSearchKey">
-      <!--<el-input-->
-        <!--v-model="form.contactNameSearchKey"-->
-        <!--placeholder="请输入"-->
-        <!--style="width: 100px;"/>-->
       <el-autocomplete v-model="form.contactNameSearchKey"
                        placeholder="联系人"
                        clearable
@@ -34,10 +26,6 @@
     </el-form-item>
 
     <el-form-item label="联系电话" prop="mobilePhoneSearchKey">
-      <!--<el-input-->
-        <!--v-model="form.mobilePhoneSearchKey"-->
-        <!--placeholder="请输入"-->
-        <!--style="width: 100px;"/>-->
       <el-autocomplete v-model="form.mobilePhoneSearchKey"
                        placeholder="联系电话"
                        clearable
@@ -47,9 +35,6 @@
     </el-form-item>
 
     <el-form-item label="销售员" prop="saleName">
-      <!--<el-select v-model="form.saleId" placeholder="请选择">-->
-        <!--<el-option v-for="(item, index) in customerSales" :key="index" :label="item.salePersonName" :value="item.salePersonId"></el-option>-->
-      <!--</el-select>-->
       <el-autocomplete v-model="form.saleName"
                        placeholder="销售员"
                        clearable
@@ -99,12 +84,33 @@
       </el-button>
     </el-form-item>
 
+    <el-form-item>
+      <el-button
+              type="primary"
+              size="mini"
+              @click="handleDownloadXlsx">
+        <d2-icon name="file-o"/>
+        下载客户excel模板
+      </el-button>
+    </el-form-item>
+
+    <el-form-item>
+      <el-upload
+              :http-request="onReaderComplete">
+        <el-button type="primary">
+          <d2-icon name="file-o"/>
+          导入客户联系人excel
+        </el-button>
+      </el-upload>
+
+    </el-form-item>
+
   </el-form>
 </template>
 
 <script>
 import util from '@/libs/util';
-import {getAllSaleList,getCustomerContact} from '@/api/customer';
+import {getAllSaleList,getCustomerContact,uploadCustomerExcel} from '@/api/customer';
 import {
     getMasterCustomerListBySearchKey
 } from '@/api/createorder';
@@ -194,6 +200,40 @@ export default {
         }
     },
   methods: {
+      handleDownloadXlsx (data) {
+          this.$refs.form.validate(valid => {
+              if (valid) {
+                  this.$emit('downLoadExcel', this.form);
+              } else {
+                  return false;
+              }
+          });
+      },
+      onReaderComplete({ file, filename }) {
+          // 把图片上传到服务器
+          const params = { "customerNumId":this.customerNumId};
+          this._uploadCustomerExcel(params, file, filename);
+      },
+      _uploadCustomerExcel(params, file, filename) {
+          uploadCustomerExcel(params, file)
+              .then(res => {
+                  if (res.data.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "上传成功!"
+                      });
+                      this.handleFormSubmit();
+                  }else{
+                      this.$message({
+                          message: res.data.message,
+                          type: 'error',
+                      });
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
       querySearchAsync(qs, cb) {
           this.masterCustomerSearchKey.customerMasterSearchKey = qs;
           this.masterCustomerSearchKey.customerNumId = this.customerNumId;

@@ -4,6 +4,7 @@
       slot="header"
       @submit="handleSubmit"
       @add="handleAdd"
+      @downLoadExcel="downLoadExcel"
       ref="header"/>
     <page-main
       :table-data="table"
@@ -341,6 +342,7 @@ import {
   addCustomerContact,
   updateCustomerContact,
   deleteOldCustomerContact,
+  downloadCustomerExcel
 } from '@/api/customer';
 import {
   getCheckStatus,
@@ -533,6 +535,14 @@ export default {
       },
   },
   methods: {
+      downLoadExcel(form) {
+          this.loading = true;
+          var url=downloadCustomerExcel({
+              customerNumId: util.cookies.get('__user__customernumid'),
+          });
+          window.location.href =url;
+          this.loading = false;
+      },
     _getAllSaleList(params) {
       getAllSaleList(params)
         .then(res => {

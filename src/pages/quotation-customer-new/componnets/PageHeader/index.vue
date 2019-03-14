@@ -8,10 +8,6 @@
     style="margin-bottom: -18px;">
 
     <el-form-item label="客户名称" prop="customerName">
-      <!--<el-select v-model="form.customerSeries" placeholder="请选择" style="width: 150px;">-->
-        <!--<el-option v-for="(item, index) in customerMasterList" :key="index" :label="item.customerName" :value="item.customerMasterId"></el-option>-->
-      <!--</el-select>-->
-
       <el-autocomplete v-model="customerName"
                        placeholder="请输入"
                        clearable
@@ -21,7 +17,6 @@
     </el-form-item>
 
     <el-form-item label="线路编号" prop="routerNumberSearchKey">
-      <!--<el-input v-model="form.routerNumberSearchKey" placeholder="请输入" style="width: 100px;"></el-input>-->
       <el-autocomplete v-model="form.routerNumberSearchKey"
                        style="width: 150px;"
                        placeholder="请输入"
@@ -166,6 +161,7 @@ export default {
                           type: "success",
                           message: "上传成功!"
                       });
+                      this.handleFormSubmit();
                   }else{
                       this.$message({
                           message: res.data.message,

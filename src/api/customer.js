@@ -3,6 +3,7 @@
  */
 import {httpGet} from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
+import axios from 'axios'
 
 export function getAllMasterCustomer (params) {
   const url = `/getAllMasterCustomer`
@@ -145,4 +146,25 @@ export function getCustomerContact (params) {
   }
 
   return httpGet(url, data)
+}
+
+export function uploadCustomerExcel (params, file) {
+  const url = `/uploadCustomerExcel`
+  const ts = timestamp()
+  const data = new FormData()
+  data.append('sid', sid())
+  data.append('timestamp', ts)
+  data.append('params', paramsify(params))
+  data.append('multipartFile', file)
+  data.append('sign', signify(params, ts))
+  const config = {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }
+  return axios.post(process.env.VUE_APP_API + url, data, config)
+}
+
+export function downloadCustomerExcel (params) {
+  const url = `/downloadCustomerExcel`
+  const ts = timestamp()
+  return '' + process.env.VUE_APP_API + url + '?params=' + paramsify(params) + '&sid=' + sid() + '&sign=' + signify(params, ts) + '&timestamp=' + ts
 }

@@ -99,7 +99,7 @@
       <el-table-column
               fixed="right"
               label="操作"
-              width="220">
+              width="150">
         <template slot-scope="scope">
           <el-button @click="getCustomerPrice(scope.$index, scope.row)"  size="mini">查看</el-button>
           <!--<el-button @click="onDeleteCustomerPrice(scope.$index, scope.row)" type="danger" size="mini">删除</el-button>-->

@@ -58,7 +58,7 @@ export default {
 
           setTimeout(() => {
             window.location.reload()
-          }, 0)
+          }, 700)
         })
         .catch(err => {
           console.log('err: ', err)
