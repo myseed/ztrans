@@ -73,8 +73,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center" width="200" fixed="right">
+      <el-table-column label="操作" align="center" width="300" fixed="right">
         <template slot-scope="scope">
+          <el-button
+                  size="mini"
+                  type="primary"
+                  @click="editEmployee(scope.$index, scope.row)">编辑</el-button>
           <el-button
                   size="mini"
                   type="primary"
@@ -148,6 +152,9 @@ export default {
       },
       handleEdit(index, row) {
           this.$emit("editPassword",{customerNumId: row.customerNumId,customerAccount:row.customerAccount,customerName:row.customerName});
+      },
+      editEmployee(index, row) {
+          this.$emit("editEmployee",{customerNumId: row.customerNumId,customerAccount:row.customerAccount,customerName:row.customerName,jobName:row.jobName,jobNum:row.jobNum,sex:row.sex,mobilePhone:row.mobilePhone,phone:row.phone,franchiseeSeries:row.franchiseeSeries,roleIds: row.roleIds,});
       },
     handleSwitchChange(val, index) {
       const oldValue = this.currentTableData[index];

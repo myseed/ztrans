@@ -157,10 +157,17 @@
         <el-form-item label="订单废弃理由" >
           <el-input type="textarea" v-model="order.deleteReason"   :rows="7" ></el-input>
         </el-form-item>
-            <p>交接单</p>
-            <el-col class="tx-center" v-if="order.driverReceitp!==''">
-              <img  :src="order.driverReceitp"  alt="司机交接单" class="cert-pic">
-            </el-col>
+            <p>交接单(点击图片可以放大)</p>
+            <!--<el-col class="tx-center" v-if="order.driverReceitp!==''">-->
+              <!--<img  :src="order.driverReceitp"  alt="司机交接单" class="cert-pic" >-->
+            <!--</el-col>-->
+            <el-popover
+                    placement="right"
+                    title=""
+                    trigger="click">
+              <img :src="order.driverReceitp" style="max-height: 850px;max-width: 850px"/>
+              <img slot="reference" :src="order.driverReceitp" :alt="order.driverReceitp" style="max-height: 350px;max-width: 330px">
+            </el-popover>
       </el-form>
     </template>
   </d2-container>

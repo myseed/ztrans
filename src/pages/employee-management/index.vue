@@ -9,7 +9,8 @@
       :table-data="table"
       :loading="loading"
        @editPassword="editPassword"
-       @deleteCustomerId="deleteCustomerId"/>
+       @deleteCustomerId="deleteCustomerId"
+       @editEmployee="editEmployee"/>
     <page-footer
       slot="footer"
       :current="page.current"
@@ -72,6 +73,54 @@
     </el-dialog>
 
 
+    <el-dialog title="编辑用户" :visible.sync="editCustomerePopDialog">
+      <el-form label-width="100px" :model="addCustomerModel" label-position="left" size="mini">
+        <el-form-item label="用户名字">
+          <el-input v-model="addCustomerModel.customerName" ></el-input>
+        </el-form-item>
+        <el-form-item label="职位">
+          <el-select
+                  v-model="addCustomerModel.jobName"
+                  placeholder="请选择"
+                  style="width: 150px;">
+            <el-option v-for="(item, index) in customerJobModels" :key="index" :label="item.customerJobName" :value="item.customerJobCode"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-select
+                  v-model="addCustomerModel.sex"
+                  placeholder="请选择"
+                  style="width: 150px;">
+            <el-option v-for="(item, index) in customerSexModels" :key="index" :label="item.customerSexName" :value="item.customerSexCode"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="加盟商">
+          <el-select v-model="addCustomerModel.franchiseeSeries" clearable>
+            <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="可选角色">
+          <el-select v-model="addCustomerModel.roleIds" multiple placeholder="请选择权限角色">
+            <el-option v-for="item in authNameList" :key="item.roleId" :label="item.roleName" :value="item.roleId" ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="工号">
+          <el-input v-model="addCustomerModel.jobNum"></el-input>
+        </el-form-item>
+        <el-form-item label="手机">
+          <el-input v-model="addCustomerModel.mobilePhone"></el-input>
+        </el-form-item>
+        <el-form-item label="座机">
+          <el-input v-model="addCustomerModel.phone"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelCustomer" size="mini">取 消</el-button>
+        <el-button type="primary" @click="onEditCustomerConfirm" size="mini"  :loading="loading">确 定</el-button>
+      </div>
+    </el-dialog>
+
+
 
     <el-dialog title="密码重置" :visible.sync="passwordUpdatePopDialog">
       <el-form label-width="100px" :model="addCustomerModel" label-position="left" size="mini">
@@ -97,7 +146,7 @@
 <script>
 
 
-import { getAllEmployee,register,deleteEmployee,updatePassword } from "@/api/employee";
+import { getAllEmployee,register,deleteEmployee,updatePassword,updateEmployee } from "@/api/employee";
 import { getAuthorityRoleList } from "@/api/auth";
 import {
     getCustomerJob,getCustomerSex
@@ -126,6 +175,7 @@ export default {
       franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       addCustomerePopDialog: false,
       passwordUpdatePopDialog: false,
+      editCustomerePopDialog:false,
       addCustomerModel: {
           customerAccount: "",
           customerPassword: "",
@@ -289,6 +339,67 @@ export default {
                   console.log(err);
               });
       },
+      onEditCustomerConfirm(params) {
+          this.loading = true;
+          this._editCustomer(this.addCustomerModel);
+          this.loading = false;
+      },
+      _editCustomer(params) {
+          if (params.customerName === '') {
+              this.$message({
+                  type: 'error',
+                  message: '用户名字不可以为空！'
+              });
+              this.loading = false;
+              return;
+          }
+          if (params.jobName === '') {
+              this.$message({
+                  type: 'error',
+                  message: '职位不可以为空！'
+              });
+              this.loading = false;
+              return;
+          }
+          if (params.jobNum === '') {
+              this.$message({
+                  type: 'error',
+                  message: '工号不可以为空！'
+              });
+              this.loading = false;
+              return;
+          }
+          if (params.sex === '') {
+              this.$message({
+                  type: 'error',
+                  message: '性别不可以为空！'
+              });
+              this.loading = false;
+              return;
+          }
+          if (params.mobilePhone === '') {
+              this.$message({
+                  type: 'error',
+                  message: '手机不可以为空！'
+              });
+              this.loading = false;
+              return;
+          }
+          updateEmployee(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "编辑用户成功!"
+                      });
+                      this.editCustomerePopDialog = false;
+                      this.handleSubmit();
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
       handlePaginationChange(val) {
           this.$notify({
               title: '分页变化',
@@ -371,7 +482,19 @@ export default {
           this.addCustomerModel.customerName =param.customerName;
           this.addCustomerModel.customerNumId =param.customerNumId;
           this.passwordUpdatePopDialog = true;
-
+      },
+      editEmployee(param) {
+          this.addCustomerModel.customerAccount = param.customerAccount;
+          this.addCustomerModel.customerName =param.customerName;
+          this.addCustomerModel.customerNumId =param.customerNumId;
+          this.addCustomerModel.jobName = param.jobName;
+          this.addCustomerModel.jobNum = param.jobNum;
+          this.addCustomerModel.sex = param.sex;
+          this.addCustomerModel.mobilePhone = param.mobilePhone;
+          this.addCustomerModel.phone = param.phone;
+          this.addCustomerModel.franchiseeSeries =param.franchiseeSeries;
+          this.addCustomerModel.roleIds =param.roleIds;
+          this.editCustomerePopDialog = true;
       },
       cancelCustomer() {
           this.addCustomerePopDialog = false;

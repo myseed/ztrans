@@ -70,3 +70,16 @@ export function getEmployeeList (params) {
 
     return httpGet(url, data)
 }
+
+export function updateEmployee (params) {
+    const url = `/updateEmployee`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
