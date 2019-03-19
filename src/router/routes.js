@@ -311,6 +311,12 @@ const frameIn = [
         name: '/franchisee-customer-router-detail',
         component: () => import('@/pages/franchisee-customer-router-detail'),
         meta: { meta, title: '加盟商客户线路明细' }
+      },
+      {
+        path: '/authority-management',
+        name: '/authority-management',
+        component: () => import('@/pages/authority-management'),
+        meta: { meta, title: '权限管理' }
       }
     ]
   }

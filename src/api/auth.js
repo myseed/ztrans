@@ -12,8 +12,42 @@ export function getAuthorityRoleList (params) {
     timestamp: ts,
     params: paramsify(params),
     sign: signify(params, ts)
-  }
-
+}
   return httpGet(url, data)
 }
 
+export function addRoleName (params) {
+    const url = `/addRoleName`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+    return httpGet(url, data)
+}
+
+export function getAuthorityTreeByRoleId (params) {
+    const url = `/getAuthorityTreeByRoleId`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+    return httpGet(url, data)
+}
+
+export function updateAuthRoleRelation (params) {
+    const url = `/updateAuthRoleRelation`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+    return httpGet(url, data)
+}

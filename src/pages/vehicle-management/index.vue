@@ -968,6 +968,29 @@ export default {
         });
     },
     handleAdd() {
+      this.addCarItem.activeDtme='';
+      this.addCarItem.activeStatus='';
+      this.addCarItem.applyDtme='';
+      this.addCarItem.carBrand='';
+      this.addCarItem.carColour='';
+      this.addCarItem.carPlateNumber='';
+      this.addCarItem.carSize='';
+      this.addCarItem.carType='';
+      this.addCarItem.carWeight='';
+      this.addCarItem.checkDtme='';
+      this.addCarItem.checkPerson='';
+      this.addCarItem.checkRemark='';
+      this.addCarItem.checkStatus='';
+      this.addCarItem.cityAreaName='';
+      this.addCarItem.cityName='';
+      this.addCarItem.prvName='';
+      this.addCarItem.driverIdentityId='';
+      this.addCarItem.driverName='';
+      this.addCarItem.driverPhone='';
+      this.addCarItem.franchiseeName='';
+      this.addCarItem.franchiseeSeries='';
+      this.addCarItem.motorcadeId='';
+
       this.addCarPopDialog = true;
     },
       onReaderComplete({ file, filename }) {

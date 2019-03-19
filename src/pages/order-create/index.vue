@@ -655,7 +655,7 @@ export default {
         type: 'warning',
       }).then(() => {
         location.reload();
-      });
+    });
     },
   },
 };

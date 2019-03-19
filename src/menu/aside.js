@@ -126,6 +126,13 @@ if (superId == '1') {
             ]
         },
         {
+            title: '权限管理',
+            icon: 'check',
+            children: [
+                { path: '/authority-management', title: '权限管理', icon: 'check' }
+            ]
+        },
+        {
             title: '加盟商订单管理',
             icon: 'file-text',
             children: [

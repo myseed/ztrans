@@ -284,6 +284,20 @@ export default {
           this.addContactItem.contactPhone = '';
       },
       onAddContactConfirm() {
+          if(this.addContactItem.contactName==''){
+              this.$message({
+                  type: 'error',
+                  message: '联系人名字不能为空!',
+              });
+              return;
+          }
+          if(this.addContactItem.contactPhone==''){
+              this.$message({
+                  type: 'error',
+                  message: '联系人电话不能为空!',
+              });
+              return;
+          }
           this.loading = true;
           this._addCustomerContact(this.addContactItem);
           this.loading = false;

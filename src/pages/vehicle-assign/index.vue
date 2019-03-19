@@ -242,6 +242,10 @@ export default {
     this._getOrderTypeList({
       customerNumId: this.customerNumId,
     });
+    this._getDriverNameList({
+      customerNumId: this.customerNumId,
+      franchiseeSeries:this.franchiseeSeries
+    });
     this._initMyPage();
   },
   computed: {

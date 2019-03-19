@@ -620,10 +620,6 @@ export default {
     };
   },
   created() {
-    this._getMasterCustomerList({
-      customerNumId: this.customerNumId,
-      saleId: '',
-    });
       this._getAllPrv({
           current: 1,
           customerNumId: this.customerNumId,
