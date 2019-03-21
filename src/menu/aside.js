@@ -133,7 +133,7 @@ if (superId == '1') {
             ]
         },
         {
-            title: '加盟商订单管理',
+            title: '合伙人订单管理',
             icon: 'file-text',
             children: [
                 { path: '/franchisee-order-management1/1', title: '未接单订单', icon: 'file-text' },
@@ -143,42 +143,42 @@ if (superId == '1') {
             ]
         },
         {
-            title: '加盟商客户管理',
+            title: '合伙人客户管理',
             icon: 'address-book',
             children: [
                 { path: '/franchisee-customer-management', title: '客户列表', icon: 'list-ol' }
             ]
         },
         {
-            title: '加盟商车辆管理',
+            title: '合伙人车辆管理',
             icon: 'truck',
             children: [
                 { path: '/franchisee-vehicle-management', title: '车辆管理', icon: 'truck' }
             ]
         },
         {
-            title: '加盟商报价管理',
+            title: '合伙人报价管理',
             icon: 'dollar',
             children: [
                 { path: '/franchisee-quotation-customer-new', title: '客户报价', icon: 'address-book' }
             ]
         },
         {
-            title: '加盟商费用管理',
+            title: '合伙人费用管理',
             icon: 'money',
             children: [
-                { path: '/franchisee-cost-management1/1', title: '订单完整费用', icon: 'money' }
+                { path: '/franchisee-cost-management3/3', title: '客户费用', icon: 'money' }
             ]
         },
         {
-            title: '加盟商员工管理',
+            title: '合伙人员工管理',
             icon: 'address-card',
             children: [
                 { path: '/franchisee-employee-management', title: '员工管理', icon: 'address-card' }
             ]
         },
         {
-            title: '加盟商下单',
+            title: '合伙人下单',
             icon: 'ticket',
             children: [
                 { path: '/order-create', title: '手动下单', icon: 'ticket' }

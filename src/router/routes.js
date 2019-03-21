@@ -250,13 +250,13 @@ const frameIn = [
         path: '/franchisee-vehicle-management',
         name: 'franchisee-vehicle-management',
         component: () => import('@/pages/franchisee-vehicle-management'),
-        meta: { meta, title: '加盟商车辆管理' }
+        meta: { meta, title: '合伙人车辆管理' }
       },
       {
         path: '/franchisee-customer-management',
         name: 'franchisee-customer-management',
         component: () => import('@/pages/franchisee-customer-management'),
-        meta: { meta, title: '加盟商客户列表' }
+        meta: { meta, title: '合伙人客户列表' }
       },
       {
         path: '/franchisee-employee-management',
@@ -265,10 +265,10 @@ const frameIn = [
         meta: { meta, title: '员工管理' }
       },
       {
-        path: '/franchisee-cost-management1/:status',
-        name: 'franchisee-cost-management1',
+        path: '/franchisee-cost-management3/:status',
+        name: 'franchisee-cost-management3',
         component: () => import('@/pages/franchisee-cost-management'),
-        meta: { meta, title: '订单完整费用' }
+        meta: { meta, title: '客户费用' }
       },
       {
         path: '/franchisee-quotation-customer-new',
@@ -304,13 +304,13 @@ const frameIn = [
         path: '/franchisee-customer-detail',
         name: '/franchisee-customer-detail',
         component: () => import('@/pages/franchisee-customer-detail'),
-        meta: { meta, title: '加盟商客户明细' }
+        meta: { meta, title: '合伙人客户明细' }
       },
       {
         path: '/franchisee-customer-router-detail',
         name: '/franchisee-customer-router-detail',
         component: () => import('@/pages/franchisee-customer-router-detail'),
-        meta: { meta, title: '加盟商客户线路明细' }
+        meta: { meta, title: '合伙人客户线路明细' }
       },
       {
         path: '/authority-management',
