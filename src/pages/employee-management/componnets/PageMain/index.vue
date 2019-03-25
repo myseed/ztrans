@@ -61,7 +61,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="加盟商名字" :show-overflow-tooltip="true">
+      <el-table-column label="合作伙伴名字" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.franchiseeName}}
         </template>

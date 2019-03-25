@@ -13,19 +13,19 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="加盟商名称" :show-overflow-tooltip="true">
+      <el-table-column label="合作伙伴名称" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.franchiseeName}}
         </template>
       </el-table-column>
 
-      <el-table-column label="加盟商编码" :show-overflow-tooltip="true">
+      <el-table-column label="合作伙伴编码" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.franchiseeCode}}
         </template>
       </el-table-column>
 
-      <el-table-column label="加盟商类型" :show-overflow-tooltip="true">
+      <el-table-column label="合作伙伴类型" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.franchiseeTypeName}}
         </template>
@@ -61,7 +61,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="加盟商登录账户" :show-overflow-tooltip="true">
+      <el-table-column label="合作伙伴登录账户" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.customerAccount}}
         </template>

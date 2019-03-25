@@ -51,7 +51,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="加盟商比例" :show-overflow-tooltip="true">
+            <el-table-column label="合作伙伴比例" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 {{scope.row.franchiseeProportion}}
               </template>

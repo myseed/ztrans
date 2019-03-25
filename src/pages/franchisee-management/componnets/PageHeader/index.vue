@@ -8,13 +8,13 @@
     style="margin-bottom: -18px;">
 
 
-    <el-form-item label="加盟商名字" prop="franchiseeNameSearchKey">
+    <el-form-item label="合作伙伴名字" prop="franchiseeNameSearchKey">
       <!--<el-input-->
         <!--v-model="form.franchiseeNameSearchKey"-->
         <!--placeholder="请输入"-->
         <!--style="width: 100px;"/>-->
       <el-autocomplete v-model="form.franchiseeNameSearchKey"
-                       placeholder="加盟商名字"
+                       placeholder="合作伙伴名字"
                        clearable
                        :fetch-suggestions="querySearchAsyncFranchiseeName"
                        @select="handleSelect">
@@ -22,20 +22,20 @@
     </el-form-item>
 
 
-    <el-form-item label="加盟商编码" prop="franchiseeCodeSearchKey">
+    <el-form-item label="合作伙伴编码" prop="franchiseeCodeSearchKey">
       <!--<el-input-->
               <!--v-model="form.franchiseeCodeSearchKey"-->
               <!--placeholder="请输入"-->
               <!--style="width: 100px;"/>-->
       <el-autocomplete v-model="form.franchiseeCodeSearchKey"
-                       placeholder="加盟商名字"
+                       placeholder="合作伙伴编码"
                        clearable
                        :fetch-suggestions="querySearchAsyncFranchiseeCode"
                        @select="handleSelect">
       </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="加盟商类型" prop="franchiseeType">
+    <el-form-item label="合作伙伴类型" prop="franchiseeType">
       <el-select
               v-model="form.franchiseeType"
               placeholder="请选择"
@@ -45,20 +45,20 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="加盟商负责人名字" prop="chargePersonNameSearchKey">
+    <el-form-item label="合作伙伴负责人名字" prop="chargePersonNameSearchKey">
       <!--<el-input-->
               <!--v-model="form.chargePersonNameSearchKey"-->
               <!--placeholder="请输入"-->
               <!--style="width: 100px;"/>-->
       <el-autocomplete v-model="form.chargePersonNameSearchKey"
-                       placeholder="加盟商负责人名字"
+                       placeholder="合作伙伴负责人名字"
                        clearable
                        :fetch-suggestions="querySearchAsyncChargePerson"
                        @select="handleSelect">
       </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="加盟商负责人电话" prop="chargePersonPhoneSearchKey">
+    <el-form-item label="合作伙伴负责人电话" prop="chargePersonPhoneSearchKey">
       <el-input
               v-model="form.chargePersonPhoneSearchKey"
               placeholder="请输入"

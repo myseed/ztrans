@@ -16,12 +16,12 @@
       :total="page.total"
       @change="handlePaginationChange"/>
 
-    <el-dialog title="添加加盟商" :visible.sync="addFranchiseePopDialog">
+    <el-dialog title="添加合作伙伴" :visible.sync="addFranchiseePopDialog">
       <el-form label-width="100px" :model="addFranchiseeModel" label-position="left" size="mini">
-        <el-form-item label="加盟商名字">
+        <el-form-item label="合作伙伴名字">
           <el-input v-model="addFranchiseeModel.franchiseeName" ></el-input>
         </el-form-item>
-        <el-form-item label="加盟商编码">
+        <el-form-item label="合作伙伴编码">
           <el-input v-model="addFranchiseeModel.franchiseeCode"></el-input>
         </el-form-item>
         <el-form-item label="负责人名字">
@@ -30,13 +30,13 @@
         <el-form-item label="负责人电话">
           <el-input v-model="addFranchiseeModel.chargePersonPhone"></el-input>
         </el-form-item>
-        <el-form-item label="加盟商账户">
+        <el-form-item label="合作伙伴账户">
           <el-input v-model="addFranchiseeModel.customerAccount"></el-input>
         </el-form-item>
-        <el-form-item label="加盟商密码">
+        <el-form-item label="合作伙伴密码">
           <el-input v-model="addFranchiseeModel.customerPassword"></el-input>
         </el-form-item>
-        <el-form-item label="加盟商类型">
+        <el-form-item label="合作伙伴类型">
           <el-select
                   v-model="addFranchiseeModel.franchiseeType"
                   placeholder="请选择"
@@ -68,7 +68,7 @@
             <el-option v-for="(item, index) in allCityArea" :key="index" :label="item.cityAreaName" :value="item.cityAreaId"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="加盟时间">
+        <el-form-item label="合伙时间">
           <el-date-picker
                   v-model="addFranchiseeModel.joinDtme"
                   type="datetime"
@@ -86,12 +86,12 @@
     </el-dialog>
 
 
-    <el-dialog title="编辑加盟商" :visible.sync="editFranchiseePopDialog">
+    <el-dialog title="编辑合作伙伴" :visible.sync="editFranchiseePopDialog">
       <el-form label-width="100px" :model="editFranchiseeModel" label-position="left" size="mini">
-        <el-form-item label="加盟商名字">
+        <el-form-item label="合作伙伴名字">
           <el-input v-model="editFranchiseeModel.franchiseeName" ></el-input>
         </el-form-item>
-        <el-form-item label="加盟商编码">
+        <el-form-item label="合作伙伴编码">
           <el-input v-model="editFranchiseeModel.franchiseeCode"></el-input>
         </el-form-item>
         <el-form-item label="负责人名字">
@@ -100,10 +100,10 @@
         <el-form-item label="负责人电话">
           <el-input v-model="editFranchiseeModel.chargePersonPhone"></el-input>
         </el-form-item>
-        <el-form-item label="加盟商账户">
+        <el-form-item label="合作伙伴账户">
           <el-input v-model="editFranchiseeModel.customerAccount"></el-input>
         </el-form-item>
-        <el-form-item label="加盟商类型">
+        <el-form-item label="合作伙伴类型">
           <el-select
                   v-model="editFranchiseeModel.franchiseeType"
                   placeholder="请选择"
@@ -345,7 +345,7 @@ export default {
          if (params.franchiseeName=== '') {
              this.$message({
                  type: 'error',
-                 message: '加盟商名字不可以为空！'
+                 message: '合作伙伴名字不可以为空！'
              });
              this.loading = false;
              return;
@@ -353,7 +353,7 @@ export default {
          if (params.franchiseeCode === '') {
              this.$message({
                  type: 'error',
-                 message: '加盟商编号不可以为空！'
+                 message: '合作伙伴编号不可以为空！'
              });
              this.loading = false;
              return;
@@ -361,7 +361,7 @@ export default {
          if (params.franchiseeType === '') {
              this.$message({
                  type: 'error',
-                 message: '加盟商类型不可以为空！'
+                 message: '合作伙伴类型不可以为空！'
              });
              this.loading = false;
              return;
@@ -369,7 +369,7 @@ export default {
          if (params.joinDtme === '') {
              this.$message({
                  type: 'error',
-                 message: '加盟时间不可以为空！'
+                 message: '合伙时间不可以为空！'
              });
              this.loading = false;
              return;
@@ -409,7 +409,7 @@ export default {
          if (params.customerAccount === '') {
              this.$message({
                  type: 'error',
-                 message: '加盟商登录账户不可以为空！'
+                 message: '合作伙伴登录账户不可以为空！'
              });
              this.loading = false;
              return;
@@ -417,7 +417,7 @@ export default {
          if (params.customerPassword === '') {
              this.$message({
                  type: 'error',
-                 message: '加盟商登录密码不可以为空！'
+                 message: '合作伙伴登录密码不可以为空！'
              });
              this.loading = false;
              return;
@@ -496,7 +496,7 @@ export default {
           if (params.franchiseeName === '') {
               this.$message({
                   type: 'error',
-                  message: '加盟商名字不可以为空！'
+                  message: '合作伙伴名字不可以为空！'
               });
               this.loading = false;
               return;
@@ -504,7 +504,7 @@ export default {
           if (params.franchiseeCode === '') {
               this.$message({
                   type: 'error',
-                  message: '加盟商编码不可以为空！'
+                  message: '合作伙伴编码不可以为空！'
               });
               this.loading = false;
               return;
@@ -512,7 +512,7 @@ export default {
           if (params.franchiseeType === '') {
               this.$message({
                   type: 'error',
-                  message: '加盟商类型不可以为空！'
+                  message: '合作伙伴类型不可以为空！'
               });
               this.loading = false;
               return;

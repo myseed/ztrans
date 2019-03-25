@@ -80,7 +80,7 @@
             <el-option v-for="(item, index) in customerOrderLevelModels" :key="index" :label="item.customerOrderLevelName" :value="item.customerOrderLevelId"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="销售加盟商">
+        <el-form-item label="销售合作伙伴">
           <el-select v-model="addCustomerItem.franchiseeSeries">
             <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
           </el-select>
@@ -182,7 +182,7 @@
             <el-option v-for="(item, index) in customerOrderLevelModels" :key="index" :label="item.customerOrderLevelName" :value="item.customerOrderLevelId"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="销售加盟商">
+        <el-form-item label="销售合作伙伴">
           <el-select v-model="editCustomerItem.franchiseeSeries" disabled>
             <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
           </el-select>
@@ -968,7 +968,7 @@ export default {
         if (params.franchiseeSeries === '') {
             this.$message({
                 type: 'error',
-                message: '加盟商不可以为空！',
+                message: '合作伙伴不可以为空！',
             });
             return;
         }

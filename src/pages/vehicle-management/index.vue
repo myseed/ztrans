@@ -105,7 +105,7 @@
             <el-option v-for="(item, index) in carSizes" :key="index" :label="item.sizeName" :value="item.sizeId"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="车队加盟商">
+        <el-form-item label="车队合作伙伴">
           <el-select v-model="addCarItem.franchiseeSeries">
             <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
           </el-select>
@@ -275,7 +275,7 @@
             <el-option v-for="(item, index) in carSizes" :key="index" :label="item.sizeName" :value="item.sizeId"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="车队加盟商">
+        <el-form-item label="车队合作伙伴">
           <el-select v-model="addCarItem.franchiseeSeries" disabled>
             <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
           </el-select>
@@ -948,7 +948,7 @@ export default {
         if (params.franchiseeSeries === '') {
             this.$message({
                 type: 'error',
-                message: '加盟商不可以为空！',
+                message: '合作伙伴不可以为空！',
             });
             return;
         }

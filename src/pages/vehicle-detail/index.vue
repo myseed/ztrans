@@ -15,7 +15,7 @@
         <el-form-item label="车队" >
           <el-input v-model="addCarItem.motorcadeCar"></el-input>
         </el-form-item>
-        <el-form-item label="车队加盟商" >
+        <el-form-item label="车队合作伙伴" >
           <el-input v-model="addCarItem.franchiseeName"></el-input>
         </el-form-item>
       </el-form>

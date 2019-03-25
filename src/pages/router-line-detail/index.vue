@@ -156,7 +156,7 @@
           </el-table-column>
           <el-table-column
                   prop="franchiseeProportion"
-                  label="加盟商提成">
+                  label="合作伙伴提成">
           </el-table-column>
           <el-table-column
                   prop="saleProportion"
@@ -212,7 +212,7 @@
                   <el-form-item label="销售比例">
                       <el-input v-model="priceSetAddItem0.saleProportion" placeholder=""></el-input>
                   </el-form-item>
-                  <el-form-item label="加盟商比例">
+                  <el-form-item label="合作伙伴比例">
                       <el-input v-model="priceSetAddItem0.franchiseeProportion" placeholder=""></el-input>
                   </el-form-item>
               </el-form>
@@ -234,7 +234,7 @@
                   <el-form-item label="销售比例">
                       <el-input v-model="priceSetAddItem1.saleProportion" placeholder=""></el-input>
                   </el-form-item>
-                  <el-form-item label="加盟商比例">
+                  <el-form-item label="合作伙伴比例">
                       <el-input v-model="priceSetAddItem1.franchiseeProportion" placeholder=""></el-input>
                   </el-form-item>
               </el-form>
@@ -284,7 +284,7 @@
                   <el-form-item label="销售比例">
                       <el-input v-model="priceSetAddItem0.saleProportion" placeholder=""></el-input>
                   </el-form-item>
-                  <el-form-item label="加盟商比例">
+                  <el-form-item label="合作伙伴比例">
                       <el-input v-model="priceSetAddItem0.franchiseeProportion" placeholder=""></el-input>
                   </el-form-item>
               </el-form>
@@ -334,7 +334,7 @@
                   <el-form-item label="销售比例">
                       <el-input v-model="priceSetAddItem0.saleProportion" placeholder=""></el-input>
                   </el-form-item>
-                  <el-form-item label="加盟商比例">
+                  <el-form-item label="合作伙伴比例">
                       <el-input v-model="priceSetAddItem0.franchiseeProportion" placeholder=""></el-input>
                   </el-form-item>
               </el-form>

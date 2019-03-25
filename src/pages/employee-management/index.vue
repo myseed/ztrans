@@ -39,7 +39,7 @@
             <el-option v-for="(item, index) in customerSexModels" :key="index" :label="item.customerSexName" :value="item.customerSexCode"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="加盟商">
+        <el-form-item label="合作伙伴">
           <el-select v-model="addCustomerModel.franchiseeSeries" clearable>
             <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
           </el-select>
@@ -94,7 +94,7 @@
             <el-option v-for="(item, index) in customerSexModels" :key="index" :label="item.customerSexName" :value="item.customerSexCode"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="加盟商">
+        <el-form-item label="合作伙伴">
           <el-select v-model="addCustomerModel.franchiseeSeries" clearable>
             <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
           </el-select>

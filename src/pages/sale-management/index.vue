@@ -24,7 +24,7 @@
         <el-form-item label="销售员电话">
           <el-input v-model="addSaleModel.salePersonPhone"></el-input>
         </el-form-item>
-        <el-form-item label="销售加盟商">
+        <el-form-item label="销售合作伙伴">
           <el-select v-model="addSaleModel.franchiseeId" clearable>
             <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
           </el-select>
@@ -60,7 +60,7 @@
         <el-form-item label="销售员电话">
           <el-input v-model="editSaleModel.salePersonPhone"></el-input>
         </el-form-item>
-        <el-form-item label="销售加盟商">
+        <el-form-item label="销售合作伙伴">
           <el-select v-model="editSaleModel.franchiseeId" clearable>
             <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName" :value="item.franchiseeId"></el-option>
           </el-select>

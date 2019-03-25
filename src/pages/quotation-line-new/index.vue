@@ -226,7 +226,7 @@
           <el-form-item label="销售比例">
             <el-input v-model="priceSetAddItem0.saleProportion" placeholder=""></el-input>
           </el-form-item>
-          <el-form-item label="加盟商比例">
+          <el-form-item label="合作伙伴比例">
             <el-input v-model="priceSetAddItem0.franchiseeProportion" placeholder=""></el-input>
           </el-form-item>
         </el-form>
@@ -248,7 +248,7 @@
           <el-form-item label="销售比例">
             <el-input v-model="priceSetAddItem1.saleProportion" placeholder=""></el-input>
           </el-form-item>
-          <el-form-item label="加盟商比例">
+          <el-form-item label="合作伙伴比例">
             <el-input v-model="priceSetAddItem1.franchiseeProportion" placeholder=""></el-input>
           </el-form-item>
         </el-form>
@@ -465,7 +465,7 @@
           <el-form-item label="销售比例">
             <el-input v-model="priceSetAddItem0.saleProportion" placeholder=""></el-input>
           </el-form-item>
-          <el-form-item label="加盟商比例">
+          <el-form-item label="合作伙伴比例">
             <el-input v-model="priceSetAddItem0.franchiseeProportion" placeholder=""></el-input>
           </el-form-item>
         </el-form>
@@ -487,7 +487,7 @@
           <el-form-item label="销售比例">
             <el-input v-model="priceSetAddItem1.saleProportion" placeholder=""></el-input>
           </el-form-item>
-          <el-form-item label="加盟商比例">
+          <el-form-item label="合作伙伴比例">
             <el-input v-model="priceSetAddItem1.franchiseeProportion" placeholder=""></el-input>
           </el-form-item>
         </el-form>
@@ -969,7 +969,7 @@ export default {
           ) {
             this.$message({
               type: 'error',
-              message: '加盟商提成比例如果不清楚请写0！',
+              message: '合作伙伴提成比例如果不清楚请写0！',
             });
             return;
           }
