@@ -24,6 +24,7 @@ const router = new VueRouter({
  * 权限验证
  */
 router.beforeEach((to, from, next) => {
+  util.cookies.set('__routerName__', to.name)
   // 进度条
   NProgress.start()
   // 关闭搜索面板

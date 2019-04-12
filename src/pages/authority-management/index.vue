@@ -72,6 +72,7 @@
     import { getAuthorityRoleList,addRoleName,getAuthorityTreeByRoleId,updateAuthRoleRelation} from "@/api/auth";
 import util from '@/libs/util';
 export default {
+  name: 'authority-management',
   data() {
     return {
       showAuth:false,

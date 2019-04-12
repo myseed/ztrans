@@ -119,6 +119,7 @@ import {
 } from '@/api/dictionary';
 import util from '@/libs/util';
 export default {
+  name: 'order-create',
   data() {
     return {
       searching: false,

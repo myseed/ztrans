@@ -158,6 +158,7 @@ import {
     getMasterCustomerListBySearchKey
 } from '@/api/createorder';
 export default {
+  name:util.cookies.get('__routerName__'),
   data() {
     return {
       customerSeries:'',

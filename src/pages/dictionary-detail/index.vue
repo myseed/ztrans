@@ -64,7 +64,7 @@ import util from "@/libs/util";
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
-  name: 'scheduler',
+  name: 'dictionary-detail',
   components: {
     PageHeader: () => import('./componnets/PageHeader'),
     PageMain: () => import('./componnets/PageMain'),

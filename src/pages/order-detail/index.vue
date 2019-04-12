@@ -177,6 +177,7 @@
 import {getOrderDetailBySeries} from '@/api/order';
 import util from '@/libs/util';
 export default {
+  name: 'order-detail',
   data() {
     return {
       customerNumId: util.cookies.get('__user__customernumid'),

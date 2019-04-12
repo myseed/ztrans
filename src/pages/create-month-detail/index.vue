@@ -114,23 +114,10 @@
                   value-format="HH:mm:ss"
                   placeholder="任意时间点">
           </el-time-picker>
-          <!--<el-date-picker-->
-          <!--style="width: 500px;"-->
-          <!--v-model="createOrder.appointmentDate"-->
-          <!--type="datetime"-->
-          <!--placeholder="请选择约车时间"-->
-          <!--align="right"-->
-          <!--value-format="HH:mm:ss"-->
-          <!--format="HH:mm:ss"-->
-          <!--:picker-options="pickerOptions">-->
-          <!--</el-date-picker>-->
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="dialogFormVisibleTask=true" :loading="searching">派车时间(年/月/日)</el-button>
         </el-form-item>
-        <!--<div class="btn-groups">-->
-        <!--<div v-for="(item,index) in btn_group" :class="{'btn-active':item.show}" @click="chooeseBtn(index)">{{item.name}}</div>-->
-        <!--</div>-->
         <el-form-item>
           <el-button type="primary" @click="_createOrderByWeb" :loading="searching">确认</el-button>
         </el-form-item>
@@ -170,6 +157,7 @@
     } from '@/api/dictionary';
     import util from '@/libs/util';
     export default {
+        name: 'create-month-detail',
         data() {
             return {
                 takeOver: [{text: '是', value: 'Y'}, {text: '否', value: 'N'}],

@@ -448,7 +448,7 @@ import {uploadPicture, deletePicture} from '@/api/picture';
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
-  name: 'vehicle-schedule',
+  name: 'franchisee-vehicle-management',
   components: {
     PageHeader: () => import('./componnets/PageHeader'),
     PageMain: () => import('./componnets/PageMain'),

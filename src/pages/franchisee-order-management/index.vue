@@ -204,7 +204,7 @@ import {getOrderType} from '@/api/dictionary';
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
-  name: 'vehicle-assign',
+  name:util.cookies.get('__routerName__'),
   components: {
     PageHeader: () => import('./componnets/PageHeader'),
     PageMain: () => import('./componnets/PageMain'),
@@ -303,7 +303,7 @@ export default {
     },
   methods: {
     _initMyPage() {
-      this.handleSubmit();
+      this.handleSubmit(this.form);
     },
       _getDriverNameList(params) {
           getDriverBySearchKey(params)

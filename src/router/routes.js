@@ -154,7 +154,7 @@ const frameIn = [
         path: '/franchisee-management',
         name: 'franchisee-management',
         component: () => import('@/pages/franchisee-management'),
-        meta: { meta, title: '销售管理' }
+        meta: { meta, title: '加盟商管理' }
       },
       {
         path: '/order-create',
@@ -325,6 +325,7 @@ const frameIn = [
 /**
  * 在主框架之外显示
  */
+
 const frameOut = [
   // 页面重定向使用 必须保留
   {

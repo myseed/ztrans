@@ -130,6 +130,7 @@
     import {getAllMasterCustomer, getMasterCustomerDetail, deleteMasterCustomer, addMasterCustomer, getAllSaleList, deleteCustomerContact, updateMasterCustomer, addCustomerContact, updateCustomerContact, deleteOldCustomerContact,} from '@/api/customer';
 import util from '@/libs/util';
 export default {
+  name: 'customer-detail',
   data() {
     return {
       customerNumId: util.cookies.get('__user__customernumid'),

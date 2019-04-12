@@ -374,6 +374,7 @@
     import { getCarWeightList } from "@/api/truck";
     import util from '@/libs/util';
     export default {
+        name: 'franchisee-customer-router-detail',
         data() {
             return {
                 customerNumId: util.cookies.get('__user__customernumid'),

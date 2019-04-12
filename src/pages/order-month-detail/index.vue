@@ -90,6 +90,7 @@
 import {getAllMonthOrderDetail} from '@/api/order';
 import util from '@/libs/util';
 export default {
+  name: 'order-month-detail',
   data() {
     return {
       btn_group:[],
