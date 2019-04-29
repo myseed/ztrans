@@ -98,7 +98,8 @@ if (superId == '1') {
             icon: 'ticket',
             children: [
                 { path: '/order-create', title: '手动下单', icon: 'ticket' },
-                { path: '/vehicle-assign-month', title: '整月下单', icon: 'flag' }
+                { path: '/vehicle-assign-month', title: '整月下单', icon: 'flag' },
+                { path: '/quick-order-create', title: '立即指派订单', icon: 'rocket' }
             ]
         },
         {
@@ -130,6 +131,13 @@ if (superId == '1') {
             icon: 'check',
             children: [
                 { path: '/authority-management', title: '权限管理', icon: 'check' }
+            ]
+        },
+        {
+            title: '广告管理',
+            icon: 'check',
+            children: [
+                { path: '/advertisement-management', title: '广告管理', icon: 'check' }
             ]
         },
         {

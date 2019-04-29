@@ -1060,7 +1060,7 @@ export default {
         });
     },
     getMasterDetail(param) {
-      this.popDialog = true;
+      // this.popDialog = true;
         this.$router.push({
             path: '/customer-detail',
             query: {customerMasterId:param.customerMasterId},

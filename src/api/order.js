@@ -190,3 +190,16 @@ export function getOrderByDriverSeries (params) {
 
     return httpGet(url, data)
 }
+
+export function updateDriverOrder (params) {
+    const url = `/updateDriverOrder`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

@@ -222,20 +222,18 @@ export function getOrderType (params) {
   return httpGet(url, data)
 }
 
-
 export function getAllDictionary (params) {
-    const url = `getAllDictionary`
-    const ts = timestamp()
-    const data = {
-        sid: sid(),
-        timestamp: ts,
-        params: paramsify(params),
-        sign: signify(params, ts)
-    }
+  const url = `getAllDictionary`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
 
-    return httpGet(url, data)
+  return httpGet(url, data)
 }
-
 
 export function getDictionaryByBizId (params) {
     const url = `getDictionaryByBizId`
@@ -479,6 +477,19 @@ export function getOrderBalanceStatus (params) {
 
 export function getTaskType (params) {
     const url = `getTaskType`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
+
+export function getOrderStatusList (params) {
+    const url = `getOrderStatus`
     const ts = timestamp()
     const data = {
         sid: sid(),

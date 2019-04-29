@@ -148,6 +148,19 @@ export function getCustomerContact (params) {
   return httpGet(url, data)
 }
 
+export function getMasterCustomerListBySearchKeyAndAuthority (params) {
+  const url = `/getMasterCustomerListBySearchKeyAndAuthority`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+
+  return httpGet(url, data)
+}
+
 export function uploadCustomerExcel (params, file) {
   const url = `/uploadCustomerExcel`
   const ts = timestamp()

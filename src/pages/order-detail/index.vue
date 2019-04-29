@@ -24,6 +24,9 @@
         <el-form-item label="订单对账状态" >
           <el-input v-model="order.orderBalanceStatus"></el-input>
         </el-form-item>
+        <el-form-item label="订单指派方式" >
+          <el-input v-model="order.commondOrderStatus"></el-input>
+        </el-form-item>
         <el-form-item label="订单类型" >
           <el-input v-model="order.orderType"></el-input>
         </el-form-item>
@@ -41,6 +44,14 @@
                   type="primary"
                   @click="getAllMonthDetail">
             查看整月任务明细
+          </el-button>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button
+                  type="primary"
+                  @click="updateStatus">
+            修改订单信息
           </el-button>
         </el-form-item>
 
@@ -170,23 +181,65 @@
             </el-popover>
       </el-form>
     </template>
+    <el-dialog title="编辑订单" :visible.sync="updateOrderPopDialog">
+      <el-form  label-width="100px" size="mini">
+        <el-form-item label="订单状态">
+          <el-select v-model="orderUpdate.orderStatus" clearable>
+            <el-option v-for="(item, index) in orderStatusModels" :key="index" :label="item.orderStatusName"
+                       :value="item.orderStatusId"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="司机额外费用" v-if='showOrderDetail'>
+          <el-input v-model="orderUpdate.driverAddFee" placeholder=""></el-input>
+        </el-form-item>
+        <el-form-item label="司机交接单" v-if='showOrderDetail'>
+          <el-upload
+                  :limit="1"
+                  action=""
+                  list-type="picture-card"
+                  name="driverReceitp"
+                  :http-request="onReaderComplete"
+                  :before-upload="onReaderSelect"
+                  :on-preview="onReaderPreview"
+                  :on-remove="onReaderRemove">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="updateOrderPopDialog = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="updateOrderConfirm" size="mini" :loading="loading" :disabled="confirmStatus">确 定</el-button>
+      </div>
+    </el-dialog>
   </d2-container>
 </template>
 
 <script>
-import {getOrderDetailBySeries} from '@/api/order';
+import {getOrderDetailBySeries,updateDriverOrder} from '@/api/order';
+import {uploadPicture, deletePicture} from '@/api/picture';
+import {
+    getOrderStatusList
+} from '@/api/dictionary';
 import util from '@/libs/util';
 export default {
-  name: 'order-detail',
   data() {
     return {
+      showOrderDetail:false,
+      confirmStatus:false,
       customerNumId: util.cookies.get('__user__customernumid'),
       franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
+      updateOrderPopDialog:false,
       ao:'',
       orderId: '',
       commondOrderStatus: '',
       allmonthOrderTaskSeries: '',
       showCustomer:true,
+      orderUpdate:{
+          series:'',
+          orderStatus:'',
+          driverReceitp:'',
+          driverAddFee:''
+      },
       order: {
         series: '',
         routerAlisa: '',
@@ -230,7 +283,12 @@ export default {
         driverStartTime: '',
         driverArrTime: '',
         driverEndTime: '',
-        deleteReason:''
+        deleteReason:'',
+        commondOrderStatus:'',
+        orderDeliverStatus:'',
+        orderStatusModels:[],
+        dialogVisible: false,
+        dialogImageUrl: '',
       },
     };
   },
@@ -249,9 +307,57 @@ export default {
       //   series: this.orderId,
       // });
     }
+    this._getOrderStatusList({
+       customerNumId: this.customerNumId,
+    });
   },
-  watch: {},
+  watch: {
+      'orderUpdate.orderStatus'() {
+         if(this.orderUpdate.orderStatus==6){
+             this.showOrderDetail=true;
+         }else{
+             this.orderUpdate.driverAddFee='';
+             this.orderUpdate.driverReceitp='';
+             this.showOrderDetail=false;
+         }
+      },
+
+  },
   methods: {
+    updateStatus(){
+        this.orderUpdate.series=this.order.series;
+        this.orderUpdate.orderStatus=this.order.orderDeliverStatus;
+        this.updateOrderPopDialog=true;
+    },
+    updateOrderConfirm(){
+       this._updateDriverOrder(this.orderUpdate);
+    },
+    _updateDriverOrder(params) {
+        updateDriverOrder(params)
+            .then(res => {
+                if (res.code === 0) {
+                    this.$message({
+                        type: 'success',
+                        message: '更新订单状态成功！',
+                    });
+                    location.reload();
+                }
+          })
+            .catch(err => {
+               console.log(err);
+          });
+    },
+    _getOrderStatusList(params) {
+       getOrderStatusList(params)
+          .then(res => {
+               if (res.code === 0) {
+                      this.orderStatusModels = res.orderStatusModels;
+                  }
+          })
+              .catch(err => {
+                  console.log(err);
+              });
+    },
     getAllMonthDetail(){
         this.$router.push({
             path: '/order-month-detail',
@@ -313,12 +419,78 @@ export default {
             this.order.driverEndTime = res.driverEndTime;
             this.order.deleteReason = res.deleteReason;
             this.order.carWeightName = res.carWeightName;
+            this.order.commondOrderStatus = res.commondOrderStatus;
+            this.order.orderDeliverStatus=res.orderDeliverStatus;
           }
         })
         .catch(err => {
           console.log(err);
         });
     },
+      onReaderComplete({file, filename}) {
+          let pictureCode = "5";
+          let customerNumId = this.customerNumId;
+          // 把图片上传到服务器
+          const params = {customerNumId, pictureCode};
+          this.confirmStatus=true;
+          this.$message({
+              type: "warn",
+              message: "图片正在上传!"
+          });
+          this._uploadPicture(params, file, filename);
+      },
+      _uploadPicture(params, file, filename) {
+          uploadPicture(params, file)
+              .then(res => {
+                  if (res.data.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "上传成功!"
+                      });
+                      this.orderUpdate.driverReceitp = res.data.url;
+                  }
+                  this.confirmStatus=false;
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      onReaderSelect(file) {
+          const larger = file.size > 5 * 1024 * 1024;
+          if (larger) {
+              this.$message({
+                  type: "error",
+                  message: "文件不能大于5M"
+              });
+          }
+          return !larger;
+      },
+      onReaderPreview(file) {
+          this.dialogImageUrl = file.url;
+          this.dialogVisible = true;
+      },
+      onReaderRemove(file, fileList) {
+          console.log(file, fileList);
+          this._deletePicture({
+              customerNumId: this.customerNumId,
+              url: this.orderUpdate.driverReceitp
+          });
+      },
+      _deletePicture(params) {
+          deletePicture(params)
+              .then(res => {
+                  console.log(res);
+                  if (res.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "删除成功!"
+                      });
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
   },
 };
 </script>

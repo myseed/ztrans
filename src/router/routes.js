@@ -79,6 +79,12 @@ const frameIn = [
         meta: { meta, title: '订单详情' }
       },
       {
+        path: '/quick-order-create',
+        name: 'quick-order-create',
+        component: () => import('@/pages/quick-order-create'),
+        meta: { meta, title: '立即指派订单' }
+      },
+      {
         path: '/customer-management',
         name: 'customer-management',
         component: () => import('@/pages/customer-management'),
@@ -317,6 +323,12 @@ const frameIn = [
         name: '/authority-management',
         component: () => import('@/pages/authority-management'),
         meta: { meta, title: '权限管理' }
+      },
+      {
+        path: '/advertisement-management',
+        name: '/advertisement-management',
+        component: () => import('@/pages/advertisement-management'),
+        meta: { meta, title: '广告管理' }
       }
     ]
   }

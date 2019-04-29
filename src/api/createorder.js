@@ -102,3 +102,15 @@ export function getOrderByRouterAndDate (params) {
   }
   return httpGet(url, data)
 }
+
+export function createDriverOrder (params) {
+  const url = `/createDriverOrder`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+  return httpGet(url, data)
+}
