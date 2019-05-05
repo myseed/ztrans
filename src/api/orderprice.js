@@ -37,3 +37,16 @@ export function updateOrderFeeByHasCalculate (params) {
 
   return httpGet(url, data)
 }
+
+export function updateOrderFeeBySeries (params) {
+    const url = `/updateOrderFeeBySeries`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

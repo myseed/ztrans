@@ -60,6 +60,12 @@
           {{scope.row.saleName}}
         </template>
       </el-table-column>
+
+      <el-table-column label="司机对账状态" :show-overflow-tooltip="true" width="150">
+        <template slot-scope="scope">
+          {{scope.row.orderBalanceStatusName}}
+        </template>
+      </el-table-column>
       
       <el-table-column label="客户应付" :show-overflow-tooltip="true" width="150" v-if='showCustomer'>
         <template slot-scope="scope">
@@ -67,11 +73,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="司机对账状态" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
-        <template slot-scope="scope">
-          {{scope.row.orderBalanceStatusName}}
-        </template>
-      </el-table-column>
+
       
       <el-table-column label="司机应收" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
         <template slot-scope="scope">
@@ -85,10 +87,18 @@
           {{scope.row.driverAddFee}}
         </template>
       </el-table-column>
+
+      <el-table-column label="操作" align="center" width="150" fixed="right" v-if='showButton'>
+        <template slot-scope="scope">
+          <el-button
+                  size="mini"
+                  type="primary"
+                  @click="updatePrice(scope.$index, scope.row)">修改报价</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
-
 <script>
 export default {
   props: {
@@ -101,9 +111,15 @@ export default {
   },
   data () {
     return {
+      updatePriceDialog:false,
       showDriver:true,
       showCustomer:true,
+      showButton:false,
       status:'',
+      deleteModel: {
+            series: '',
+            deleteReason: '',
+      },
       currentTableData: [],
       multipleSelection: [],
       downloadColumns: [
@@ -138,12 +154,15 @@ export default {
           if(this.status=='2'){
               this.showCustomer=false;
               this.showDriver=true;
+              this.showButton=true;
           }else  if(this.status=='3'){
               this.showCustomer=true;
               this.showDriver=false;
+              this.showButton=true;
           }else{
               this.showCustomer=true;
               this.showDriver=true;
+              this.showButton=false;
           }
       },
       handleSwitchChange (val, index) {
@@ -184,7 +203,17 @@ export default {
         .then(() => {
           this.$message('导出CSV成功')
         })
-    }
+    },
+    updatePrice(index, row) {
+          if(row.orderBalanceStatus=='1'){
+              this.$message({
+                  type: 'error',
+                  message: '订单状态为已对账，无法修改报价！',
+              });
+              return;
+          }
+        this.$emit("updatePrice",{series: row.series,customerName:row.customerName,routerAlia:row.routerAlia,carPlateNumber:row.carPlateNumber,driverName:row.driverName,orderMoney:row.orderMoney,driverMoney:row.driverMoney,showCustomer:this.showCustomer,showDriver:this.showDriver});
+    },
   }
 }
 </script>
