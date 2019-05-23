@@ -4,6 +4,7 @@
       slot="header"
       @submit="handleSubmit"
       @downLoadExcel="downLoadExcel"
+      @downLoadPriceExcel="downLoadPriceExcel"
       @calculate="calculate"
       ref="header"/>
     <page-main
@@ -51,7 +52,7 @@
 
 <script>
 import util from '@/libs/util';
-import {getOrderPriceList,exportOrderPrice,updateOrderFeeByHasCalculate,updateOrderFeeBySeries} from '@/api/orderprice';
+import {getOrderPriceList,exportOrderPrice,exportEditOrderPrice,updateOrderFeeByHasCalculate,updateOrderFeeBySeries} from '@/api/orderprice';
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
@@ -186,6 +187,16 @@ export default {
          window.location.href =url;
          this.loading = false;
      },
+      downLoadPriceExcel(form) {
+          this.loading = true;
+          var url=exportEditOrderPrice({
+              customerNumId: this.customerNumId,
+              status:this.$route.params.status,
+              ...form,
+          });
+          window.location.href =url;
+          this.loading = false;
+      },
       updatePriceConfirm(){
         this._updateOrderFeeBySeries(this.updatePriceModel);
       },

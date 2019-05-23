@@ -135,9 +135,10 @@ if (superId == '1') {
         },
         {
             title: '广告管理',
-            icon: 'check',
+            icon: 'flash',
             children: [
-                { path: '/advertisement-management', title: '广告管理', icon: 'check' }
+                { path: '/xcx-advertisement-list-management', title: '小程序首页广告列表', icon: 'camera' },
+                { path: '/xcx-nomal-advertisement-management', title: '小程序普通广告管理', icon: 'camera-retro' }
             ]
         },
         {

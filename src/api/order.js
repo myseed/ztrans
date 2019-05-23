@@ -4,6 +4,7 @@
 
 import { httpGet } from './sys/http'
 import { paramsify, signify, timestamp, sid } from './utils'
+import axios from 'axios'
 
 export function getCarTypeList (params) {
   const url = `/getCarTypeList`
@@ -202,4 +203,34 @@ export function updateDriverOrder (params) {
     }
 
     return httpGet(url, data)
+}
+
+export function importEditOrderPrice (params, file) {
+    const url = `/importEditDriverOrderPrice`
+    const ts = timestamp()
+    const data = new FormData()
+    data.append('sid', sid())
+    data.append('timestamp', ts)
+    data.append('params', paramsify(params))
+    data.append('multipartFile', file)
+    data.append('sign', signify(params, ts))
+    const config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    return axios.post(process.env.VUE_APP_API + url, data, config)
+}
+
+export function importEditCustomerOrderPrice (params, file) {
+    const url = `/importEditCustomerOrderPrice`
+    const ts = timestamp()
+    const data = new FormData()
+    data.append('sid', sid())
+    data.append('timestamp', ts)
+    data.append('params', paramsify(params))
+    data.append('multipartFile', file)
+    data.append('sign', signify(params, ts))
+    const config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    return axios.post(process.env.VUE_APP_API + url, data, config)
 }

@@ -24,6 +24,12 @@ export function exportOrderPrice (params) {
   return '' + process.env.VUE_APP_API + url + '?params=' + paramsify(params) + '&sid=' + sid() + '&sign=' + signify(params, ts) + '&timestamp=' + ts
 }
 
+export function exportEditOrderPrice (params) {
+    const url = `/exportEditOrderPrice`
+    const ts = timestamp()
+    return '' + process.env.VUE_APP_API + url + '?params=' + paramsify(params) + '&sid=' + sid() + '&sign=' + signify(params, ts) + '&timestamp=' + ts
+}
+
 
 export function updateOrderFeeByHasCalculate (params) {
   const url = `/updateOrderFeeByHasCalculate`

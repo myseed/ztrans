@@ -605,7 +605,7 @@
                     this.searching = false;
                     return;
                 }
-                if(this.driverRealPrice!=null&&this.driverRealPrice>this.driverPrice){
+                if(this.driverPrice!=null&&this.driverPrice!=''&&this.driverPrice!=0&&this.driverRealPrice!=null&&this.driverRealPrice>this.driverPrice){
                     this.$message({
                         type: 'error',
                         message: '司机获得的真实价格不应该大于他的报价！',

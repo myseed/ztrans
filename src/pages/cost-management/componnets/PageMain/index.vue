@@ -205,13 +205,13 @@ export default {
         })
     },
     updatePrice(index, row) {
-          if(row.orderBalanceStatus=='1'){
-              this.$message({
-                  type: 'error',
-                  message: '订单状态为已对账，无法修改报价！',
-              });
-              return;
-          }
+          // if(row.orderBalanceStatus=='1'){
+          //     this.$message({
+          //         type: 'error',
+          //         message: '订单状态为已对账，无法修改报价！',
+          //     });
+          //     return;
+          // }
         this.$emit("updatePrice",{series: row.series,customerName:row.customerName,routerAlia:row.routerAlia,carPlateNumber:row.carPlateNumber,driverName:row.driverName,orderMoney:row.orderMoney,driverMoney:row.driverMoney,showCustomer:this.showCustomer,showDriver:this.showDriver});
     },
   }

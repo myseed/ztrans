@@ -15,9 +15,6 @@
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-form-item>
-        <el-form-item label="图片url">
-          <el-input v-model="url" placeholder="图片url" style="width: 500px;" ></el-input>
-        </el-form-item>
         <el-dialog :visible.sync="dialogVisible">
           <img width="100%" :src="dialogImageUrl" alt="">
         </el-dialog>
@@ -65,7 +62,6 @@
                 let customerNumId = this.customerNumId;
                 // 把图片上传到服务器
                 const params = {customerNumId, pictureCode};
-                this.confirmStatus=true;
                 this.$message({
                     type: "warn",
                     message: "图片正在上传!"

@@ -329,6 +329,18 @@ const frameIn = [
         name: '/advertisement-management',
         component: () => import('@/pages/advertisement-management'),
         meta: { meta, title: '广告管理' }
+      },
+      {
+        path: '/xcx-advertisement-list-management',
+        name: '/xcx-advertisement-list-management',
+        component: () => import('@/pages/xcx-advertisement-list-management'),
+        meta: { meta, title: '小程序首页广告列表' }
+      },
+      {
+        path: '/xcx-nomal-advertisement-management',
+        name: '/xcx-nomal-advertisement-management',
+        component: () => import('@/pages/xcx-nomal-advertisement-management'),
+        meta: { meta, title: '小程序普通广告管理' }
       }
     ]
   }

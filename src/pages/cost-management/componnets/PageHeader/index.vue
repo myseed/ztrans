@@ -86,12 +86,43 @@
         <d2-icon name="refresh"/>
         重置
       </el-button>
+    </el-form-item>
+      <el-form-item>
       <el-button
               type="primary"
               size="mini"
               @click="handleDownloadXlsx">
         导出费用excel
       </el-button>
+      </el-form-item>
+      <el-form-item>
+      <el-button
+              type="primary"
+              size="mini"
+              @click="handlePriceDownloadXlsx"
+              v-if='showAll'>
+        导出修改报价excel
+      </el-button>
+    </el-form-item>
+      <el-form-item>
+        <el-upload
+                :http-request="onReaderComplete">
+          <el-button type="primary"  v-if='showEditDriver'>
+            <d2-icon name="file-o"/>
+            导入修改司机报价excel
+          </el-button>
+        </el-upload>
+      </el-form-item>
+    <el-form-item>
+      <el-upload
+              :http-request="onReaderCustomerComplete">
+        <el-button type="primary" v-if='showEditCustomer'>
+          <d2-icon name="file-o"/>
+          导入修改客户报价excel
+        </el-button>
+      </el-upload>
+    </el-form-item>
+      <el-form-item>
       <el-button
               type="primary"
               size="mini"
@@ -109,7 +140,7 @@ import {
     getMasterCustomerListBySearchKey
 } from '@/api/createorder';
 import {getRouterAliaSearchList} from '@/api/schedule';
-import {getCarTypeList} from '@/api/order';
+import {getCarTypeList,importEditOrderPrice,importEditCustomerOrderPrice} from '@/api/order';
 import {getOrderType,getOrderBalanceStatus} from '@/api/dictionary';
 import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
 
@@ -120,6 +151,10 @@ export default {
       customerNumId: util.cookies.get('__user__customernumid'),
       franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       showDriver:true,
+      showCustomer:true,
+      showEditDriver:true,
+      showEditCustomer:true,
+      showAll:true,
       currentTableData: [],
       driverPlateNumber: [],
       routerDetail: [],
@@ -214,12 +249,21 @@ export default {
           if(this.status=='2'){
               this.showCustomer=false;
               this.showDriver=true;
+              this.showEditCustomer=false;
+              this.showEditDriver=true;
+              this.showAll=true;
           }else  if(this.status=='3'){
               this.showCustomer=true;
               this.showDriver=false;
+              this.showEditCustomer=true;
+              this.showEditDriver=false;
+              this.showAll=true;
           }else{
               this.showCustomer=true;
               this.showDriver=true;
+              this.showEditCustomer=false;
+              this.showEditDriver=false;
+              this.showAll=false;
           }
       },
       querySearchAsyncDriverPlate(qs, cb) {
@@ -330,6 +374,19 @@ export default {
               }
           });
       },
+      handlePriceDownloadXlsx (data) {
+          if(this.form.startTime==''||this.form.endTime==''){
+              this.$message.error('订单费用导出必须选择约车时间！');
+              return;
+          }
+          this.$refs.form.validate(valid => {
+              if (valid) {
+                  this.$emit('downLoadPriceExcel', this.form);
+              } else {
+                  return false;
+              }
+          });
+      },
       calculate () {
            this.$emit('calculate');
       },
@@ -356,6 +413,56 @@ export default {
     handleFormReset() {
       this.$refs.form.resetFields();
     },
+      onReaderComplete({ file, filename }) {
+          // 把图片上传到服务器
+          const params = { "customerNumId":this.customerNumId};
+          this._importEditOrderPrice(params, file, filename);
+      },
+      _importEditOrderPrice(params, file, filename) {
+          importEditOrderPrice(params, file)
+              .then(res => {
+                  if (res.data.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "上传成功!"
+                      });
+                      this.handleFormSubmit(this.form);
+                  }else{
+                      this.$message({
+                          message: res.data.message,
+                          type: 'error',
+                      });
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      onReaderCustomerComplete({ file, filename }) {
+          // 把图片上传到服务器
+          const params = { "customerNumId":this.customerNumId};
+          this._importEditCustomerOrderPrice(params, file, filename);
+      },
+      _importEditCustomerOrderPrice(params, file, filename) {
+          importEditCustomerOrderPrice(params, file)
+              .then(res => {
+                  if (res.data.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "上传成功!"
+                      });
+                      this.handleFormSubmit(this.form);
+                  }else{
+                      this.$message({
+                          message: res.data.message,
+                          type: 'error',
+                      });
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
   },
 };
 </script>

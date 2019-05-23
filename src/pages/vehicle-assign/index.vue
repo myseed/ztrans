@@ -433,7 +433,7 @@
             selectCar(param) {
                 this.addDialog = true;
                 this.searchItemPop.appointmentDate = param.appointmentDate;
-                this.searchItemPop.carTypeSeries = param.carType;
+                // this.searchItemPop.carTypeSeries = param.carType;
                 this.searchItemPop.routerDetailSeries = param.routerDetailSeries;
                 this.searchItemPop.series = param.series;
                 // 加载全部数据
@@ -472,7 +472,7 @@
                 });
             },
             onAssignConfirm() {
-                if (this.orderDetail.carRealMoney <= this.orderDetail.carMoney) {
+                if (this.orderDetail.carMoney==null||this.orderDetail.carMoney==''||this.orderDetail.carMoney==0||this.orderDetail.carRealMoney <= this.orderDetail.carMoney) {
                     this._getOrderByDriverSeries({
                         customerNumId: this.customerNumId,
                         driverSeries: this.driverSeries,
