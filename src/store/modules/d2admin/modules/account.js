@@ -41,7 +41,8 @@ export default {
           util.cookies.set('__user__franchiseeSeries', res.franchiseeSeries)
           util.cookies.set('__user__sid', res.sid)
           util.cookies.set('__user__name', customerAccount)
-          util.cookies.set('__user__routes', res.routerMenuJson)
+          // util.cookies.set('__user__routes', res.routerMenuJson)
+          localStorage.setItem('__user__routes', res.routerMenuJson)
           util.cookies.set('__user__superid', res.superId)
           // 设置 vuex 用户信息
           await dispatch('d2admin/user/set', {

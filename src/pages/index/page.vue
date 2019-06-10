@@ -1,8 +1,8 @@
 <template>
   <d2-container class="page">
     <d2-page-cover
-      title="欢迎使用中福通物流系统"
-      sub-title="中福通物流">
+      title="欢迎使用上格快车物流系统"
+      sub-title="上格快车">
     </d2-page-cover>
   </d2-container>
 </template>

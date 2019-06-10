@@ -5,8 +5,8 @@ let aside = ''
 const superId = util.cookies.get('__user__superid')
 
 if (superId == '1') {
-    if (eval(util.cookies.get('__user__routes'))) {
-        aside = eval(util.cookies.get('__user__routes'))
+    if (eval(localStorage.getItem('__user__routes'))) {
+        aside = eval(localStorage.getItem('__user__routes'))
         aside.forEach((item, index) => {
             if (item.children.length === 0) {
                 delete item.children
