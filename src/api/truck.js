@@ -173,3 +173,29 @@ export function getDriverByPlateNumberSearchKey (params) {
 
   return httpGet(url, data)
 }
+
+export function checkDriver (params) {
+  const url = `/checkDriver`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+
+  return httpGet(url, data)
+}
+
+export function getAllUncheck (params) {
+    const url = `/getAllUncheck`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

@@ -110,6 +110,34 @@
                                    :value="item.sizeId"></el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="审核状态">
+                    <el-select v-model="addCarItem.checkStatus" clearable>
+                        <el-option v-for="(item, index) in checkIdAndCheckStatus" :key="index"
+                                   :label="item.checkStatusName" :value="item.checkStatusId"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="审核时间">
+                    <el-date-picker
+                            v-model="addCarItem.checkDtme"
+                            type="datetime"
+                            placeholder="选择日期时间"
+                            align="right"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            :picker-options="pickerOptions">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="司机身份">
+                    <el-select v-model="addCarItem.driverBornType"  clearable>
+                        <el-option v-for="(item, index) in bornTypeIdAndBornType" :key="index"
+                                   :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="行驶证类型">
+                    <el-select v-model="addCarItem.carDriverType"   clearable>
+                        <el-option v-for="(item, index) in carDriverIdAndType" :key="index"
+                                   :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="车队合作伙伴">
                     <el-select v-model="addCarItem.franchiseeSeries">
                         <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName"
@@ -132,26 +160,7 @@
                             :picker-options="pickerOptions">
                     </el-date-picker>
                 </el-form-item>
-                <el-form-item label="审核状态">
-                    <el-select v-model="addCarItem.checkStatus" clearable>
-                        <el-option v-for="(item, index) in checkIdAndCheckStatus" :key="index"
-                                   :label="item.checkStatusName" :value="item.checkStatusId"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="审核时间">
-                    <el-date-picker
-                            v-model="addCarItem.checkDtme"
-                            type="datetime"
-                            placeholder="选择日期时间"
-                            align="right"
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            :picker-options="pickerOptions">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="审核人">
-                    <el-input v-model="addCarItem.checkPerson" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="备注">
+                <el-form-item label="审核备注">
                     <el-input v-model="addCarItem.checkRemark" placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="接单区域">
@@ -288,6 +297,18 @@
                                    :value="item.sizeId"></el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="司机身份">
+                    <el-select v-model="addCarItem.driverBornType"  clearable>
+                        <el-option v-for="(item, index) in bornTypeIdAndBornType" :key="index"
+                                   :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="行驶证类型">
+                    <el-select v-model="addCarItem.carDriverType"   clearable>
+                        <el-option v-for="(item, index) in carDriverIdAndType" :key="index"
+                                   :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="车队合作伙伴">
                     <el-select v-model="addCarItem.franchiseeSeries" disabled>
                         <el-option v-for="(item, index) in franchiseeNameList" :key="index" :label="item.franchiseeName"
@@ -309,28 +330,6 @@
                             value-format="yyyy-MM-dd HH:mm:ss"
                             :picker-options="pickerOptions">
                     </el-date-picker>
-                </el-form-item>
-                <el-form-item label="审核状态">
-                    <el-select v-model="addCarItem.checkStatus" clearable>
-                        <el-option v-for="(item, index) in checkIdAndCheckStatus" :key="index"
-                                   :label="item.checkStatusName" :value="item.checkStatusId"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="审核时间">
-                    <el-date-picker
-                            v-model="addCarItem.checkDtme"
-                            type="datetime"
-                            placeholder="选择日期时间"
-                            align="right"
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            :picker-options="pickerOptions">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item label="审核人">
-                    <el-input v-model="addCarItem.checkPerson" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="备注">
-                    <el-input v-model="addCarItem.checkRemark" placeholder=""></el-input>
                 </el-form-item>
                 <el-form-item label="接单区域">
                     <el-select v-model="addCarItem.prvName" placeholder="请选择省">
@@ -459,6 +458,7 @@
         getAllCityArea,
         getAllPrv,
         getAllTown,
+        getAppDictionary
     } from '@/api/dictionary';
     import {uploadPicture, deletePicture} from '@/api/picture';
 
@@ -531,7 +531,9 @@
                     motorcadeId: '',
                     persomCarPicture: '',
                     prvName: '',
-                    franchiseeSeries: ''
+                    franchiseeSeries: '',
+                    driverBornType:'',
+                    carDriverType:''
                 },
                 franchiseeNameList: [],
                 editCarPopDialog: false,
@@ -539,6 +541,8 @@
                 checkIdAndCheckStatus: [],
                 detailCarDialog: false,
                 activeStatusModels: [],
+                bornTypeIdAndBornType:[],
+                carDriverIdAndType:[],
                 allPrv: [],
                 allCity: [],
                 allCityArea: [],
@@ -602,6 +606,15 @@
                 customerNumId: this.customerNumId,
                 franchiseeType: 1
             });
+            this._getBornRealType({
+                customerNumId: this.customerNumId,
+                bizId:44
+            });
+            this._getcarDriverType({
+                customerNumId: this.customerNumId,
+                bizId:35
+            });
+
         },
         watch: {
             'addCarItem.prvName'() {
@@ -634,6 +647,28 @@
         methods: {
             _initMyPage() {
                 this.handleSubmit();
+            },
+            _getBornRealType(params) {
+                getAppDictionary(params)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.bornTypeIdAndBornType = res.bizLists;
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
+            _getcarDriverType(params) {
+                getAppDictionary(params)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.carDriverIdAndType = res.bizLists;
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             },
             _getFranchiseeNameList(params) {
                 getFranchiseeNameList(params)
@@ -926,6 +961,20 @@
                     });
                     return;
                 }
+                if (params.driverBornType === '') {
+                    this.$message({
+                        type: 'error',
+                        message: '司机身份不可以为空！',
+                    });
+                    return;
+                }
+                if (params.carDriverType === '') {
+                    this.$message({
+                        type: 'error',
+                        message: '行驶证类型不可以为空！',
+                    });
+                    return;
+                }
                 if (params.driverIdentityId === '') {
                     this.$message({
                         type: 'error',
@@ -937,27 +986,6 @@
                     this.$message({
                         type: 'error',
                         message: '驾驶员手机号不可以为空！',
-                    });
-                    return;
-                }
-                if (params.checkStatus === '') {
-                    this.$message({
-                        type: 'error',
-                        message: '审核状态不可以为空！',
-                    });
-                    return;
-                }
-                if (params.checkPerson === '') {
-                    this.$message({
-                        type: 'error',
-                        message: '审核人不可以为空！',
-                    });
-                    return;
-                }
-                if (params.checkDtme === '') {
-                    this.$message({
-                        type: 'error',
-                        message: '审核时间不可以为空！',
                     });
                     return;
                 }
@@ -1006,7 +1034,8 @@
                 this.addCarItem.franchiseeName = '';
                 this.addCarItem.franchiseeSeries = '';
                 this.addCarItem.motorcadeId = '';
-
+                this.addCarItem.driverBornType = '';
+                this.addCarItem.carDriverType = '';
                 this.addCarPopDialog = true;
             },
             onReaderComplete({file, filename}) {

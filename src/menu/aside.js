@@ -59,6 +59,13 @@ if (superId == '1') {
             ]
         },
         {
+            title: '会员管理',
+            icon: 'truck',
+            children: [
+                { path: '/member-rule-management', title: '会员规则管理', icon: 'truck' }
+            ]
+        },
+        {
             title: '报价管理',
             icon: 'dollar',
             children: [

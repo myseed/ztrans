@@ -12,6 +12,15 @@
                 <el-form-item label="驾驶员身份证">
                     <el-input v-model="addCarItem.driverIdentityId"></el-input>
                 </el-form-item>
+                <el-form-item label="会员标志">
+                    <el-input v-model="addCarItem.memberFlagName"></el-input>
+                </el-form-item>
+                <el-form-item label="行驶证类型">
+                    <el-input v-model="addCarItem.carDriverTypeName"></el-input>
+                </el-form-item>
+                <el-form-item label="司机来源">
+                    <el-input v-model="addCarItem.driverBornTypeName"></el-input>
+                </el-form-item>
                 <el-form-item label="车队">
                     <el-input v-model="addCarItem.motorcadeCar"></el-input>
                 </el-form-item>
@@ -65,7 +74,25 @@
                     <el-input v-model="addCarItem.checkRemark"></el-input>
                 </el-form-item>
             </el-form>
-
+            <div class="header" v-if='checkBoolean'>审核</div>
+            <el-form :inline="true" size="mini" label-width="110px" v-if='checkBoolean'>
+            <el-form-item label="审核状态">
+                <el-select v-model="checkDriver.checkStatus" >
+                    <el-option v-for="(item, index) in checkIdAndCheckStatus" :key="index"
+                               :label="item.checkStatusName" :value="item.checkStatusId"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="司机身份">
+                <el-select v-model="checkDriver.driverBornType" >
+                    <el-option v-for="(item, index) in bornTypeIdAndBornType" :key="index"
+                              :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="审核失败原因">
+                 <el-input v-model="checkDriver.checkRemark"></el-input>
+            </el-form-item>
+            <el-button size="mini" type="primary" @click="_checkDriver" >审核确认</el-button>
+            </el-form>
             <div class="header">证件信息</div>
             <el-form :inline="true" size="mini" label-width="110px">
                 <el-col :span="24">
@@ -106,7 +133,11 @@
         getCarDetail,
         getCarWeightList,
         getCarSizeList,
+        checkDriver
     } from '@/api/truck';
+    import {
+        getCheckStatus,getAppDictionary
+    } from '@/api/dictionary';
     import util from '@/libs/util';
 
     export default {
@@ -117,6 +148,9 @@
                 ao: '',
                 carId: '',
                 carDetail: {},
+                checkIdAndCheckStatus: [],
+                bornTypeIdAndBornType: [],
+                checkBoolean: false,
                 addCarItem: {
                     activeDtme: '',
                     activeStatus: '',
@@ -143,8 +177,18 @@
                     motorcadeId: '',
                     persomCarPicture: '',
                     prvName: '',
-                    franchiseeName: ''
+                    franchiseeName: '',
+                    memberFlagName:'',
+                    carDriverTypeName:'',
+                    driverBornTypeName:''
                 },
+                checkDriver:{
+                    driverId:'',
+                    driverBornType:'',
+                    checkStatus:'',
+                    checkRemark:'',
+                    customerNumId:''
+                }
             };
         },
 
@@ -156,16 +200,47 @@
                     carId: this.carId,
                 });
             }
+            this._getCheckStatus({
+                customerNumId: this.customerNumId,
+            });
+            this._getBornRealType({
+                customerNumId: this.customerNumId,
+                bizId:44
+            });
         },
         watch: {},
         methods: {
+            _getCheckStatus(params) {
+                getCheckStatus(params)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.checkIdAndCheckStatus = res.checkIdAndCheckStatus;
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
+            _getBornRealType(params) {
+                getAppDictionary(params)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.bornTypeIdAndBornType = res.bizLists;
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
             _getCarDetail(params) {
                 getCarDetail(params)
                     .then(res => {
                         if (res.code === 0) {
                             // 清空数据
                             this.carDetail = res.car;
-
+                            if(res.car.checkStatus!='1'){
+                                this.checkBoolean=true;
+                            }
                             this.addCarItem = this.carDetail;
                         }
                     })
@@ -173,6 +248,20 @@
                         console.log(err);
                     });
             },
+            _checkDriver(params){
+                this.checkDriver.customerNumId=this.customerNumId;
+                this.checkDriver.driverId=this.carId;
+                checkDriver(this.checkDriver)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.$message.success('成功！');
+                            location.reload();
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            }
 
         },
     };

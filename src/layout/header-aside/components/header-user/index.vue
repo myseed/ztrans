@@ -15,12 +15,14 @@ import util from '@/libs/util';
 import { mapState, mapActions } from 'vuex'
 import Cookies from 'js-cookie'
 import { getUnDealOrderCount } from '@/api/order'
+import { getAllUncheck } from '@/api/truck'
 export default {
   data () {
     return {
       customerNumId: util.cookies.get('__user__customernumid'),
       franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
-      timr: null
+      timr: null,
+      timrDriver: null
     }
   },
   computed: {
@@ -35,9 +37,16 @@ export default {
         franchiseeSeries: this.franchiseeSeries
       })
     }, 1000 * 60 * 5)
+    this.timrDriver = setInterval(() => {
+      this._getAllUncheck({
+       customerNumId: this.customerNumId,
+       franchiseeSeries: this.franchiseeSeries
+      })
+   }, 1000 * 60 * 5)
   },
   destroyed () {
     this.timr = null
+    this.timrDriver = null
   },
   methods: {
     ...mapActions('d2admin/account', [
@@ -65,7 +74,21 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    }
+    },
+      _getAllUncheck (params) {
+          getAllUncheck(params).then(res => {
+              if (res.code === 0) {
+                  if (res.count > 0) {
+                      this.$message({
+                          message: `现在有${res.count}位司机等待审核!`,
+                          type: 'warning'
+                      })
+                  }
+              }
+          }).catch(err => {
+              console.log(err)
+          })
+      }
   }
 }
 </script>

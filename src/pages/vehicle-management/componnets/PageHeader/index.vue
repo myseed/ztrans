@@ -7,12 +7,6 @@
             size="mini"
             style="margin-bottom: -18px;">
 
-        <!--<el-form-item label="所属车队" prop="motorcadeId">-->
-        <!--<el-select v-model="form.motorcadeId" placeholder="请选择" style="width: 150px;">-->
-        <!--<el-option v-for="(item, index) in motorcadeNameList" :key="index" :label="item.motorcadeCar" :value="item.motorcadeId"></el-option>-->
-        <!--</el-select>-->
-        <!--</el-form-item>-->
-
         <el-form-item label="审核状态" prop="checkStatus">
             <el-select v-model="form.checkStatus" placeholder="请选择" style="width: 150px;" clearable>
                 <el-option v-for="(item, index) in checkIdAndCheckStatus" :key="index" :label="item.checkStatusName"
@@ -21,10 +15,7 @@
         </el-form-item>
 
         <el-form-item label="车牌号" prop="carPlateNumberSearchKey">
-            <!--<el-input-->
-            <!--v-model="form.carPlateNumberSearchKey"-->
-            <!--placeholder="请输入"-->
-            <!--style="width: 100px;"/>-->
+
             <el-autocomplete v-model="form.carPlateNumberSearchKey"
                              placeholder="车牌号"
                              clearable
@@ -34,10 +25,6 @@
         </el-form-item>
 
         <el-form-item label="司机姓名" prop="driverNameSearchKey">
-            <!--<el-input-->
-            <!--v-model="form.driverNameSearchKey"-->
-            <!--placeholder="请输入"-->
-            <!--style="width: 100px;"/>-->
             <el-autocomplete v-model="form.driverNameSearchKey"
                              placeholder="司机姓名"
                              clearable
@@ -51,6 +38,20 @@
                     v-model="form.driverPhoneSearchKey"
                     placeholder="请输入"
                     style="width: 100px;"/>
+        </el-form-item>
+
+        <el-form-item label="司机身份">
+            <el-select v-model="form.driverBornType" style="width: 150px;" clearable>
+                <el-option v-for="(item, index) in bornTypeIdAndBornType" :key="index"
+                           :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
+            </el-select>
+        </el-form-item>
+
+        <el-form-item label="会员标识">
+            <el-select v-model="form.memberFlag" style="width: 150px;" clearable>
+                <el-option v-for="(item, index) in memberFlag" :key="index"
+                           :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
+            </el-select>
         </el-form-item>
 
         <el-form-item>
@@ -91,6 +92,7 @@
         getAllCityArea,
         getAllPrv,
         getAllTown,
+        getAppDictionary
     } from '@/api/dictionary';
     import {getDriverBySearchKey, getDriverByPlateNumberSearchKey} from '@/api/truck';
 
@@ -102,6 +104,8 @@
                 driverPlateNumber: [],
                 registerTime: '',
                 checkIdAndCheckStatus: [],
+                bornTypeIdAndBornType: [],
+                memberFlag: [],
                 motorcadeNameList: [],
                 customerNumId: util.cookies.get('__user__customernumid'),
                 franchiseeSeries: util.cookies.get('__user__franchiseeSeries'),
@@ -113,6 +117,8 @@
                     carPlateNumberSearchKey: '',
                     driverNameSearchKey: '',
                     driverPhoneSearchKey: '',
+                    driverBornType:'',
+                    memberFlag:''
                 },
                 rules: {},
             };
@@ -125,8 +131,38 @@
                 customerNumId: this.form.customerNumId,
                 franchiseeSeries: this.franchiseeSeries
             });
+            this._getBornRealType({
+                customerNumId: this.customerNumId,
+                bizId:44
+            });
+            this._getMemberFlag({
+                customerNumId: this.customerNumId,
+                bizId:36
+            });
         },
         methods: {
+            _getMemberFlag(params) {
+                getAppDictionary(params)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.memberFlag = res.bizLists;
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
+            _getBornRealType(params) {
+                getAppDictionary(params)
+                    .then(res => {
+                        if (res.code === 0) {
+                            this.bornTypeIdAndBornType = res.bizLists;
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
+            },
             _getCheckStatus(params) {
                 getCheckStatus(params)
                     .then(res => {

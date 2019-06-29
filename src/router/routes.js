@@ -341,6 +341,12 @@ const frameIn = [
         name: '/xcx-nomal-advertisement-management',
         component: () => import('@/pages/xcx-nomal-advertisement-management'),
         meta: { meta, title: '小程序普通广告管理' }
+      },
+      {
+        path: '/member-rule-management',
+        name: '/member-rule-management',
+        component: () => import('@/pages/member-rule-management'),
+        meta: { meta, title: '会员规则管理' }
       }
     ]
   }
