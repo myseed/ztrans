@@ -5,8 +5,8 @@
 import {httpGet} from './sys/http'
 import {paramsify, signify, timestamp, sid} from './utils'
 
-export function getMemberRuleList (params) {
-    const url = `/getMemberRuleList`
+export function getAllCatchOrderByPage (params) {
+    const url = `/getAllCatchOrderByPage`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -18,8 +18,8 @@ export function getMemberRuleList (params) {
     return httpGet(url, data)
 }
 
-export function addMemberRule (params) {
-    const url = `/addMemberRule`
+export function getAllCatchDriverByPage (params) {
+    const url = `/getAllCatchDriverByPage`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -31,8 +31,8 @@ export function addMemberRule (params) {
     return httpGet(url, data)
 }
 
-export function updateMemberRule (params) {
-    const url = `/updateMemberRule`
+export function createCatchOrder (params) {
+    const url = `/createCatchOrder`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -44,8 +44,8 @@ export function updateMemberRule (params) {
     return httpGet(url, data)
 }
 
-export function deleteMemberRule (params) {
-    const url = `/deleteMemberRule`
+export function deleteCatchOrder (params) {
+    const url = `/deleteCatchOrder`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -57,8 +57,8 @@ export function deleteMemberRule (params) {
     return httpGet(url, data)
 }
 
-export function getMemberRuleListBySearchKey (params) {
-    const url = `/getMemberRuleListBySearchKey`
+export function creatCatchRule (params) {
+    const url = `/creatCatchRule`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -70,34 +70,8 @@ export function getMemberRuleListBySearchKey (params) {
     return httpGet(url, data)
 }
 
-export function getPayLog (params) {
-    const url = `/getPayLog`
-    const ts = timestamp()
-    const data = {
-        sid: sid(),
-        timestamp: ts,
-        params: paramsify(params),
-        sign: signify(params, ts)
-    }
-
-    return httpGet(url, data)
-}
-
-export function refundMemberMoney (params) {
-    const url = `/refundMemberMoney`
-    const ts = timestamp()
-    const data = {
-        sid: sid(),
-        timestamp: ts,
-        params: paramsify(params),
-        sign: signify(params, ts)
-    }
-
-    return httpGet(url, data)
-}
-
-export function getMemberByDriverInfo (params) {
-    const url = `/getMemberByDriverInfo`
+export function updateCatchOrderStatusToHolding (params) {
+    const url = `/updateCatchOrderStatusToHolding`
     const ts = timestamp()
     const data = {
         sid: sid(),

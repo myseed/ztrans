@@ -154,6 +154,52 @@
         <!--</el-form-item>-->
 
       </el-form>
+
+      <div class="header">司机报备信息</div>
+      <el-form :inline="true" size="mini" label-width="110px">
+        <el-form-item label="异常类型" >
+          <el-input v-model="order.errType"></el-input>
+        </el-form-item>
+        <el-form-item label="异常原因" >
+          <el-input v-model="order.errReason"></el-input>
+        </el-form-item>
+        <el-form-item label="异常描述" >
+          <el-input v-model="order.errDesc"></el-input>
+        </el-form-item>
+        <el-form-item label="审核结果" >
+          <el-input v-model="order.result"></el-input>
+        </el-form-item>
+        <el-form-item label="处理人" >
+          <el-input v-model="order.dealEmp"></el-input>
+        </el-form-item>
+        <el-form-item label="异常处理时间" >
+          <el-input v-model="order.dealDtme"></el-input>
+        </el-form-item>
+      </el-form>
+      <p>报备图片(点击图片可以放大)</p>
+      <el-popover
+              placement="right"
+              title=""
+              trigger="click">
+        <img :src="order.errImagUrl" style="max-height: 850px;max-width: 850px"/>
+        <img slot="reference" :src="order.errImagUrl" :alt="order.errImagUrl" style="max-height: 350px;max-width: 330px">
+      </el-popover>
+
+      <div class="header" v-if='showErrorCheck'>审核</div>
+      <el-form :inline="true" size="mini" label-width="110px" v-if='showErrorCheck'>
+        <el-form-item label="审核结果" >
+          <el-input  v-model="updateError.result" ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+                  type="primary"
+                  @click="updateErrorOrder">
+            审核
+          </el-button>
+        </el-form-item>
+      </el-form>
+
+      <div class="header">备注</div>
       <el-form :inline="true" size="mini" label-width="110px">
         <el-form-item label="货物描述" >
           <el-input type="textarea" v-model="order.goodsRemark"  :rows="7"></el-input>
@@ -169,9 +215,6 @@
           <el-input type="textarea" v-model="order.deleteReason"   :rows="7" ></el-input>
         </el-form-item>
             <p>交接单(点击图片可以放大)</p>
-            <!--<el-col class="tx-center" v-if="order.driverReceitp!==''">-->
-              <!--<img  :src="order.driverReceitp"  alt="司机交接单" class="cert-pic" >-->
-            <!--</el-col>-->
             <el-popover
                     placement="right"
                     title=""
@@ -179,6 +222,8 @@
               <img :src="order.driverReceitp" style="max-height: 850px;max-width: 850px"/>
               <img slot="reference" :src="order.driverReceitp" :alt="order.driverReceitp" style="max-height: 350px;max-width: 330px">
             </el-popover>
+
+
       </el-form>
     </template>
     <el-dialog title="编辑订单" :visible.sync="updateOrderPopDialog">
@@ -215,7 +260,7 @@
 </template>
 
 <script>
-import {getOrderDetailBySeries,updateDriverOrder} from '@/api/order';
+import {getOrderDetailBySeries,updateDriverOrder,updateError} from '@/api/order';
 import {uploadPicture, deletePicture} from '@/api/picture';
 import {
     getOrderStatusList
@@ -224,6 +269,7 @@ import util from '@/libs/util';
 export default {
   data() {
     return {
+      showErrorCheck:false,
       showOrderDetail:false,
       confirmStatus:false,
       customerNumId: util.cookies.get('__user__customernumid'),
@@ -239,6 +285,11 @@ export default {
           orderStatus:'',
           driverReceitp:'',
           driverAddFee:''
+      },
+      updateError:{
+          customerNumId:'',
+          result:'',
+          series:'',
       },
       order: {
         series: '',
@@ -289,6 +340,14 @@ export default {
         orderStatusModels:[],
         dialogVisible: false,
         dialogImageUrl: '',
+        errType: '',
+        errReason: '',
+        errDesc: '',
+        errImagUrl: '',
+        result: '',
+        dealEmp: '',
+        dealDtme: '',
+        resultState: '',
       },
     };
   },
@@ -421,6 +480,21 @@ export default {
             this.order.carWeightName = res.carWeightName;
             this.order.commondOrderStatus = res.commondOrderStatus;
             this.order.orderDeliverStatus=res.orderDeliverStatus;
+            this.order.errType=res.errType;
+            this.order.errReason=res.errReason;
+            this.order.errDesc=res.errDesc;
+            this.order.errImagUrl=res.errImagUrl;
+            this.order.result=res.result;
+            this.order.dealEmp=res.dealEmp;
+            this.order.dealDtme=res.dealDtme;
+            this.order.resultState=res.resultState;
+            if(this.order.resultState=='0'){
+                this.showErrorCheck=true;
+                this.$message({
+                    type: "warning",
+                    message: "当前订单需要异常审核,请及时审核!"
+                });
+            }
           }
         })
         .catch(err => {
@@ -491,6 +565,24 @@ export default {
                   console.log(err);
               });
       },
+      updateErrorOrder(param){
+        this.updateError.customerNumId=this.customerNumId;
+        this.updateError.series=this.orderId;
+          updateError(this.updateError)
+              .then(res => {
+                  console.log(res);
+                  if (res.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "审核成功!"
+                      });
+                      location.reload();
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      }
   },
 };
 </script>

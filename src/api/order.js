@@ -234,3 +234,16 @@ export function importEditCustomerOrderPrice (params, file) {
     }
     return axios.post(process.env.VUE_APP_API + url, data, config)
 }
+
+export function updateError (params) {
+    const url = `/updateError`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

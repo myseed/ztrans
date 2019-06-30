@@ -40,6 +40,7 @@ if (superId == '1') {
                 { path: '/vehicle-assign', title: '指派车辆', icon: 'truck' },
                 { path: '/order-management1/1', title: '未接单订单', icon: 'file-text' },
                 { path: '/order-management2/2', title: '未完成订单', icon: 'file-text' },
+                { path: '/order-management5/5', title: '司机报备订单', icon: 'file-text' },
                 { path: '/order-management3/3', title: '已完成订单', icon: 'file-text' },
                 { path: '/order-management4/4', title: '异常订单', icon: 'file-text' }
             ]
@@ -60,9 +61,10 @@ if (superId == '1') {
         },
         {
             title: '会员管理',
-            icon: 'truck',
+            icon: 'odnoklassniki',
             children: [
-                { path: '/member-rule-management', title: '会员规则管理', icon: 'truck' }
+                { path: '/member-rule-management', title: '会员规则管理', icon: 'pied-piper' },
+                { path: '/member-management', title: '会员管理', icon: 'odnoklassniki' }
             ]
         },
         {
@@ -107,6 +109,13 @@ if (superId == '1') {
                 { path: '/order-create', title: '手动下单', icon: 'ticket' },
                 { path: '/vehicle-assign-month', title: '整月下单', icon: 'flag' },
                 { path: '/quick-order-create', title: '立即指派订单', icon: 'rocket' }
+            ]
+        },
+        {
+            title: '抢单管理',
+            icon: 'users',
+            children: [
+                { path: '/catchorder-management', title: '抢单管理', icon: 'users' }
             ]
         },
         {

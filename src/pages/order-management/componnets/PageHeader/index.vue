@@ -93,7 +93,7 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="订单类型" prop="orderType">
+    <el-form-item label="订单来源" prop="orderType">
       <el-select
         v-model="form.orderType"
         placeholder="请选择"

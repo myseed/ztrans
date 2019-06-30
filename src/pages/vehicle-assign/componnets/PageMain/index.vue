@@ -31,7 +31,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="订单类型" :show-overflow-tooltip="true" width="80">
+            <el-table-column label="订单来源" :show-overflow-tooltip="true" width="80">
                 <template slot-scope="scope">
                     {{scope.row.orderType}}
                 </template>

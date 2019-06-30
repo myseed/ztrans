@@ -73,6 +73,12 @@ const frameIn = [
         meta: { meta, title: '异常订单' }
       },
       {
+        path: '/order-management5/:status',
+        name: 'order-management5',
+        component: () => import('@/pages/order-management'),
+        meta: { meta, title: '司机报备订单' }
+      },
+      {
         path: '/order-detail',
         name: 'order-detail',
         component: () => import('@/pages/order-detail'),
@@ -347,6 +353,24 @@ const frameIn = [
         name: '/member-rule-management',
         component: () => import('@/pages/member-rule-management'),
         meta: { meta, title: '会员规则管理' }
+      },
+      {
+        path: '/member-management',
+        name: '/member-management',
+        component: () => import('@/pages/member-management'),
+        meta: { meta, title: '会员管理' }
+      },
+      {
+        path: '/catchorder-management',
+        name: '/catchorder-management',
+        component: () => import('@/pages/catchorder-management'),
+        meta: { meta, title: '抢单管理' }
+      },
+      {
+        path: '/create-catch-order',
+        name: '/create-catch-order',
+        component: () => import('@/pages/create-catch-order'),
+        meta: { meta, title: '创建抢单任务' }
       }
     ]
   }
