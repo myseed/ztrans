@@ -119,6 +119,13 @@ if (superId == '1') {
             ]
         },
         {
+            title: '竞标管理',
+            icon: 'legal',
+            children: [
+                { path: '/competeorder-management', title: '竞标管理', icon: 'legal' }
+            ]
+        },
+        {
             title: '字典管理',
             icon: 'book',
             children: [

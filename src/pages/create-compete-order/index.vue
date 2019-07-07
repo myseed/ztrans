@@ -2,7 +2,6 @@
   <d2-container type="full" class="page">
     <template>
       <el-form :model="searchItem" size="mini" label-width="140px">
-
         <el-form-item label="大客户名字">
           <el-autocomplete v-model="customerName"
                            placeholder="大客户名字"
@@ -18,15 +17,6 @@
                            :fetch-suggestions="querySearchAsyncRouter"
                            @select="handleSelectRouter">
           </el-autocomplete>
-        </el-form-item>
-        <el-form-item label="抢单类型">
-          <el-select
-                  v-model="createOrder.catchOrderType"
-                  placeholder="请选择"
-                  clearable
-                  style="width: 150px;">
-            <el-option v-for="(item, index) in orderTypes" :key="index" :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
-          </el-select>
         </el-form-item>
         <el-form-item label="违约金" >
           <el-input v-model="createOrder.breakMoney"  style="width: 500px;" ></el-input>
@@ -94,10 +84,21 @@
         <el-form-item label="路径站点个数">
           <el-input v-model="createOrder.sendGoodsLocationNum" placeholder="路径站点个数" style="width: 500px;"></el-input>
         </el-form-item>
-        <el-form-item label="约车时间">
+        <el-form-item label="竞标任务开始时间">
           <el-date-picker
                   style="width: 500px;"
-                  v-model="createOrder.appointmentDate"
+                  v-model="createOrder.appointmentStartDate"
+                  type="datetime"
+                  placeholder="请选择约车时间"
+                  align="right"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  :picker-options="pickerOptions">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="竞标任务结束时间">
+          <el-date-picker
+                  style="width: 500px;"
+                  v-model="createOrder.appointmentEndDate"
                   type="datetime"
                   placeholder="请选择约车时间"
                   align="right"
@@ -140,7 +141,7 @@ import {
   createOrderByWeb,
   getOrderByRouterAndDate
 } from '@/api/createorder';
-import {creatCatchRule} from "@/api/catchorder";
+import {creatCompeteRule} from "@/api/competeorder";
 import {getCarTypeList} from '@/api/order';
 import {
     getCarSizeList,getAppDictionary
@@ -210,7 +211,8 @@ export default {
         receiveAddressDetail: '',
         wetherTakeover: 'N',
         remark: '',
-        appointmentDate: '',
+        appointmentStartDate: '',
+        appointmentEndDate: '',
         initPrice: '',
         initDistance: '',
         overstepPrice: '',
@@ -530,10 +532,10 @@ export default {
 
     _createOrderByWeb() {
       this.searching = true;
-        if (this.createOrder.catchOrderType === '') {
+        if (this.createOrder.catchFinalDate === '') {
             this.$message({
                 type: 'error',
-                message: '抢单类型不可以为空！',
+                message: '抢单截止日不可以为空！',
             });
             this.searching = false;
             return;
@@ -542,14 +544,6 @@ export default {
             this.$message({
                 type: 'error',
                 message: '违约金不可以为空！',
-            });
-            this.searching = false;
-            return;
-        }
-        if (this.createOrder.catchFinalDate === '') {
-            this.$message({
-                type: 'error',
-                message: '抢单截止日不可以为空！',
             });
             this.searching = false;
             return;
@@ -594,14 +588,23 @@ export default {
             this.searching = false;
             return;
         }
-      if (this.createOrder.appointmentDate === '') {
+      if (this.createOrder.appointmentStartDate === '') {
         this.$message({
           type: 'error',
-          message: '约车时间不可以为空！',
+          message: '竞标任务开始时间不可以为空！',
         });
         this.searching = false;
         return;
       }
+      if (this.createOrder.appointmentEndDate === '') {
+        this.$message({
+          type: 'error',
+          message: '竞标任务结束时间不可以为空！',
+        });
+        this.searching = false;
+        return;
+      }
+
       if (this.createOrder.initPrice === '') {
         this.$message({
           type: 'error',
@@ -663,7 +666,7 @@ export default {
         }else{
             this.createOrder.carRealMoney=this.driverPrice;
         }
-        creatCatchRule(this.createOrder)
+        creatCompeteRule(this.createOrder)
             .then(res => {
                 if (res.code === 0) {
                     location.reload();

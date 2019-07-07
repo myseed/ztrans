@@ -113,6 +113,24 @@
       </el-select>
     </el-form-item>
 
+    <el-form-item label="订单类型" prop="orderType">
+      <el-select
+              v-model="form.orderRealType"
+              placeholder="请选择"
+              clearable
+              style="width: 150px;">
+        <el-option v-for="(item, index) in orderRealTypes" :key="index" :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="抢单/竞标任务id" prop="ruleSeries">
+      <el-input
+              v-model="form.ruleSeries"
+              placeholder="请输入"
+              clearable
+              style="width: 200px;"/>
+    </el-form-item>
+
     <el-form-item label="约车日期" prop="registerTime">
       <el-date-picker
               size="mini"
@@ -157,7 +175,7 @@
 import util from '@/libs/util';
 import {getRouterAliaList,getRouterAliaSearchList} from '@/api/schedule';
 import {getCarTypeList} from '@/api/order';
-import {getOrderType,getCommondStatus} from '@/api/dictionary';
+import {getOrderType,getCommondStatus,getAppDictionary} from '@/api/dictionary';
 import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
 import {
     getMasterCustomerListBySearchKey
@@ -172,6 +190,7 @@ export default {
       routerNumber: [],
       driverNames: [],
       driverPlateNumber: [],
+      orderRealTypes:[],
       carTypes: [],
       orderTypes: [],
       commondOrderStatuses:[],
@@ -195,6 +214,8 @@ export default {
         platenumberSearchKey:'',
         commondOrderStatus:'',
         series:'',
+        orderRealType:'',
+        ruleSeries:'',
       },
       rules: {},
       pickerOptions: {
@@ -245,7 +266,10 @@ export default {
       customerNumId: this.form.customerNumId,
       franchiseeSeries:this.franchiseeSeries
     });
-
+    this._getOrderRealType({
+      customerNumId: this.form.customerNumId,
+      bizId:41
+    });
   },
     watch: {
         'registerTime'() {
@@ -363,6 +387,17 @@ export default {
               .then(res => {
                   if (res.code === 0) {
                       this.carTypes = res.carTypes;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      _getOrderRealType(params) {
+          getAppDictionary(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.orderRealTypes = res.bizLists;
                   }
               })
               .catch(err => {

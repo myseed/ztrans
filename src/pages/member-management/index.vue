@@ -9,6 +9,7 @@
       :table-data="table"
       :loading="loading"
        @refundMoney="refundMoney"
+       @cutMoney="cutMoney"
        @selectHistory="selectHistory"/>
     <page-footer
       slot="footer"
@@ -17,6 +18,31 @@
       :total="page.total"
       @change="handlePaginationChange"/>
 
+
+    <el-dialog title="扣款" :visible.sync="cutMoneyPopDialog">
+      <el-form label-width="130px" :model="refundModel" label-position="left" size="mini">
+        <el-form-item label="司机姓名"  >
+          <el-input v-model="refundModel.driverName" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="司机车牌"  >
+          <el-input v-model="refundModel.carPlateNumber" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="会员规则"  >
+          <el-input v-model="refundModel.memberRuleTitle" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="司机剩余金额"  >
+          <el-input v-model="refundModel.driverPrice" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="扣款金额"  >
+          <el-input v-model="refundModel.refundMoney" ></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelCustomer" size="mini">取 消</el-button>
+        <el-button type="primary" @click="cutConfirm" size="mini"  :loading="loading">确 定</el-button>
+      </div>
+    </el-dialog>
 
     <el-dialog title="退款" :visible.sync="editDictionaryPopDialog">
       <el-form label-width="130px" :model="refundModel" label-position="left" size="mini">
@@ -86,7 +112,7 @@
 
 <script>
 
-import {getPayLog,refundMemberMoney,getMemberByDriverInfo} from '@/api/member';
+import {getPayLog,refundMemberMoney,getMemberByDriverInfo,cutMemberMoney} from '@/api/member';
 
 import util from "@/libs/util";
 
@@ -106,6 +132,7 @@ export default {
       loading: false,
       customerNumId: util.cookies.get('__user__customernumid'),
       editDictionaryPopDialog:false,
+      cutMoneyPopDialog:false,
       selectDialog:false,
       refundModel: {
           series:"",
@@ -183,15 +210,26 @@ export default {
          this.editDictionaryPopDialog=true;
       },
 
+      cutMoney(param){
+          this.refundModel.series=param.series;
+          this.refundModel.memberRuleSeries=param.memberRuleSeries;
+          this.refundModel.driverName=param.driverName;
+          this.refundModel.carPlateNumber=param.carPlateNumber;
+          this.refundModel.memberRuleTitle=param.memberRuleTitle;
+          this.refundModel.driverPrice=param.driverPrice;
+          this.cutMoneyPopDialog=true;
+      },
+
       cancelCustomer(){
         this.editDictionaryPopDialog=false;
-          this.refundModel.series='';
-          this.refundModel.memberRuleSeries='';
-          this.refundModel.driverName='';
-          this.refundModel.carPlateNumber='';
-          this.refundModel.memberRuleTitle='';
-          this.refundModel.driverPrice='';
-          this.refundModel.refundMoney='';
+        this.cutMoneyPopDialog=false;
+        this.refundModel.series='';
+        this.refundModel.memberRuleSeries='';
+        this.refundModel.driverName='';
+        this.refundModel.carPlateNumber='';
+        this.refundModel.memberRuleTitle='';
+        this.refundModel.driverPrice='';
+        this.refundModel.refundMoney='';
       },
       handleSubmitPage(form){
           handleSubmit(form);
@@ -212,6 +250,28 @@ export default {
                       });
                       this.handleSubmit();
                       this.editDictionaryPopDialog=false;
+                  })
+                  .catch(err => {
+                      this.loading = false;
+                  });
+          });
+      },
+      cutConfirm() {
+          this.$confirm('即将扣款,是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
+          }).then(() => {
+              this.loading = true;
+              cutMemberMoney(this.refundModel)
+                  .then(res => {
+                      this.loading = false;
+                      this.$message({
+                          type: "success",
+                          message: "扣款成功！"
+                      });
+                      this.handleSubmit();
+                      this.cutMoneyPopDialog=false;
                   })
                   .catch(err => {
                       this.loading = false;

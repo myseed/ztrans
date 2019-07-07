@@ -67,6 +67,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="订单类型" :show-overflow-tooltip="true" width="120">
+        <template slot-scope="scope">
+          {{scope.row.orderRealTypeName}}
+        </template>
+      </el-table-column>
+
       <el-table-column label="派单方式" :show-overflow-tooltip="true" width="120">
         <template slot-scope="scope">
           {{scope.row.commondOrderStatusName}}

@@ -371,6 +371,18 @@ const frameIn = [
         name: '/create-catch-order',
         component: () => import('@/pages/create-catch-order'),
         meta: { meta, title: '创建抢单任务' }
+      },
+      {
+        path: '/create-compete-order',
+        name: '/create-compete-order',
+        component: () => import('@/pages/create-compete-order'),
+        meta: { meta, title: '创建竞标任务' }
+      },
+      {
+        path: '/competeorder-management',
+        name: '/competeorder-management',
+        component: () => import('@/pages/competeorder-management'),
+        meta: { meta, title: '创建抢单任务' }
       }
     ]
   }

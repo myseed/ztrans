@@ -5,8 +5,8 @@
 import {httpGet} from './sys/http'
 import {paramsify, signify, timestamp, sid} from './utils'
 
-export function getAllCatchOrderByPage (params) {
-    const url = `/getAllCatchOrderByPage`
+export function getAllCompeteOrderByPage (params) {
+    const url = `/getAllCompeteOrderByPage`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -18,8 +18,8 @@ export function getAllCatchOrderByPage (params) {
     return httpGet(url, data)
 }
 
-export function getAllCatchDriverByPage (params) {
-    const url = `/getAllCatchDriverByPage`
+export function getAllCompeteDriverByPage (params) {
+    const url = `/getAllCompeteDriverByPage`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -31,8 +31,8 @@ export function getAllCatchDriverByPage (params) {
     return httpGet(url, data)
 }
 
-export function createCatchOrder (params) {
-    const url = `/createCatchOrder`
+export function createCompeteOrder (params) {
+    const url = `/createCompeteOrder`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -44,8 +44,8 @@ export function createCatchOrder (params) {
     return httpGet(url, data)
 }
 
-export function deleteCatchOrder (params) {
-    const url = `/deleteCatchOrder`
+export function deleteCompeteOrder (params) {
+    const url = `/deleteCompeteOrder`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -57,8 +57,8 @@ export function deleteCatchOrder (params) {
     return httpGet(url, data)
 }
 
-export function creatCatchRule (params) {
-    const url = `/creatCatchRule`
+export function creatCompeteRule (params) {
+    const url = `/creatCompeteRule`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -70,8 +70,8 @@ export function creatCatchRule (params) {
     return httpGet(url, data)
 }
 
-export function updateCatchOrderStatusToHolding (params) {
-    const url = `/updateCatchOrderStatusToHolding`
+export function updateCompeteOrderStatusToHolding (params) {
+    const url = `/updateCompeteOrderStatusToHolding`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -83,8 +83,8 @@ export function updateCatchOrderStatusToHolding (params) {
     return httpGet(url, data)
 }
 
-export function getCatchDriverList (params) {
-    const url = `/getCatchDriverList`
+export function getCompeteDriverList (params) {
+    const url = `/getCompeteDriverList`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -96,8 +96,8 @@ export function getCatchDriverList (params) {
     return httpGet(url, data)
 }
 
-export function getAllUnDealCatchOrder (params) {
-    const url = `/getAllUnDealCatchOrder`
+export function getAllUnDealCompeteOrder (params) {
+    const url = `/getAllUnDealCompeteOrder`
     const ts = timestamp()
     const data = {
         sid: sid(),
@@ -108,3 +108,5 @@ export function getAllUnDealCatchOrder (params) {
 
     return httpGet(url, data)
 }
+
+

@@ -13,7 +13,7 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="抢单id" :show-overflow-tooltip="true">
+      <el-table-column label="竞标id" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.series}}
         </template>
@@ -43,21 +43,21 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="抢单状态" :show-overflow-tooltip="true">
+      <el-table-column label="竞标状态" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.catchOrderStatusDesc}}
+          {{scope.row.comoeteStatusDesc}}
         </template>
       </el-table-column>
 
-      <el-table-column label="抢单类型" :show-overflow-tooltip="true">
+      <el-table-column label="用车开始时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
-          {{scope.row.catchOrderTypeDesc}}
+          {{scope.row.appointmentStartDate}}
         </template>
       </el-table-column>
 
-      <el-table-column label="用车时间" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="用车结束时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
-          {{scope.row.appointmentDate}}
+          {{scope.row.appointmentEndDate}}
         </template>
       </el-table-column>
 
@@ -69,7 +69,7 @@
 
       <el-table-column label="付费截止时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
-          {{scope.row.catchFinalDate}}
+          {{scope.row.competeFinalDate}}
         </template>
       </el-table-column>
 
@@ -93,7 +93,7 @@
 
       <el-table-column label="最终价格" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          {{scope.row.catchPrice}}
+          {{scope.row.competePrice}}
         </template>
       </el-table-column>
 
@@ -167,37 +167,11 @@ export default {
           this.$emit("deleteRule", {series: row.series});
       },
       updateOrderStatus(index, row) {
-          if(row.catchOrderType!==1){
-              this.$message.error('只有竞价抢单可以开标！');
-              return;
-          }
-          if(row.catchOrderStatus!==0){
-              this.$message.error('已经开标的抢单不可以开标！');
+          if(row.comoeteStatus!==0){
+              this.$message.error('已经开标的竞标任务不可以开标！');
               return;
           }
           this.$emit("updateOrderStatus",{series:row.series});
-      },
-      selectDriver(index, row) {
-          if(row.catchOrderType!==1){
-              this.$message.error('只有竞价抢单可以选司机！');
-              return;
-          }
-          if(row.catchOrderStatus!==1){
-              this.$message.error('只有正在开标的竞价任务可以选司机！');
-              return;
-          }
-          this.$emit("selectDriver",{series: row.series});
-      },
-      selectHistory(index, row) {
-          if(row.catchOrderType!==1){
-              this.$message.error('只有竞价抢单可以查看历史！');
-              return;
-          }
-          if(row.catchOrderStatus!==2){
-              this.$message.error('只有开标结束的竞价任务可以查看历史！');
-              return;
-          }
-          this.$emit("selectHistory",{series: row.series});
       },
       findOrder(index, row) {
           this.$router.push({
@@ -205,8 +179,21 @@ export default {
               query: {ruleSeries: row.series},
           });
       },
-
-      handleSwitchChange(val, index) {
+      selectDriver(index, row) {
+          if(row.comoeteStatus!==1){
+              this.$message.error('只有正在开标的竞标任务可以选司机！');
+              return;
+          }
+          this.$emit("selectDriver",{series: row.series});
+      },
+      selectHistory(index, row) {
+          if(row.comoeteStatus!==2){
+              this.$message.error('只有开标结束的竞价任务可以查看历史！');
+              return;
+          }
+          this.$emit("selectHistory",{series: row.series});
+      },
+    handleSwitchChange(val, index) {
       const oldValue = this.currentTableData[index];
       this.$set(this.currentTableData, index, {
         ...oldValue,

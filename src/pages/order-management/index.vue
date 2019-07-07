@@ -303,7 +303,8 @@
         },
         watch: {
             $route(to, from) {
-                    this._initMyPage()
+                this.form.ruleSeries = to.query.ruleSeries;
+                this._initMyPage()
             },
         },
         methods: {

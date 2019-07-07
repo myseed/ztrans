@@ -37,20 +37,24 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="实付费用" :show-overflow-tooltip="true">
+      <el-table-column label="剩余金额" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{scope.row.driverPrice}}
         </template>
       </el-table-column>
 
-      <el-table-column label="入会时间" :show-overflow-tooltip="true">
+      <el-table-column label="入会时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.memberDate}}
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center" fixed="right">
+      <el-table-column label="操作" align="center" fixed="right" width="300">
         <template slot-scope="scope">
+          <el-button
+                  size="mini"
+                  type="primary"
+                  @click="cutMoney(scope.$index, scope.row)">扣款</el-button>
           <el-button
                   size="mini"
                   type="primary"
@@ -154,6 +158,9 @@ export default {
       },
       refundMoney(index, row) {
           this.$emit("refundMoney",{driverName:row.driverName,carPlateNumber:row.carPlateNumber,memberRuleTitle:row.memberRuleTitle,driverPrice:row.driverPrice,memberRuleSeries:row.memberRuleSeries,series:row.series});
+      },
+      cutMoney(index, row) {
+          this.$emit("cutMoney",{driverName:row.driverName,carPlateNumber:row.carPlateNumber,memberRuleTitle:row.memberRuleTitle,driverPrice:row.driverPrice,memberRuleSeries:row.memberRuleSeries,series:row.series});
       },
   }
 };

@@ -41,7 +41,7 @@
                 label="司机车牌">
         </el-table-column>
         <el-table-column
-                prop="catchPrice"
+                prop="competePrice"
                 label="司机报价"
         >
         </el-table-column>
@@ -59,8 +59,6 @@
         </template>
         </el-table-column>
       </el-table>
-
-
     </el-dialog>
 
     <el-dialog title="司机竞标详情" :visible.sync="selectHistoryDialog">
@@ -85,15 +83,16 @@
                 label="司机车牌">
         </el-table-column>
         <el-table-column
-                prop="catchPrice"
+                prop="competePrice"
                 label="司机报价"
         >
         </el-table-column>
         <el-table-column
                 prop="statusName"
-                label="抢单结果"
+                label="竞标结果"
         >
         </el-table-column>
+
       </el-table>
     </el-dialog>
 
@@ -102,15 +101,8 @@
 
 <script>
 
-import { getAllCatchOrderByPage,getAllCatchDriverByPage,createCatchOrder,deleteCatchOrder,creatCatchRule,updateCatchOrderStatusToHolding,getCatchDriverList} from "@/api/catchorder";
-import { getAllEmployee,register,deleteEmployee,updatePassword,updateEmployee } from "@/api/employee";
-import { getAuthorityRoleList } from "@/api/auth";
-import {
-    getCustomerJob,getCustomerSex
-} from "@/api/dictionary";
-import {
-    getFranchiseeNameList
-} from "@/api/franchisee";
+import { getAllCompeteOrderByPage,getAllCompeteDriverByPage,createCompeteOrder,deleteCompeteOrder,creatCompeteRule,updateCompeteOrderStatusToHolding,getCompeteDriverList} from "@/api/competeorder";
+
 import util from "@/libs/util";
 
 
@@ -142,7 +134,7 @@ export default {
           franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
           series:'',
           driverId:'',
-          catchPrice:'',
+          competePrice:'',
       },
       updateModel: {
           customerNumId: util.cookies.get('__user__customernumid'),
@@ -186,7 +178,7 @@ export default {
       },
       updateOrderStatus(params) {
           this.updateModel.series=params.series;
-          updateCatchOrderStatusToHolding(this.updateModel)
+          updateCompeteOrderStatusToHolding(this.updateModel)
                 .then(res => {
             if (res.code === 0) {
                 this.handleSubmit(this.form);
@@ -199,7 +191,7 @@ export default {
       },
       deleteRule(params) {
           this.updateModel.series=params.series;
-          deleteCatchOrder(this.updateModel)
+          deleteCompeteOrder(this.updateModel)
                 .then(res => {
             if (res.code === 0) {
                 this.handleSubmit(this.form);
@@ -213,10 +205,10 @@ export default {
       selectDriver(params) {
           this.updateModel.series=params.series;
           this.selectDialog=true;
-          getAllCatchDriverByPage(this.updateModel)
+          getAllCompeteDriverByPage(this.updateModel)
               .then(res => {
                   if (res.code === 0) {
-                      this.paylogs = res.catchDriverModels;
+                      this.paylogs = res.competeDriverModel;
                       this.count=res.count;
                   }
               })
@@ -227,10 +219,10 @@ export default {
       selectHistory(params) {
           this.updateModel.series=params.series;
           this.selectHistoryDialog=true;
-          getCatchDriverList(this.updateModel)
+          getCompeteDriverList(this.updateModel)
               .then(res => {
                   if (res.code === 0) {
-                      this.historylogs = res.catchDriverModels;
+                      this.historylogs = res.competeDriverModels;
                       this.count=res.count;
                   }
               })
@@ -240,9 +232,9 @@ export default {
       },
       confirmDriver(row){
          this.createOrderModel.series=row.series;
-         this.createOrderModel.catchPrice=row.catchPrice;
+         this.createOrderModel.competePrice=row.competePrice;
          this.createOrderModel.driverId=row.driverId;
-         createCatchOrder(this.createOrderModel)
+          createCompeteOrder(this.createOrderModel)
               .then(res => {
                   if (res.code === 0) {
                       this.selectDialog=false;
@@ -264,7 +256,7 @@ export default {
       handleSubmit(form) {
           this.form=form;
           this.loading = true;
-          getAllCatchOrderByPage({
+          getAllCompeteOrderByPage({
               customerNumId: util.cookies.get('__user__customernumid'),
               current: this.page.current,
               pageSize: this.page.size,
@@ -273,7 +265,7 @@ export default {
           })
               .then(res => {
                   this.loading = false;
-                  this.table = res.catchOrderModel;
+                  this.table = res.competeOrderModel;
                   this.page = {
                       current: this.page.current,
                       size: this.page.size,
@@ -286,7 +278,7 @@ export default {
       },
       handleAdd() {
           this.$router.push({
-             path: '/create-catch-order'
+             path: '/create-compete-order'
           });
       },
   }

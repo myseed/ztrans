@@ -43,15 +43,6 @@
       </el-autocomplete>
     </el-form-item>
 
-    <el-form-item label="抢单类型" prop="jobId">
-      <el-select
-              v-model="form.orderType"
-              placeholder="请选择"
-              clearable
-              style="width: 150px;">
-        <el-option v-for="(item, index) in orderTypes" :key="index" :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
-      </el-select>
-    </el-form-item>
 
     <el-form-item label="抢单状态" prop="jobId">
       <el-select
@@ -99,7 +90,7 @@
               type="primary"
               @click="handleAdd">
         <d2-icon name="plus"/>
-        新增抢单任务
+        新增竞标任务
       </el-button>
     </el-form-item>
 
@@ -121,7 +112,6 @@ import util from '@/libs/util';
 export default {
   data() {
     return {
-        orderTypes: [],
         orderStatuss: [],
         customerNumId: util.cookies.get('__user__customernumid'),
         franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
@@ -147,6 +137,7 @@ export default {
         registerTime: '',
         drivers:[],
         carPlateNumbers:[],
+
         pickerOptions: {
             shortcuts: [
                 {
@@ -180,7 +171,6 @@ export default {
         customerSeries: '',
         driverId: '',
         orderStatus: '',
-        orderType: '',
         routerDetailAliaSearchKey:'',
         startTime:'',
         endTime:''
@@ -189,13 +179,9 @@ export default {
     };
   },
   created() {
-      this._getOrderType({
+      this._getCompeteStatus({
           customerNumId: this.customerNumId,
-          bizId:47
-      });
-      this._getOrderStatus({
-          customerNumId: this.customerNumId,
-          bizId:45
+          bizId:42
       });
   },
     watch: {
@@ -222,18 +208,7 @@ export default {
           this.form.startTime = time[0];
           this.form.endTime = time[1];
       },
-      _getOrderType(params) {
-          getAppDictionary(params)
-              .then(res => {
-                  if (res.code === 0) {
-                      this.orderTypes = res.bizLists;
-                  }
-              })
-              .catch(err => {
-                  console.log(err);
-              });
-      },
-      _getOrderStatus(params) {
+      _getCompeteStatus(params) {
           getAppDictionary(params)
               .then(res => {
                   if (res.code === 0) {

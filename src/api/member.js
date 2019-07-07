@@ -108,3 +108,16 @@ export function getMemberByDriverInfo (params) {
 
     return httpGet(url, data)
 }
+
+export function cutMemberMoney (params) {
+    const url = `/cutMemberMoney`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}

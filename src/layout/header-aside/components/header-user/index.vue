@@ -14,7 +14,9 @@
 import util from '@/libs/util';
 import { mapState, mapActions } from 'vuex'
 import Cookies from 'js-cookie'
-import { getUnDealOrderCount } from '@/api/order'
+import { getUnDealOrderCount,getAllUncheckErrOrder } from '@/api/order'
+import { getAllUnDealCompeteOrder } from '@/api/competeorder'
+import { getAllUnDealCatchOrder } from '@/api/catchorder'
 import { getAllUncheck } from '@/api/truck'
 export default {
   data () {
@@ -22,7 +24,10 @@ export default {
       customerNumId: util.cookies.get('__user__customernumid'),
       franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
       timr: null,
-      timrDriver: null
+      timrDriver: null,
+      timrErrorOrder: null,
+      timrUndealCompeteOrder: null,
+      timrUndealCatchOrder: null
     }
   },
   computed: {
@@ -43,10 +48,32 @@ export default {
        franchiseeSeries: this.franchiseeSeries
       })
    }, 1000 * 60 * 5)
+    this.timrErrorOrder = setInterval(() => {
+      this._getAllUncheckErrOrder({
+       customerNumId: this.customerNumId,
+       franchiseeSeries: this.franchiseeSeries
+      })
+   }, 1000 * 60 * 5)
+    this.timrUndealCompeteOrder = setInterval(() => {
+      this._getAllUnDealCompeteOrder({
+       customerNumId: this.customerNumId,
+       franchiseeSeries: this.franchiseeSeries
+      })
+   }, 1000 * 60  * 5)
+    this.timrUndealCatchOrder = setInterval(() => {
+      this._getAllUnDealCatchOrder({
+       customerNumId: this.customerNumId,
+       franchiseeSeries: this.franchiseeSeries
+      })
+   }, 1000 * 60 * 5)
   },
   destroyed () {
     this.timr = null
     this.timrDriver = null
+    this.timrErrorOrder = null
+    this.timrUndealCompeteOrder = null
+    this.timrUndealCatchOrder = null
+
   },
   methods: {
     ...mapActions('d2admin/account', [
@@ -81,6 +108,48 @@ export default {
                   if (res.count > 0) {
                       this.$message({
                           message: `现在有${res.count}位司机等待审核!`,
+                          type: 'warning'
+                      })
+                  }
+              }
+          }).catch(err => {
+              console.log(err)
+          })
+      },
+      _getAllUncheckErrOrder (params) {
+          getAllUncheckErrOrder(params).then(res => {
+              if (res.code === 0) {
+                  if (res.total > 0) {
+                      this.$message({
+                          message: `现在有${res.total}笔司机报备订单需要审核!`,
+                          type: 'warning'
+                      })
+                  }
+              }
+          }).catch(err => {
+              console.log(err)
+          })
+      },
+      _getAllUnDealCompeteOrder (params) {
+          getAllUnDealCompeteOrder(params).then(res => {
+              if (res.code === 0) {
+                  if (res.count > 0) {
+                      this.$message({
+                          message: `现在有${res.count}笔竞标任务需要开标!`,
+                          type: 'warning'
+                      })
+                  }
+              }
+          }).catch(err => {
+              console.log(err)
+          })
+      },
+      _getAllUnDealCatchOrder (params) {
+          getAllUnDealCatchOrder(params).then(res => {
+              if (res.code === 0) {
+                  if (res.count > 0) {
+                      this.$message({
+                          message: `现在有${res.count}笔竞标抢单任务需要开标!`,
                           type: 'warning'
                       })
                   }

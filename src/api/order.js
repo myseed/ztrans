@@ -247,3 +247,16 @@ export function updateError (params) {
 
     return httpGet(url, data)
 }
+
+export function getAllUncheckErrOrder (params) {
+    const url = `/getAllUncheckErrOrder`
+    const ts = timestamp()
+    const data = {
+        sid: sid(),
+        timestamp: ts,
+        params: paramsify(params),
+        sign: signify(params, ts)
+    }
+
+    return httpGet(url, data)
+}
