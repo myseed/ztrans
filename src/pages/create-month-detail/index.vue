@@ -76,10 +76,10 @@
           <el-input v-model="createOrder.sendGoodsLocationNum" placeholder="路径站点个数" style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item label="补充信息">
-          <el-input  type="textarea" v-model="createOrder.remark" :rows="7" placeholder="补充信息" style="width: 500px;"></el-input>
+          <el-input  type="textarea" v-model="createOrder.remark" :rows="7" placeholder="选填" style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item label="货物信息">
-          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="货物信息"  style="width: 500px;"></el-input>
+          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="必填"  style="width: 500px;"></el-input>
         </el-form-item>
 
         <el-form-item label="司机名字">
@@ -633,6 +633,14 @@
                     this.$message({
                         type: 'error',
                         message: '司机不可以为空！',
+                    });
+                    this.searching = false;
+                    return;
+                }
+                if (this.createOrder.goodsRemark === '') {
+                    this.$message({
+                        type: 'error',
+                        message: '货物描述不可以为空！',
                     });
                     this.searching = false;
                     return;

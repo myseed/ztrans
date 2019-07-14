@@ -49,13 +49,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="用车开始时间" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="竞标任务开始时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.appointmentStartDate}}
         </template>
       </el-table-column>
 
-      <el-table-column label="用车结束时间" :show-overflow-tooltip="true" width="150">
+      <el-table-column label="竞标任务结束时间" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.appointmentEndDate}}
         </template>
@@ -127,7 +127,6 @@
 
 <script>
 import util from '@/libs/util.js';
-import {deleteFranchisee} from '@/api/franchisee';
 
 export default {
   props: {

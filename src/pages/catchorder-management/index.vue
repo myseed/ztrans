@@ -103,14 +103,6 @@
 <script>
 
 import { getAllCatchOrderByPage,getAllCatchDriverByPage,createCatchOrder,deleteCatchOrder,creatCatchRule,updateCatchOrderStatusToHolding,getCatchDriverList} from "@/api/catchorder";
-import { getAllEmployee,register,deleteEmployee,updatePassword,updateEmployee } from "@/api/employee";
-import { getAuthorityRoleList } from "@/api/auth";
-import {
-    getCustomerJob,getCustomerSex
-} from "@/api/dictionary";
-import {
-    getFranchiseeNameList
-} from "@/api/franchisee";
 import util from "@/libs/util";
 
 

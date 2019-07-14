@@ -89,7 +89,7 @@
                   style="width: 500px;"
                   v-model="createOrder.appointmentStartDate"
                   type="datetime"
-                  placeholder="请选择约车时间"
+                  placeholder="请选择任务开始时间"
                   align="right"
                   value-format="yyyy-MM-dd HH:mm:ss"
                   :picker-options="pickerOptions">
@@ -100,7 +100,7 @@
                   style="width: 500px;"
                   v-model="createOrder.appointmentEndDate"
                   type="datetime"
-                  placeholder="请选择约车时间"
+                  placeholder="请选择任务结束时间"
                   align="right"
                   value-format="yyyy-MM-dd HH:mm:ss"
                   :picker-options="pickerOptions">
@@ -111,20 +111,20 @@
                   style="width: 500px;"
                   v-model="createOrder.catchFinalDate"
                   type="datetime"
-                  placeholder="请选择约车时间"
+                  placeholder="请选择付费截止时间"
                   align="right"
                   value-format="yyyy-MM-dd HH:mm:ss"
                   :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="补充信息">
-          <el-input  type="textarea" v-model="createOrder.remark" :rows="7" placeholder="补充信息" style="width: 500px;"></el-input>
+          <el-input  type="textarea" v-model="createOrder.remark" :rows="7" placeholder="选填" style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item label="货物信息">
-          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="货物信息"  style="width: 500px;"></el-input>
+          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="必填"  style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="_createOrderByWeb" :loading="searching">创建抢单任务</el-button>
+          <el-button type="primary" @click="_createOrderByWeb" :loading="searching">创建竞标任务</el-button>
           <el-button type="primary" @click="cancelSign()">重置</el-button>
         </el-form-item>
       </el-form>
@@ -661,6 +661,14 @@ export default {
         this.searching = false;
         return;
       }
+        if (this.createOrder.goodsRemark === '') {
+            this.$message({
+                type: 'error',
+                message: '货物描述不可以为空！',
+            });
+            this.searching = false;
+            return;
+        }
         if(this.driverRealPrice!=null&&this.driverRealPrice!=''){
             this.createOrder.carRealMoney=this.driverRealPrice;
         }else{

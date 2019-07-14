@@ -108,9 +108,8 @@
 
 <script>
     import {
-        getCheckStatus,getAppDictionary
+        getAppDictionary
     } from '@/api/dictionary';
-    import {getMasterCustomerList,uploadRouterPriceExcel} from '@/api/price';
     import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
     import {getRouterAliaSearchList} from '@/api/schedule';
     import {

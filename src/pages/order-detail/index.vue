@@ -6,6 +6,9 @@
         <el-form-item label="订单号" >
           <el-input v-model="order.series"></el-input>
         </el-form-item>
+        <el-form-item label="订单类型" >
+          <el-input v-model="order.orderRealTypeName"></el-input>
+        </el-form-item>
         <el-form-item label="线路名称" >
           <el-input v-model="order.routerAlisa"></el-input>
         </el-form-item>
@@ -293,6 +296,7 @@ export default {
       },
       order: {
         series: '',
+        orderRealTypeName:'',
         routerAlisa: '',
         carTypeName: '',
         carSizeName: '',
@@ -488,6 +492,7 @@ export default {
             this.order.dealEmp=res.dealEmp;
             this.order.dealDtme=res.dealDtme;
             this.order.resultState=res.resultState;
+            this.order.orderRealTypeName=res.orderRealTypeName;
             if(this.order.resultState=='0'){
                 this.showErrorCheck=true;
                 this.$message({

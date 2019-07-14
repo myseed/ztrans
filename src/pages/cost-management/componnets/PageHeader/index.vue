@@ -55,7 +55,15 @@
       </el-select>
     </el-form-item>
 
-
+    <el-form-item label="订单类型" prop="orderRealType">
+      <el-select
+              v-model="form.orderRealType"
+              placeholder="请选择"
+              clearable
+              style="width: 150px;">
+        <el-option v-for="(item, index) in orderRealTypes" :key="index" :label="item.bizTypeName" :value="item.bizTypeId"></el-option>
+      </el-select>
+    </el-form-item>
 
     <el-form-item label="约车日期" prop="registerTime">
       <el-date-picker
@@ -141,7 +149,7 @@ import {
 } from '@/api/createorder';
 import {getRouterAliaSearchList} from '@/api/schedule';
 import {getCarTypeList,importEditOrderPrice,importEditCustomerOrderPrice} from '@/api/order';
-import {getOrderType,getOrderBalanceStatus} from '@/api/dictionary';
+import {getOrderType,getOrderBalanceStatus,getAppDictionary} from '@/api/dictionary';
 import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
 
 export default {
@@ -158,6 +166,7 @@ export default {
       currentTableData: [],
       driverPlateNumber: [],
       routerDetail: [],
+      orderRealTypes: [],
       carTypes: [],
       orderTypes: [],
       orderBalanceStatusList: [],
@@ -170,6 +179,7 @@ export default {
         startTime: '',
         endTime: '',
         orderBalanceStatus: '',
+        orderRealType:'',
         series:'',
       },
       masterCustomerSearchKey: {
@@ -221,6 +231,10 @@ export default {
           customerNumId: this.form.customerNumId,
           franchiseeSeries:this.franchiseeSeries
       });
+      this._getOrderRealType({
+          customerNumId: this.form.customerNumId,
+          bizId:41
+      });
   },
     watch: {
         $route(to, from) {
@@ -244,6 +258,17 @@ export default {
         }
     },
   methods: {
+      _getOrderRealType(params) {
+          getAppDictionary(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.orderRealTypes = res.bizLists;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
       getTrueColumn () {
           this.status=this.$route.params.status;
           if(this.status=='2'){

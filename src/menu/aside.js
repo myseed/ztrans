@@ -42,7 +42,7 @@ if (superId == '1') {
                 { path: '/order-management2/2', title: '未完成订单', icon: 'file-text' },
                 { path: '/order-management5/5', title: '司机报备订单', icon: 'file-text' },
                 { path: '/order-management3/3', title: '已完成订单', icon: 'file-text' },
-                { path: '/order-management4/4', title: '异常订单', icon: 'file-text' }
+                { path: '/order-management4/4', title: '废弃订单', icon: 'file-text' }
             ]
         },
         {
@@ -171,7 +171,7 @@ if (superId == '1') {
                 { path: '/franchisee-order-management1/1', title: '未接单订单', icon: 'file-text' },
                 { path: '/franchisee-order-management2/2', title: '未完成订单', icon: 'file-text' },
                 { path: '/franchisee-order-management3/3', title: '已完成订单', icon: 'file-text' },
-                { path: '/franchisee-order-management4/4', title: '异常订单', icon: 'file-text' }
+                { path: '/franchisee-order-management4/4', title: '废弃订单', icon: 'file-text' }
             ]
         },
         {

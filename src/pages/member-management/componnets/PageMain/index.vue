@@ -71,7 +71,6 @@
 
 <script>
 import util from '@/libs/util.js';
-import {deleteFranchisee} from '@/api/franchisee';
 
 export default {
   props: {
@@ -107,21 +106,6 @@ export default {
     },
   },
   methods: {
-    _deleteFranchisee(params, index) {
-        deleteFranchisee(params)
-        .then(res => {
-          if (res.code === 0) {
-            this.$message({
-              type: 'success',
-              message: '删除成功!',
-            });
-            this.currentTableData.splice(index, 1);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
     handleDelete(index, row) {
       console.log(index, row);
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {

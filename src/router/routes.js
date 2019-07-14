@@ -70,7 +70,7 @@ const frameIn = [
         path: '/order-management4/:status',
         name: 'order-management4',
         component: () => import('@/pages/order-management'),
-        meta: { meta, title: '异常订单' }
+        meta: { meta, title: '废弃订单' }
       },
       {
         path: '/order-management5/:status',
@@ -382,7 +382,7 @@ const frameIn = [
         path: '/competeorder-management',
         name: '/competeorder-management',
         component: () => import('@/pages/competeorder-management'),
-        meta: { meta, title: '创建抢单任务' }
+        meta: { meta, title: '竞标管理' }
       }
     ]
   }

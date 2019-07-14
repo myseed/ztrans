@@ -49,7 +49,6 @@
 
 <script>
 import util from '@/libs/util.js';
-import {deleteFranchisee} from '@/api/franchisee';
 
 export default {
   props: {

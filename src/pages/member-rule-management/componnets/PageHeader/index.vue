@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import {getCustomerJob} from '@/api/dictionary';
-import {getEmployeeList} from '@/api/employee';
 import util from '@/libs/util';
 
 export default {
