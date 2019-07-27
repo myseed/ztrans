@@ -113,6 +113,7 @@ export default {
         chargePersonPhoneSearchKey: '',
         franchiseeType: '',
         franchiseeLevel: '',
+        current:'',
       },
       rules: {},
     };
@@ -203,14 +204,11 @@ export default {
 
       },
     handleFormSubmit() {
+      this.form.current=1;
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$emit('submit', this.form);
         } else {
-          this.$notify.error({
-            title: '错误',
-            message: '表单校验失败',
-          });
           return false;
         }
       });

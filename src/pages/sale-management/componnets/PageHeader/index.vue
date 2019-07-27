@@ -72,6 +72,7 @@ export default {
         customerNumId: util.cookies.get('__user__customernumid'),
         salePersonNameSearchKey: '',
         salePersonPhoneSearchKey: '',
+        current:'',
       },
       rules: {},
     };
@@ -84,6 +85,7 @@ export default {
   },
   methods: {
     handleFormSubmit() {
+      this.form.current=1;
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$emit('submit', this.form);

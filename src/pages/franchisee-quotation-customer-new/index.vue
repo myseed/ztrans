@@ -642,7 +642,8 @@ export default {
         current: 1,
         size: 10,
         total: 0
-      }
+      },
+      form: {current:1},
     };
   },
   created() {
@@ -718,13 +719,14 @@ export default {
     },
   methods: {
     _initMyPage() {
-      this.handleSubmit();
+      this.handleSubmit(this.form);
     },
     handlePaginationChange(val) {
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
       this.$nextTick(() => {
-        this.$refs.header.handleFormSubmit();
+          this.form.current=this.page.current;
+          this.handleSubmit(this.form);
       });
     },
       querySearchAsync(qs, cb) {
@@ -763,6 +765,7 @@ export default {
       },
     handleSubmit(form) {
         this.loading = true;
+        this.form=form;
         this._getAllRouterCustomerPrice({
             customerNumId: util.cookies.get("__user__customernumid"),
             franchiseeSeries: util.cookies.get("__user__franchiseeSeries"),
@@ -778,7 +781,7 @@ export default {
                   if (res.code === 0) {
                       this.table = res.allRouterPriceGetModels;
                       this.page = {
-                          current: this.page.current,
+                          current: this.form.current,
                           size: this.page.size,
                           total: res.total
                       };

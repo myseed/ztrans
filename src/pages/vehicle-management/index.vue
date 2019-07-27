@@ -558,11 +558,13 @@
                 franchiseeSeries: util.cookies.get('__user__franchiseeSeries'),
                 carDetail: {},
                 dialogVisible: false,
+                form: {current:1 },
                 page: {
                     current: 1,
                     size: 10,
                     total: 0,
                 },
+
             };
         },
         created() {
@@ -646,7 +648,7 @@
         },
         methods: {
             _initMyPage() {
-                this.handleSubmit();
+                this.handleSubmit(this.form);
             },
             _getBornRealType(params) {
                 getAppDictionary(params)
@@ -685,11 +687,14 @@
                 this.page = val;
                 // nextTick 只是为了优化示例中 notify 的显示
                 this.$nextTick(() => {
-                    this.$refs.header.handleFormSubmit();
+                    // this.$refs.header.handleFormSubmit();
+                    this.form.current=this.page.current;
+                    this.handleSubmit(this.form);
                 });
             },
             handleSubmit(form) {
                 this.loading = true;
+                this.form = form;
                 this._getAllCar({
                     customerNumId: this.customerNumId,
                     franchiseeSeries: this.franchiseeSeries,
@@ -727,7 +732,7 @@
                         if (res.code === 0) {
                             this.table = res.cars;
                             this.page = {
-                                current: this.page.current,
+                                current: this.form.current,
                                 size: this.page.size,
                                 total: res.total,
                             };

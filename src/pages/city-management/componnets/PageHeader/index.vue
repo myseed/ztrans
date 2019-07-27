@@ -48,7 +48,7 @@ export default {
       },
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
-        prvId: ''
+        prvId: '',
       },
       rules: {},
     };

@@ -150,7 +150,7 @@ export default {
       },
       count:'',
       form:{
-
+          current:1
       }
     };
   },
@@ -174,7 +174,7 @@ export default {
   },
   methods: {
       _initMyPage() {
-          this.handleSubmit();
+          this.handleSubmit(this.form);
       },
       updateOrderStatus(params) {
           this.updateModel.series=params.series;
@@ -250,7 +250,8 @@ export default {
           this.page = val;
           // nextTick 只是为了优化示例中 notify 的显示
           this.$nextTick(() => {
-              this.$refs.header.handleFormSubmit();
+              this.form.current=this.page.current;
+              this.handleSubmit(this.form);
           });
       },
       handleSubmit(form) {
@@ -267,7 +268,7 @@ export default {
                   this.loading = false;
                   this.table = res.competeOrderModel;
                   this.page = {
-                      current: this.page.current,
+                      current: this.form.current,
                       size: this.page.size,
                       total: res.total,
                   };

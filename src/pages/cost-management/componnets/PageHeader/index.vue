@@ -181,6 +181,7 @@ export default {
         orderBalanceStatus: '',
         orderRealType:'',
         series:'',
+        current:'',
       },
       masterCustomerSearchKey: {
             customerMasterSearchKey: '',
@@ -427,6 +428,7 @@ export default {
               });
       },
     handleFormSubmit() {
+      this.form.current=1;
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$emit('submit', this.form);

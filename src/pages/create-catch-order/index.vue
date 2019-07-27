@@ -120,7 +120,7 @@
           <el-input  type="textarea" v-model="createOrder.remark" :rows="7" placeholder="选填" style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item label="货物信息">
-          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="必填"  style="width: 500px;"></el-input>
+          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="选填"  style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="_createOrderByWeb" :loading="searching">创建抢单任务</el-button>
@@ -656,15 +656,6 @@ export default {
         this.searching = false;
         return;
       }
-      if (this.createOrder.goodsRemark === '') {
-        this.$message({
-          type: 'error',
-          message: '货物描述不可以为空！',
-        });
-        this.searching = false;
-        return;
-      }
-
         if(this.driverRealPrice!=null&&this.driverRealPrice!=''){
             this.createOrder.carRealMoney=this.driverRealPrice;
         }else{

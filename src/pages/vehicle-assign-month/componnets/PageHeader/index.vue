@@ -139,6 +139,7 @@
                     startTime: '',
                     endTime: '',
                     taskType: '',
+                    current:1
                 },
                 rules: {},
                 pickerOptions: {
@@ -280,6 +281,7 @@
             },
 
             handleFormSubmit() {
+                this.form.current=1;
                 this.$refs.form.validate(valid => {
                     if (valid) {
                         this.$emit('submit', this.form);

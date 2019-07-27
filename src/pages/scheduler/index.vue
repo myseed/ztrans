@@ -139,6 +139,7 @@ export default {
         employeeNumId: '',
         customerSeries: '',
       },
+      form:{current:1}
     };
   },
   created() {
@@ -165,7 +166,7 @@ export default {
     },
   methods: {
     _initMyPage() {
-      this.handleSubmit();
+      this.handleSubmit(this.form);
     },
       _getRouterAliaSearchList(item) {
           getRouterAliaSearchList(item)
@@ -189,7 +190,8 @@ export default {
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
       this.$nextTick(() => {
-        this.$refs.header.handleFormSubmit();
+          this.form.current=this.page.current;
+          this.handleSubmit(this.form);
       });
     },
       querySearchAsync(qs, cb) {
@@ -244,6 +246,7 @@ export default {
       },
     handleSubmit(form) {
       this.loading = true;
+      this.form=form;
       getAllRouterAndEmployee({
         current: this.page.current,
         pageSize: this.page.size,
@@ -253,7 +256,7 @@ export default {
           this.loading = false;
           this.table = res.employeeRouterModel;
           this.page = {
-            current: this.page.current,
+            current: this.form.current,
             size: this.page.size,
             total: res.total,
           };

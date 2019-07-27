@@ -253,7 +253,7 @@
                     size: 10,
                     total: 0,
                 },
-                form: {},
+                form: {current:1},
                 status: '',
             };
         },
@@ -407,7 +407,8 @@
                 this.page = val;
                 // nextTick 只是为了优化示例中 notify 的显示
                 this.$nextTick(() => {
-                    this.$refs.header.handleFormSubmit();
+                    this.form.current=this.page.current;
+                    this.handleSubmit(this.form);
                 });
             },
             handleSubmit(form) {
@@ -429,7 +430,7 @@
                         this.loading = false;
                         this.table = res.orderModel;
                         this.page = {
-                            current: this.page.current,
+                            current: this.form.current,
                             size: this.page.size,
                             total: res.total,
                         };

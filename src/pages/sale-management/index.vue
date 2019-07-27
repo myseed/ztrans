@@ -126,6 +126,7 @@ export default {
         },
       operateIdAndoperateStatus:[],
       franchiseeNameList:[],
+      form:{current:1},
       page: {
         current: 1,
         size: 10,
@@ -145,7 +146,7 @@ export default {
   },
   methods: {
     _initMyPage() {
-      this.handleSubmit();
+      this.handleSubmit(this.form);
     },
       _getOperateStatus(params) {
           getOperateStatus(params)
@@ -227,11 +228,13 @@ export default {
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
       this.$nextTick(() => {
-        this.$refs.header.handleFormSubmit();
+          this.form.current=this.page.current;
+          this.handleSubmit(this.form);
       });
     },
     handleSubmit(form) {
       this.loading = true;
+      this.form=form;
       getAllSale({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -242,7 +245,7 @@ export default {
           this.loading = false;
           this.table = res.customerSales;
           this.page = {
-            current: this.page.current,
+            current: this.form.current,
             size: this.page.size,
             total: res.total,
           };

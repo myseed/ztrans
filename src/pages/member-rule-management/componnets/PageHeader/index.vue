@@ -39,6 +39,7 @@ export default {
       form: {
         customerNumId: util.cookies.get('__user__customernumid'),
         franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
+        current:''
       },
       rules: {},
     };
@@ -48,6 +49,7 @@ export default {
   },
   methods: {
     handleFormSubmit() {
+      this.form.current=1;
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$emit('submit', this.form);

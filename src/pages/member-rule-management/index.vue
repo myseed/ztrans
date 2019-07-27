@@ -131,6 +131,7 @@ export default {
         size: 5,
         total: 0,
       },
+      form:{current:1}
     };
   },
   created() {
@@ -139,7 +140,7 @@ export default {
   },
   methods: {
       _initMyPage() {
-          this.handleSubmit();
+          this.handleSubmit(this.form);
       },
       onAddCustomerConfirm(params) {
           this.loading = true;
@@ -221,10 +222,12 @@ export default {
           this.page = val;
           // nextTick 只是为了优化示例中 notify 的显示
           this.$nextTick(() => {
-              this.$refs.header.handleFormSubmit();
+              this.form.current=this.page.current;
+              this.handleSubmit(this.form);
           });
       },
       handleSubmit(form) {
+          this.form=form;
           this.loading = true;
           getMemberRuleList({
               customerNumId: util.cookies.get('__user__customernumid'),
@@ -237,7 +240,7 @@ export default {
                   this.loading = false;
                   this.table = res.memberRules;
                   this.page = {
-                      current: this.page.current,
+                      current: this.form.current,
                       size: this.page.size,
                       total: res.total,
                   };

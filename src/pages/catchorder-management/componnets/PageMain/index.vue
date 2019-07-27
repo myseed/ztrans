@@ -13,13 +13,13 @@
         width="55">
       </el-table-column>
 
-      <el-table-column label="抢单id" :show-overflow-tooltip="true">
+      <el-table-column label="抢单id" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.series}}
         </template>
       </el-table-column>
 
-      <el-table-column label="大客户名称" :show-overflow-tooltip="true">
+      <el-table-column label="大客户名称" :show-overflow-tooltip="true" width="100">
         <template slot-scope="scope">
           {{scope.row.customerName}}
         </template>
@@ -97,7 +97,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center" width="480" fixed="right">
+      <el-table-column label="操作" align="center" width="430" fixed="right">
         <template slot-scope="scope">
           <el-button
                   size="mini"
@@ -111,10 +111,6 @@
                   size="mini"
                   type="primary"
                   @click="selectHistory(scope.$index, scope.row)">查看历史</el-button>
-          <el-button
-                  size="mini"
-                  type="primary"
-                  @click="findOrder(scope.$index, scope.row)">查看订单</el-button>
           <el-button
             size="mini"
             type="danger"

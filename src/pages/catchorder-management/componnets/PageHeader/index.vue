@@ -182,7 +182,8 @@ export default {
         orderType: '',
         routerDetailAliaSearchKey:'',
         startTime:'',
-        endTime:''
+        endTime:'',
+        current:''
       },
       rules: {},
     };
@@ -365,6 +366,7 @@ export default {
           this.carPlateNumber=item.carPlateNumber;
       },
     handleFormSubmit() {
+      this.form.current=1;
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$emit('submit', this.form);

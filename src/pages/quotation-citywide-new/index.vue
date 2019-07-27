@@ -549,6 +549,7 @@ export default {
         size: 10,
         total: 0,
       },
+      form:{current:1}
     };
   },
   created() {
@@ -598,21 +599,19 @@ export default {
   },
   methods: {
     _initMyPage() {
-      this.handleSubmit();
+      this.handleSubmit(this.form);
     },
     handlePaginationChange(val) {
-      this.$notify({
-        title: '分页变化',
-        message: `当前第${val.current}页 共${val.total}条 每页${val.size}条`,
-      });
       this.page = val;
       // nextTick 只是为了优化示例中 notify 的显示
       this.$nextTick(() => {
-        this.$refs.header.handleFormSubmit();
+          this.form.current=this.page.current;
+          this.handleSubmit(this.form);
       });
     },
     handleSubmit(form) {
       this.loading = true;
+      this.form=form;
       this._getAllRouterPriceByRouterId({
         customerNumId: util.cookies.get('__user__customernumid'),
         current: this.page.current,
@@ -634,7 +633,7 @@ export default {
           if (res.code === 0) {
             this.table = res.allRouterPriceGetModels;
             this.page = {
-              current: this.page.current,
+              current: this.form.current,
               size: this.page.size,
               total: res.total,
             };

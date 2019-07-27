@@ -70,6 +70,7 @@ export default {
         customerNumId: util.cookies.get('__user__customernumid'),
         routerDetailAliaSearchKey: '',
         employeeNameSearchKey: '',
+        current:''
       },
       masterCustomerSearchKey: {
         customerMasterSearchKey: '',
@@ -165,6 +166,7 @@ export default {
           cb(results);
       },
     handleFormSubmit() {
+      this.form.current=1;
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$emit('submit', this.form);

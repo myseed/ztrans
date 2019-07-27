@@ -191,6 +191,7 @@ export default {
         platenumberSearchKey:'',
         commondOrderStatus:'',
         series:'',
+        current:'',
       },
       rules: {},
       pickerOptions: {
@@ -394,6 +395,7 @@ export default {
           this.form.endTime = time[1];
       },
     handleFormSubmit() {
+      this.form.current=1;
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$emit('submit', this.form);

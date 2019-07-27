@@ -74,6 +74,7 @@ export default {
         customerNumId: util.cookies.get('__user__customernumid'),
         routerDetailAliaSearchKey: '',
         employeeNameSearchKey: '',
+        current:''
       },
       rules: {},
     };
@@ -151,6 +152,7 @@ export default {
 
       },
     handleFormSubmit() {
+      this.form.current=1;
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$emit('submit', this.form);

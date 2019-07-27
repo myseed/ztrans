@@ -72,7 +72,7 @@
           <el-input  type="textarea" v-model="createOrder.remark" :rows="7" placeholder="选填" style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item label="货物信息">
-          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="必填"  style="width: 500px;"></el-input>
+          <el-input type="textarea" v-model="createOrder.goodsRemark" :rows="7" placeholder="选填"  style="width: 500px;"></el-input>
         </el-form-item>
         <el-form-item label="约车时间">
           <el-date-picker
@@ -604,14 +604,6 @@
                     this.$message({
                         type: 'error',
                         message: '司机手机不可以为空！',
-                    });
-                    this.searching = false;
-                    return;
-                }
-                if (this.createOrder.goodsRemark === '') {
-                    this.$message({
-                        type: 'error',
-                        message: '货物描述不可以为空！',
                     });
                     this.searching = false;
                     return;
