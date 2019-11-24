@@ -318,7 +318,9 @@
             dateFormatter(str){
                 var startDate = new Date();
                 var endDate = new Date();
-                endDate.setDate(startDate.getDate() + 30);
+                endDate.setMonth(endDate.getMonth() + 1);
+                let lastDay = endDate.setDate(0);
+                endDate=new Date(lastDay);
                 var dataArr = [];
                 var weeks = ['日', '一', '二', '三', '四', '五', '六'];
                 while((endDate.getTime() - startDate.getTime()) >= 0) {
@@ -637,14 +639,14 @@
                     this.searching = false;
                     return;
                 }
-                if(this.driverRealPrice!=null&&this.driverRealPrice>this.driverPrice){
-                    this.$message({
-                        type: 'error',
-                        message: '司机获得的真实价格不应该大于他的报价！',
-                    });
-                    this.searching = false;
-                    return;
-                }
+                // if(this.driverRealPrice!=null&&this.driverRealPrice>this.driverPrice){
+                //     this.$message({
+                //         type: 'error',
+                //         message: '司机获得的真实价格不应该大于他的报价！',
+                //     });
+                //     this.searching = false;
+                //     return;
+                // }
                 if(this.driverRealPrice!=null&&this.driverRealPrice!=''){
                     this.createOrder.carRealMoney=this.driverRealPrice;
                 }else{

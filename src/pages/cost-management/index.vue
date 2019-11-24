@@ -38,8 +38,17 @@
         <el-form-item label="客户报价"  v-if='showCustomer'>
           <el-input v-model="updatePriceModel.orderMoney"></el-input>
         </el-form-item>
+        <el-form-item label="客户额外费用"  v-if='showCustomer'>
+          <el-input v-model="updatePriceModel.customerAddFee"></el-input>
+        </el-form-item>
         <el-form-item label="司机报价" v-if='showDriver'>
           <el-input v-model="updatePriceModel.driverMoney" ></el-input>
+        </el-form-item>
+        <el-form-item label="司机额外费用" v-if='showDriver'>
+          <el-input v-model="updatePriceModel.driverAddFee" ></el-input>
+        </el-form-item>
+        <el-form-item label="司机额外费用" v-if='showDriver'>
+          <el-input v-model="updatePriceModel.driverDeductFee" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -76,6 +85,9 @@ export default {
         driverName: '',
         orderMoney: '',
         driverMoney: '',
+        driverDeductFee:'',
+        customerAddFee:'',
+        driverAddFee:'',
       },
       table: [],
       orderInfos: [],
@@ -151,6 +163,9 @@ export default {
          this.updatePriceModel.carPlateNumber=param.carPlateNumber;
          this.updatePriceModel.orderMoney=param.orderMoney;
          this.updatePriceModel.driverMoney=param.driverMoney;
+         this.updatePriceModel.customerAddFee=param.customerAddFee;
+         this.updatePriceModel.driverAddFee=param.driverAddFee;
+         this.updatePriceModel.driverDeductFee=param.driverDeductFee;
          this.showCustomer=param.showCustomer;
          this.showDriver=param.showDriver;
          this.updatePriceDialog=true;

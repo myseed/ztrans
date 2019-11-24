@@ -73,6 +73,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="客户额外费用" :show-overflow-tooltip="true" width="150" v-if='showCustomer'>
+        <template slot-scope="scope">
+          {{scope.row.customerAddFee}}
+        </template>
+      </el-table-column>
+
 
       
       <el-table-column label="司机应收" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
@@ -85,6 +91,12 @@
       <el-table-column label="司机额外费用" :show-overflow-tooltip="true" width="150">
         <template slot-scope="scope">
           {{scope.row.driverAddFee}}
+        </template>
+      </el-table-column>
+
+      <el-table-column label="司机扣除费用" :show-overflow-tooltip="true" width="150" v-if='showDriver'>
+        <template slot-scope="scope">
+          {{scope.row.driverDeductFee}}
         </template>
       </el-table-column>
 
@@ -205,14 +217,7 @@ export default {
         })
     },
     updatePrice(index, row) {
-          // if(row.orderBalanceStatus=='1'){
-          //     this.$message({
-          //         type: 'error',
-          //         message: '订单状态为已对账，无法修改报价！',
-          //     });
-          //     return;
-          // }
-        this.$emit("updatePrice",{series: row.series,customerName:row.customerName,routerAlia:row.routerAlia,carPlateNumber:row.carPlateNumber,driverName:row.driverName,orderMoney:row.orderMoney,driverMoney:row.driverMoney,showCustomer:this.showCustomer,showDriver:this.showDriver});
+        this.$emit("updatePrice",{series: row.series,customerName:row.customerName,routerAlia:row.routerAlia,carPlateNumber:row.carPlateNumber,driverName:row.driverName,orderMoney:row.orderMoney,driverMoney:row.driverMoney,customerAddFee:row.customerAddFee,driverAddFee:row.driverAddFee,driverDeductFee:row.driverDeductFee,showCustomer:this.showCustomer,showDriver:this.showDriver});
     },
   }
 }

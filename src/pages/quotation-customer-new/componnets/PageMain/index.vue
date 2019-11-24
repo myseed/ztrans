@@ -96,13 +96,20 @@
         </template>
       </el-table-column>
 
+      <el-table-column label="线路状态" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{scope.row.deleteSignName}}
+        </template>
+      </el-table-column>
+
       <el-table-column
               fixed="right"
               label="操作"
-              width="220">
+              width="300">
         <template slot-scope="scope">
           <el-button @click="onEditCustomerPrice(scope.$index, scope.row)" type="primary" size="mini">编辑</el-button>
           <el-button @click="getCustomerPrice(scope.$index, scope.row)"  size="mini">查看</el-button>
+          <el-button @click="stopCustomerPrice(scope.$index, scope.row)"  type="danger" size="mini">禁用</el-button>
           <el-button @click="onDeleteCustomerPrice(scope.$index, scope.row)" type="danger" size="mini">删除</el-button>
         </template>
       </el-table-column>
@@ -234,6 +241,11 @@ export default {
     },
     onDeleteCustomerPrice(index, row) {
       this.$emit('onDeleteCustomerPrice', {
+        routerDetailSeries: row.routerDetailSeries,
+      });
+    },
+    stopCustomerPrice(index, row) {
+      this.$emit('stopCustomerPrice', {
         routerDetailSeries: row.routerDetailSeries,
       });
     },

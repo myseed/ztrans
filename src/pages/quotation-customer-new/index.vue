@@ -12,6 +12,7 @@
       @onDeleteCustomerPrice="onDeleteCustomerPrice"
       @onEditCustomerPrice="onEditCustomerPrice"
       @getCustomerPrice="getCustomerPrice"
+      @stopCustomerPrice="stopCustomerPrice"
       :loading="loading"/>
     <page-footer
       slot="footer"
@@ -388,64 +389,8 @@
           </el-form-item>
         </el-form>
       </div>
-      <!--<div class="block" style="text-align: left">-->
-        <!--报价设置-->
-        <!--<el-table-->
-                <!--size="mini"-->
-                <!--:data="priceSetAddList"-->
-                <!--highlight-current-row-->
-                <!--style="width: 100%">-->
-          <!--<el-table-column-->
-                  <!--prop="carTypeRealName"-->
-                  <!--label="车型"-->
-                  <!--width="120">-->
-          <!--</el-table-column>-->
-          <!--<el-table-column-->
-                  <!--prop="carSizeRealName"-->
-                  <!--label="车长"-->
-                  <!--width="120">-->
-          <!--</el-table-column>-->
-          <!--<el-table-column-->
-                  <!--prop="routerCustomerType"-->
-                  <!--label="报价类型"-->
-                  <!--:formatter="routerCustomerTypeFormat">-->
-          <!--</el-table-column>-->
-          <!--<el-table-column-->
-                  <!--prop="initDistance"-->
-                  <!--label="起步距离(公里)"-->
-                  <!--width="160">-->
-          <!--</el-table-column>-->
-          <!--<el-table-column-->
-                  <!--prop="initPrice"-->
-                  <!--label="起步价格(元)"-->
-                  <!--width="160">-->
-          <!--</el-table-column>-->
-          <!--<el-table-column-->
-                  <!--prop="overstepPrice"-->
-                  <!--label="超出价格(元/公里)"-->
-                  <!--width="160">-->
-          <!--</el-table-column>-->
-          <!--<el-table-column-->
-                  <!--prop="saleProportion"-->
-                  <!--label="销售比例">-->
-          <!--</el-table-column>-->
-          <!--<el-table-column-->
-                  <!--prop="franchiseeProportion"-->
-                  <!--label="加盟商比例">-->
-          <!--</el-table-column>-->
-          <!--<el-table-column-->
-                  <!--fixed="right"-->
-                  <!--label="操作"-->
-                  <!--width="120">-->
-            <!--<template slot-scope="scope">-->
-              <!--<el-button type="text" size="small" @click="onEditPrice(scope.$index, scope.row)" v-if="scope.$index % 2 === 1">编辑</el-button>-->
-            <!--</template>-->
-          <!--</el-table-column>-->
-        <!--</el-table>-->
-      <!--</div>-->
       <span slot="footer" class="dialog-footer">
           <el-button @click="editDialog = false" size="mini">取 消</el-button>
-          <!--<el-button type="primary" icon="el-icon-plus" @click="onAddPrice" size="mini">新增报价</el-button>-->
           <el-button type="primary" @click="onEditConfirm" size="mini">提 交</el-button>
         </span>
     </el-dialog>
@@ -529,7 +474,8 @@
         updateBatchRouterPrice,
         updateRouterCustomerPrice,
         getConsumerRouterPriceByRouterId,
-        downloadRouterPriceExcel
+        downloadRouterPriceExcel,
+        stopRouterByRouterId
     } from "@/api/price";
     import {
         getAllPrv,
@@ -1212,6 +1158,40 @@ export default {
               })
               .catch(() => {
                   console.log("取消删除");
+              });
+      },
+      stopCustomerPrice(param) {
+          this.$confirm("此操作将禁用该记录, 是否继续?", "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+          })
+              .then(() => {
+                  this._stopRouterByRouterId(
+                      {
+                          customerNumId: this.customerNumId,
+                          routerDetailSeries: param.routerDetailSeries
+                      }
+                  );
+              })
+              .catch(() => {
+                  console.log("取消删除");
+              });
+      },
+      _stopRouterByRouterId(params) {
+          stopRouterByRouterId(params)
+              .then(res => {
+                  if (res.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "禁用成功!"
+                      });
+                      this.table.splice(index, 1);
+                      this.handleSubmit();
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
               });
       },
       _deleteRouterByRouterId(params) {

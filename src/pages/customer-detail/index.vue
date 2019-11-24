@@ -52,6 +52,14 @@
           <el-input v-model="editCustomerItem.orderLevelName"></el-input>
         </el-form-item>
       </el-form>
+      <p>客户app头像(点击图片可以放大)</p>
+      <el-popover
+              placement="right"
+              title=""
+              trigger="click">
+        <img :src="editCustomerItem.customerPicture" style="max-height: 550px;max-width: 550px"/>
+        <img slot="reference" :src="editCustomerItem.customerPicture" :alt="editCustomerItem.customerPicture" style="max-height: 250px;max-width: 250px">
+      </el-popover>
       <div class="header">联系人属性
       </div>
       <el-button type="primary" @click="onAddContact">添加联系人</el-button>
@@ -153,6 +161,7 @@ export default {
           saleId: '',
           series: '',
           serviceType: '',
+          customerPicture:'',
        },
        addContactItem: {
           activeDtme: '',

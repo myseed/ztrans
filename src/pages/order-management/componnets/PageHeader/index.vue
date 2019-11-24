@@ -168,13 +168,14 @@
       </el-button>
     </el-form-item>
 
+
   </el-form>
 </template>
 
 <script>
 import util from '@/libs/util';
 import {getRouterAliaList,getRouterAliaSearchList} from '@/api/schedule';
-import {getCarTypeList} from '@/api/order';
+import {getCarTypeList,importJdOrder} from '@/api/order';
 import {getOrderType,getCommondStatus,getAppDictionary} from '@/api/dictionary';
 import {getDriverBySearchKey,getDriverByPlateNumberSearchKey} from '@/api/truck';
 import {
@@ -248,30 +249,30 @@ export default {
     };
   },
   created() {
-      this._getRouterAliaSearchList({
-          customerNumId: this.customerNumId,
-          customerSeries: '',
-          routerSearchKey: '',
-          franchiseeSeries:this.franchiseeSeries
-      });
-    this._getCarTypeList({
-      customerNumId: this.form.customerNumId,
-    });
-    this._getOrderTypeList({
-      customerNumId: this.form.customerNumId,
-    });
-    this._getOrderCommondList({
-      customerNumId: this.form.customerNumId,
-    });
-    this._getDriverNameList({
-      customerNumId: this.form.customerNumId,
-      franchiseeSeries:this.franchiseeSeries
-    });
-    this._getOrderRealType({
-      customerNumId: this.form.customerNumId,
-      bizId:41
-    });
-  },
+        this._getRouterAliaSearchList({
+            customerNumId: this.customerNumId,
+            customerSeries: '',
+            routerSearchKey: '',
+            franchiseeSeries:this.franchiseeSeries
+        });
+        this._getCarTypeList({
+            customerNumId: this.form.customerNumId,
+        });
+        this._getOrderTypeList({
+            customerNumId: this.form.customerNumId,
+        });
+        this._getOrderCommondList({
+            customerNumId: this.form.customerNumId,
+        });
+        this._getDriverNameList({
+            customerNumId: this.form.customerNumId,
+            franchiseeSeries:this.franchiseeSeries
+        });
+        this._getOrderRealType({
+            customerNumId: this.form.customerNumId,
+            bizId:41
+        });
+    },
     watch: {
         'registerTime'() {
             if(this.registerTime==''||this.registerTime==null){
@@ -291,6 +292,37 @@ export default {
         }
     },
   methods: {
+      handleDownloadOrderXlsx (data) {
+          this.$emit('downLoadOrderExcel', this.form);
+      },
+      onReaderComplete({ file, filename }) {
+          // 把图片上传到服务器
+          this.$emit('loadingStart', this.form);
+          const params = { "customerNumId":this.customerNumId};
+          this._importJdOrder(params, file, filename);
+      },
+      _importJdOrder(params, file, filename) {
+          importJdOrder(params, file)
+              .then(res => {
+                  if (res.data.code === 0) {
+                      this.$emit('loadingEnd', this.form);
+                      this.$message({
+                          type: "success",
+                          message: "上传成功!"+res.data.message
+                      });
+                      this.handleFormSubmit();
+                  }else{
+                      this.$emit('loadingEnd', this.form);
+                      this.$message({
+                          message: res.data.message,
+                          type: 'error',
+                      });
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
       _getRouterAliaSearchList(params) {
           getRouterAliaSearchList(params)
               .then(res => {
@@ -343,24 +375,7 @@ export default {
                   console.log(err);
               });
       },
-      // _getPlatNumNameList(params) {
-      //     getDriverByPlateNumberSearchKey(params)
-      //         .then(res => {
-      //             if (res.code === 0) {
-      //                 let driverPlatNames = [];
-      //                 res.customerDrivers.forEach(item => {
-      //                     driverPlatNames.push({
-      //                         value: item.carPlateNumber,
-      //                         ...item,
-      //                     });
-      //                 });
-      //                 this.driverPlateNumber = driverPlatNames;
-      //             }
-      //         })
-      //         .catch(err => {
-      //             console.log(err);
-      //         });
-      // },
+
     _getOrderTypeList(params) {
       getOrderType(params)
         .then(res => {

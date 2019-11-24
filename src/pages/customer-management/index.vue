@@ -112,11 +112,30 @@
         <el-form-item label="审核备注">
           <el-input type="textarea" v-model="addCustomerItem.checkRemark"></el-input>
         </el-form-item>
+        <el-form-item label="客户app头像" >
+           <el-upload
+                   v-model="addCustomerItem.customerPicture"
+                  :limit="1"
+                  action=""
+                  list-type="picture-card"
+                  :file-list="addCustomerItem.customerPicture?[{url: addCustomerItem.customerPicture}]:[]"
+                  name="customerPicture"
+                  :http-request="onReaderComplete"
+                  :before-upload="onReaderSelect"
+                  :on-preview="onReaderPreview"
+                  :on-remove="onReaderRemove">
+            <i class="el-icon-plus"></i>
+           </el-upload>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelCustomer" size="mini">取 消</el-button>
         <el-button type="primary" @click="onAddCustomerConfirm" size="mini"  :loading="loading">确 定</el-button>
       </div>
+    </el-dialog>
+
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="">
     </el-dialog>
 
     <el-dialog title="编辑客户" :visible.sync="editCustomerPopDialog">
@@ -213,6 +232,21 @@
         </el-form-item>
         <el-form-item label="审核备注">
           <el-input type="textarea" v-model="editCustomerItem.checkRemark"></el-input>
+        </el-form-item>
+        <el-form-item label="客户app头像(如果已有头像,必须先删除图片,再添加)" >
+          <el-upload
+                  v-model="editCustomerItem.customerPicture"
+                  :limit="1"
+                  action=""
+                  list-type="picture-card"
+                  name="customerPicture"
+                  :file-list="editCustomerItem.customerPicture?[{url: editCustomerItem.customerPicture}]:[]"
+                  :http-request="onEditReaderComplete"
+                  :before-upload="onReaderSelect"
+                  :on-preview="onReaderPreview"
+                  :on-remove="onReaderRemove">
+            <i class="el-icon-plus"></i>
+          </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -364,6 +398,7 @@ import {
 import {
     getFranchiseeNameList
 } from "@/api/franchisee";
+import {uploadPicture, deletePicture} from '@/api/picture';
 
 export default {
   // name 值和本页的 $route.name 一致才可以缓存页面
@@ -379,6 +414,8 @@ export default {
       loading: false,
       customerNumId: util.cookies.get('__user__customernumid'),
       franchiseeSeries:util.cookies.get('__user__franchiseeSeries'),
+      dialogVisible: false,
+      dialogImageUrl: '',
       editCustomerItem: {
         caculateType: '',
         checkRemark: '',
@@ -399,6 +436,7 @@ export default {
         saleId: '',
         series: '',
         serviceType: '',
+        customerPicture:'',
       },
       franchiseeNameList:[],
       customerDetail: {},
@@ -438,6 +476,7 @@ export default {
         prvName: '',
         saleId: '',
         serviceType: '',
+        customerPicture: ''
       },
       editContactItem: {
         activeDtme: '',
@@ -1008,6 +1047,9 @@ export default {
       this.addCustomerItem.prvName = '';
       this.addCustomerItem.saleId = '';
       this.addCustomerItem.serviceType = '';
+      this.addCustomerItem.customerPicture = '';
+      this.dialogImageUrl='';
+      this.dialogVisible =false;
       this.addCustomerPopDialog = false;
     },
     handleAdd() {
@@ -1202,6 +1244,71 @@ export default {
           console.log(err);
         });
     },
+      onReaderComplete({file, filename}) {
+          let pictureCode = "8";
+          let customerNumId = this.customerNumId;
+          // 把图片上传到服务器
+          const params = {customerNumId, pictureCode};
+          this._uploadPicture(params, file, filename);
+      },
+      _uploadPicture(params, file, filename) {
+          uploadPicture(params, file)
+              .then(res => {
+                  if (res.data.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "上传成功!"
+                      });
+                      this.addCustomerItem.customerPicture = res.data.url;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
+      onReaderSelect(file) {
+          const larger = file.size > 5 * 1024 * 1024;
+          if (larger) {
+              this.$message({
+                  type: "error",
+                  message: "文件不能大于5M"
+              });
+          }
+          return !larger;
+      },
+      onReaderPreview(file) {
+          this.dialogImageUrl = file.url;
+          this.dialogVisible = true;
+      },
+      onReaderRemove(file, fileList) {
+          console.log(file, fileList);
+          this._deletePicture({
+              customerNumId: this.customerNumId,
+              url: this.dialogImageUrl
+          });
+      },
+      onEditReaderComplete({file, filename}) {
+          let pictureCode = "8";
+          let customerNumId = this.customerNumId;
+          // 把图片上传到服务器
+          const params = {customerNumId, pictureCode};
+          this._uploadEditPicture(params, file, filename);
+      },
+      _uploadEditPicture(params, file, filename) {
+          uploadPicture(params, file)
+              .then(res => {
+                  if (res.data.code === 0) {
+                      this.$message({
+                          type: "success",
+                          message: "上传成功!"
+                      });
+                      this.editCustomerItem.customerPicture = res.data.url;
+                  }
+              })
+              .catch(err => {
+                  console.log(err);
+              });
+      },
   },
 };
 </script>

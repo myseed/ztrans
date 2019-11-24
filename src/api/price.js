@@ -213,6 +213,19 @@ export function updateRouterPriceNew (params) {
   return httpGet(url, data)
 }
 
+export function stopRouterByRouterId (params) {
+  const url = `/stopRouterByRouterId`
+  const ts = timestamp()
+  const data = {
+    sid: sid(),
+    timestamp: ts,
+    params: paramsify(params),
+    sign: signify(params, ts)
+  }
+
+  return httpGet(url, data)
+}
+
 export function uploadRouterPriceExcel (params, file) {
   const url = `/uploadRouterPriceExcel`
   const ts = timestamp()

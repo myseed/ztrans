@@ -29,7 +29,6 @@ if (superId == '1') {
             icon: 'briefcase',
             children: [
                 { path: '/scheduler', title: '调度人', icon: 'user' },
-                // { path: '/vehicle-schedule', title: '调度车辆', icon: 'truck' }
                 { path: '/scheduler-customer', title: '调度客户', icon: 'user' }
             ]
         },
@@ -42,7 +41,15 @@ if (superId == '1') {
                 { path: '/order-management2/2', title: '未完成订单', icon: 'file-text' },
                 { path: '/order-management5/5', title: '司机报备订单', icon: 'file-text' },
                 { path: '/order-management3/3', title: '已完成订单', icon: 'file-text' },
-                { path: '/order-management4/4', title: '废弃订单', icon: 'file-text' }
+                { path: '/order-management4/4', title: '废弃订单', icon: 'file-text' },
+                { path: '/order-management0/-1', title: '全部订单', icon: 'file-text' }
+            ]
+        },
+        {
+            title: '京东订单',
+            icon: 'globe',
+            children: [
+                { path: '/jd-order-management', title: '京东订单', icon: 'globe' }
             ]
         },
         {
@@ -71,9 +78,6 @@ if (superId == '1') {
             title: '报价管理',
             icon: 'dollar',
             children: [
-                // { path: '/quotation-line', title: '线路报价', icon: 'chain' },
-                // { path: '/quotation-citywide', title: '同城报价', icon: 'bandcamp' },
-                // { path: '/quotation-customer', title: '客户报价', icon: 'address-book' },
                 { path: '/quotation-line-new', title: '线路报价', icon: 'chain' },
                 { path: '/quotation-citywide-new', title: '同城报价', icon: 'bandcamp' },
                 { path: '/quotation-customer-new', title: '客户报价', icon: 'address-book' }

@@ -79,6 +79,12 @@ const frameIn = [
         meta: { meta, title: '司机报备订单' }
       },
       {
+        path: '/order-management0/:status',
+        name: 'order-management0',
+        component: () => import('@/pages/order-management'),
+        meta: { meta, title: '全部订单' }
+      },
+      {
         path: '/order-detail',
         name: 'order-detail',
         component: () => import('@/pages/order-detail'),
@@ -383,6 +389,12 @@ const frameIn = [
         name: '/competeorder-management',
         component: () => import('@/pages/competeorder-management'),
         meta: { meta, title: '竞标管理' }
+      },
+      {
+        path: '/jd-order-management',
+        name: '/jd-order-management',
+        component: () => import('@/pages/jd-order-management'),
+        meta: { meta, title: '京东订单' }
       }
     ]
   }

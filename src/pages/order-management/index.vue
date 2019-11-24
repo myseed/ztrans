@@ -4,6 +4,9 @@
                 slot="header"
                 @submit="handleSubmit"
                 @downLoadExcel="downLoadExcel"
+                @loadingStart="loadingStart"
+                @loadingEnd="loadingEnd"
+                @downLoadOrderExcel="downLoadOrderExcel"
                 ref="header"/>
         <page-main
                 :table-data="table"
@@ -176,10 +179,13 @@
         </el-dialog>
 
         <el-dialog title="废弃理由" :visible.sync="deleteOrderPopDialog">
-            <el-form :inline="true" :model="deleteModel" label-position="left" size="mini">
-                <el-form-item>
+            <el-form  :model="deleteModel" label-position="left" size="mini">
+                <el-form-item label="废弃理由">
                     <el-input type="textarea" v-model="deleteModel.deleteReason" style="width: 600px;" :rows="7"
                               placeholder="请输入订单废弃理由"></el-input>
+                </el-form-item>
+                <el-form-item label="如果废弃理由为订单重复,请输入重复的订单号,其他理由直接输入1(如果这里乱输,技术无法排查问题)">
+                    <el-input v-model="deleteModel.oldSeries"  placeholder="请输入重复订单号(其他废弃理由输入1)"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -203,7 +209,8 @@
         getCarSizeList,
         cancelOrderStatus,
         exportOrder,
-        getOrderByDriverSeries
+        getOrderByDriverSeries,
+        downloadOrderExcel
     } from '@/api/order';
     import {getOrderType} from '@/api/dictionary';
 
@@ -225,6 +232,7 @@
                 deleteModel: {
                     series: '',
                     deleteReason: '',
+                    oldSeries:'',
                 },
                 deleteOrderPopDialog: false,
                 searchItemPop: {
@@ -308,6 +316,14 @@
             },
         },
         methods: {
+            downLoadOrderExcel(form) {
+                this.loading = true;
+                var url=downloadOrderExcel({
+                    customerNumId: util.cookies.get('__user__customernumid'),
+                });
+                window.location.href =url;
+                this.loading = false;
+            },
             _initMyPage() {
                 this.handleSubmit(this.form);
             },
@@ -411,6 +427,12 @@
                     this.handleSubmit(this.form);
                 });
             },
+            loadingStart(form){
+                this.loading = true;
+            },
+            loadingEnd(form){
+                this.loading = false;
+            },
             handleSubmit(form) {
                 this.status = this.$route.params.status;
                 this.loading = true;
@@ -485,12 +507,22 @@
                     });
                     return;
                 }
+                if (this.deleteModel.oldSeries === '') {
+                    this.$message({
+                        type: 'error',
+                        message: '重复订单号不可以为空！',
+                    });
+                    return;
+                }
+                this.deleteModel.deleteReason=this.deleteModel.deleteReason+this.deleteModel.oldSeries+'';
                 this._cancelOrderStatus({
                     customerNumId: this.customerNumId,
                     series: this.deleteModel.series,
                     deleteReason: this.deleteModel.deleteReason,
+                    oldSeries: this.deleteModel.oldSeries,
                 });
                 this.deleteModel.deleteReason = '';
+                this.deleteModel.oldSeries = '';
                 this.deleteOrderPopDialog = false;
             },
             cancelDeleteOrder() {
@@ -551,7 +583,7 @@
                 });
             },
             onAssignConfirm() {
-                if (this.orderDetail.carMoney==null||this.orderDetail.carMoney==''||this.orderDetail.carMoney==0||this.orderDetail.carRealMoney <= this.orderDetail.carMoney) {
+                // if (this.orderDetail.carMoney==null||this.orderDetail.carMoney==''||this.orderDetail.carMoney==0||this.orderDetail.carRealMoney <= this.orderDetail.carMoney) {
                     this._getOrderByDriverSeries({
                         customerNumId: this.customerNumId,
                         driverSeries: this.driverSeries,
@@ -563,9 +595,9 @@
                     //   driverSeries: this.driverSeries,
                     //   orderSeries: this.searchItemPop.series,
                     // });
-                } else {
-                    this.$message.error('接单价必须不高于车辆报价！');
-                }
+                // } else {
+                //     this.$message.error('接单价必须不高于车辆报价！');
+                // }
             },
             _getOrderByDriverSeries(params) {
                 getOrderByDriverSeries(params)
